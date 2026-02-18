@@ -12,12 +12,20 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.ServoConstants;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.CANRangeSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.ServoSubsystem;
+import frc.robot.subsystems.ShootSubsystem;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -35,12 +43,40 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    private final CANRangeSubsystem m_canRangeSubsystem = new CANRangeSubsystem();
+    private final ShootSubsystem m_shootSubsystem = new ShootSubsystem();
+    private final IndexerSubsystem m_indexSubsystem = new IndexerSubsystem();
+    public static final ServoSubsystem m_servoSubsystem1 = new ServoSubsystem(ServoConstants.k_servoID1, 140, 100);
+    public static final ServoSubsystem m_servoSubsystem2 = new ServoSubsystem(ServoConstants.k_servoID2, 140, 100);
 
     public RobotContainer() {
         configureBindings();
     }
 
     private void configureBindings() {
+    new JoystickButton(joystick.getHID(), ControllerConstants.kB)
+    .onTrue(
+      new InstantCommand(() -> m_servoSubsystem1.setPosition(m_servoSubsystem1.getSetpoint()), m_servoSubsystem1)
+    )
+    .onTrue(
+      new InstantCommand(() -> m_servoSubsystem2.setPosition(m_servoSubsystem2.getSetpoint()), m_servoSubsystem2)
+    );
+        // shooter left trig
+    new Trigger(() -> joystick.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
+      .whileTrue(
+        new InstantCommand(()-> m_shootSubsystem.shoot(), m_shootSubsystem))
+      .onFalse(
+        new InstantCommand(()-> m_shootSubsystem.stopShooter(), m_shootSubsystem)
+      );
+
+    new Trigger(() -> joystick.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
+      .whileTrue(
+        new InstantCommand(()-> m_indexSubsystem.index(), m_indexSubsystem))
+      .onFalse(
+        new InstantCommand(()-> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
+      );
+
+
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
