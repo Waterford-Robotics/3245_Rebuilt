@@ -17,17 +17,20 @@ public class ClimbSubsystem extends SubsystemBase {
         // shooterConfig.CurrentLimits.SupplyCurrentLimit = WristConstants.k_intakeSupplyCurrentLimit;
 
         // m_shooter.getConfigurator().apply(shooterConfig, 0.05);
-    }
-    public void windup() {
-        m_shooter.set(ClimberConstants.k_climbSpeed);
-    }
-
-    public void stopWindup() {
-        m_shooter.set(0);
+        
+    public void climbUp() {
+        m_climber_1.set(ClimberConstants.k_climbUpSpeed);
+        m_climber_2.set(ClimberConstants.k_climbUpSpeed);
     }
 
-    public void intake() {
-        m_shooter.set(/*-soome value*/);
+    public void stopClimb() {
+        m_climber_1.set(0);
+        m_climber_2.set(0);
+    }
+
+    public void climbDown() {
+        m_climber_1.set(ClimberConstants.k_climbDownSpeed);
+        m_climber_2.set(ClimberConstants.k_climbDownSpeed);
     }
 
     public void periodic() {

@@ -15,6 +15,7 @@ public final class Constants {
 
     // Constants for Climber
     public static final class ClimberConstants {
-        public static final double k_climbSpeed = 0.5;
+        public static final double k_climbUpSpeed = 0.5;
+        public static final double k_climbDownSpeed = 0.3;
     }
 }
