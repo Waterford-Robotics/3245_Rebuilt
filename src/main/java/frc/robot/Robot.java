@@ -9,6 +9,8 @@ import com.ctre.phoenix6.HootAutoReplay;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.VisionConstants;
+import frc.robot.subsystems.Limelight.LimelightHelpers;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
@@ -34,18 +36,24 @@ public class Robot extends TimedRobot {
     public void disabledInit() {}
 
     @Override
-    public void disabledPeriodic() {}
+    public void disabledPeriodic() {
+      // Seed Internal IMUs
+      LimelightHelpers.SetIMUMode(VisionConstants.kLimelightFrontLeftName, 1); 
+      LimelightHelpers.SetIMUMode(VisionConstants.kLimelightFrontRightName, 1); 
+      LimelightHelpers.SetIMUMode(VisionConstants.kLimelightBackLeftName, 1); 
+      LimelightHelpers.SetIMUMode(VisionConstants.kLimelightBackRightName, 1);
+  }
 
     @Override
     public void disabledExit() {}
 
     @Override
     public void autonomousInit() {
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+      m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-        if (m_autonomousCommand != null) {
-            CommandScheduler.getInstance().schedule(m_autonomousCommand);
-        }
+      if (m_autonomousCommand != null) {
+        CommandScheduler.getInstance().schedule(m_autonomousCommand);
+      }
     }
 
     @Override
