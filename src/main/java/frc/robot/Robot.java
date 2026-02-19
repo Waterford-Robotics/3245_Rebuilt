@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.HootAutoReplay;
+import com.pathplanner.lib.commands.PathfindingCommand;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -13,79 +14,82 @@ import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.Limelight.LimelightHelpers;
 
 public class Robot extends TimedRobot {
-    private Command m_autonomousCommand;
+	private Command m_autonomousCommand;
 
-    private final RobotContainer m_robotContainer;
+	private final RobotContainer m_robotContainer;
 
-    /* log and replay timestamp and joystick data */
-    private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay()
-        .withTimestampReplay()
-        .withJoystickReplay();
+	/* log and replay timestamp and joystick data */
+	private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay()
+		.withTimestampReplay()
+		.withJoystickReplay();
 
-    public Robot() {
-        m_robotContainer = new RobotContainer();
-    }
+	public Robot() {
+		m_robotContainer = new RobotContainer();
 
-    @Override
-    public void robotPeriodic() {
-        m_timeAndJoystickReplay.update();
-        CommandScheduler.getInstance().run(); 
-    }
+		// Warms up Pathplanner for on-the-fly path generation
+		PathfindingCommand.warmupCommand().schedule();
+	}
 
-    @Override
-    public void disabledInit() {}
+	@Override
+	public void robotPeriodic() {
+		m_timeAndJoystickReplay.update();
+		CommandScheduler.getInstance().run(); 
+	}
 
-    @Override
-    public void disabledPeriodic() {
-      // Seed Internal IMUs
-      LimelightHelpers.SetIMUMode(VisionConstants.kLimelightFrontLeftName, 1); 
-      LimelightHelpers.SetIMUMode(VisionConstants.kLimelightFrontRightName, 1); 
-      LimelightHelpers.SetIMUMode(VisionConstants.kLimelightBackLeftName, 1); 
-      LimelightHelpers.SetIMUMode(VisionConstants.kLimelightBackRightName, 1);
-  }
+	@Override
+	public void disabledInit() {}
 
-    @Override
-    public void disabledExit() {}
+	@Override
+	public void disabledPeriodic() {
+		// Seed Internal IMUs
+		LimelightHelpers.SetIMUMode(VisionConstants.kLimelightFrontLeftName, 1); 
+		LimelightHelpers.SetIMUMode(VisionConstants.kLimelightFrontRightName, 1); 
+		LimelightHelpers.SetIMUMode(VisionConstants.kLimelightBackLeftName, 1); 
+		LimelightHelpers.SetIMUMode(VisionConstants.kLimelightBackRightName, 1);
+}
 
-    @Override
-    public void autonomousInit() {
-      m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+	@Override
+	public void disabledExit() {}
 
-      if (m_autonomousCommand != null) {
-        CommandScheduler.getInstance().schedule(m_autonomousCommand);
-      }
-    }
+	@Override
+	public void autonomousInit() {
+		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    @Override
-    public void autonomousPeriodic() {}
+		if (m_autonomousCommand != null) {
+			CommandScheduler.getInstance().schedule(m_autonomousCommand);
+		}
+	}
 
-    @Override
-    public void autonomousExit() {}
+	@Override
+	public void autonomousPeriodic() {}
 
-    @Override
-    public void teleopInit() {
-        if (m_autonomousCommand != null) {
-            CommandScheduler.getInstance().cancel(m_autonomousCommand);
-        }
-    }
+	@Override
+	public void autonomousExit() {}
 
-    @Override
-    public void teleopPeriodic() {}
+	@Override
+	public void teleopInit() {
+		if (m_autonomousCommand != null) {
+			CommandScheduler.getInstance().cancel(m_autonomousCommand);
+		}
+	}
 
-    @Override
-    public void teleopExit() {}
+	@Override
+	public void teleopPeriodic() {}
 
-    @Override
-    public void testInit() {
-        CommandScheduler.getInstance().cancelAll();
-    }
+	@Override
+	public void teleopExit() {}
 
-    @Override
-    public void testPeriodic() {}
+	@Override
+	public void testInit() {
+		CommandScheduler.getInstance().cancelAll();
+	}
 
-    @Override
-    public void testExit() {}
+	@Override
+	public void testPeriodic() {}
 
-    @Override
-    public void simulationPeriodic() {}
+	@Override
+	public void testExit() {}
+
+	@Override
+	public void simulationPeriodic() {}
 }

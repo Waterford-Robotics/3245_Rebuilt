@@ -21,7 +21,16 @@ public class Localization extends SubsystemBase {
   public static final Pose2d exampleMechanismtOffset = new Pose2d(-0.22, 0.25, new Rotation2d());
     
   // Valid IDs for Tracking - Remove undesired tags from array
-  private static int[] validIDs = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
+  private static int[] validIDs = {
+    1, 2, 3, 4, 
+    5, 6, 7, 8, 
+    9, 10, 11, 12, 
+    13, 14, 15, 16, 
+    17, 18, 19, 20, 
+    21, 22, 23, 24, 
+    25, 26, 27, 28, 
+    29, 30, 31, 32
+  };
 
   /*
    * Tag Guide (Driver Station Perspective, Hub Face Perspective):
@@ -124,7 +133,7 @@ public class Localization extends SubsystemBase {
       // Controls the correction speed
       LimelightHelpers.SetIMUAssistAlpha(name, 0.001);
 
-      wrappers[i].withPoseEstimate(LimelightHelpers.getBotPoseEstimate_wpiBlue(name)) // TODO: Verify
+      wrappers[i].withPoseEstimate(LimelightHelpers.getBotPoseEstimate_wpiBlue(name))
         .withTagInVision(LimelightHelpers.getTV(name));
     }
     return wrappers;
@@ -142,10 +151,9 @@ public class Localization extends SubsystemBase {
     );
   }
 
-  // Returns Pose2d TODO: FIX
+  // Returns Pose2d
   public static Pose2d getPose2d() { 
-    return new Pose2d();
-    //return RobotContainer.m_robotDrive.getPose();
+    return RobotContainer.m_drivetrain.getState().Pose;
   }
 
   // Finds a mechanism's (e.g. turret's) field relative position
