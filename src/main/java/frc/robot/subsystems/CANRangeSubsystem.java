@@ -16,10 +16,11 @@ public class CANRangeSubsystem extends SubsystemBase{
   }
 
   public boolean getIsDetected() {
-    return m_canrange.getIsDetected().getValue();
-}
+    return m_canrange.getDistance().getValueAsDouble() < 0.26;
+  }
 
   public void periodic() {
     SmartDashboard.putBoolean("canrange", getIsDetected());
+    SmartDashboard.putNumber("fuel distance", m_canrange.getDistance().getValueAsDouble());
   }
 }

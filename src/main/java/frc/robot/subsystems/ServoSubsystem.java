@@ -77,4 +77,5 @@ public class ServoSubsystem extends SubsystemBase {
 		setPoint = SmartDashboard.getNumber("Servo Setpoint", 10);
 		return setPoint;
 	}
+
 }

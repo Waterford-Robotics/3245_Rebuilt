@@ -24,6 +24,8 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CANRangeSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.RollerSubsystem;
 import frc.robot.subsystems.ServoSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 
@@ -45,7 +47,9 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     private final CANRangeSubsystem m_canRangeSubsystem = new CANRangeSubsystem();
     private final ShootSubsystem m_shootSubsystem = new ShootSubsystem();
-    private final IndexerSubsystem m_indexSubsystem = new IndexerSubsystem();
+    private final IndexerSubsystem m_indexSubsystem = new IndexerSubsystem(m_canRangeSubsystem);
+    private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+    private final RollerSubsystem m_rollerSubsystem = new RollerSubsystem();
     public static final ServoSubsystem m_servoSubsystem1 = new ServoSubsystem(ServoConstants.k_servoID1, 140, 100);
     public static final ServoSubsystem m_servoSubsystem2 = new ServoSubsystem(ServoConstants.k_servoID2, 140, 100);
 
@@ -54,13 +58,25 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
-    new JoystickButton(joystick.getHID(), ControllerConstants.kB)
+
+    // max of 60 for servo
+    new JoystickButton(joystick.getHID(), ControllerConstants.kX)
     .onTrue(
       new InstantCommand(() -> m_servoSubsystem1.setPosition(m_servoSubsystem1.getSetpoint()), m_servoSubsystem1)
     )
     .onTrue(
       new InstantCommand(() -> m_servoSubsystem2.setPosition(m_servoSubsystem2.getSetpoint()), m_servoSubsystem2)
     );
+
+    //roller/indexer button A
+    new JoystickButton(joystick.getHID(), ControllerConstants.kA)
+    .onTrue(
+      new InstantCommand(() -> m_rollerSubsystem.roller(), m_rollerSubsystem)
+    )
+    .onTrue(
+      new InstantCommand(() -> m_rollerSubsystem.roller(), m_rollerSubsystem)
+    );
+
         // shooter left trig
     new Trigger(() -> joystick.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
       .whileTrue(
@@ -71,10 +87,19 @@ public class RobotContainer {
 
     new Trigger(() -> joystick.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
       .whileTrue(
-        new InstantCommand(()-> m_indexSubsystem.index(), m_indexSubsystem))
+        new InstantCommand(()-> m_indexSubsystem.indexWithBreak(), m_indexSubsystem))
       .onFalse(
         new InstantCommand(()-> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
       );
+
+    //intake button Y
+    new JoystickButton(joystick.getHID(), ControllerConstants.kY)
+    .whileTrue(
+      new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem)
+    )
+    .onFalse(
+      new InstantCommand(() -> m_intakeSubsystem.stop(), m_intakeSubsystem)
+    );
 
 
         // Note that X is defined as forward according to WPILib convention,

@@ -4,37 +4,40 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Configs.ShootConfigs;
 
 public class IndexerSubsystem extends SubsystemBase {
   private TalonFX m_indexer;
 
-  private TalonFXConfiguration indexerConfig;
+
+  private CANRangeSubsystem m_CanRangeSubsystem;
 
   double indexSpeed;
   /** Creates a new IndexerSubsystem. */
-  public IndexerSubsystem() {
-     m_indexer = new TalonFX(21, "Mechanisms");
+  public IndexerSubsystem(CANRangeSubsystem canRangeSubsystem) {
+     m_indexer = new TalonFX(28, "Mechanisms");
+     m_CanRangeSubsystem = canRangeSubsystem;
 
-    indexerConfig = new TalonFXConfiguration();
-
-    // Kraken Configs
-    indexerConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = 0.05;
-    indexerConfig.MotorOutput.PeakForwardDutyCycle = 0.4;
-    indexerConfig.MotorOutput.PeakReverseDutyCycle = -0.4;
-    indexerConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    indexerConfig.CurrentLimits.SupplyCurrentLimit = 40;
+    m_indexer.getConfigurator().apply(ShootConfigs.INDEXER_TALON_FX_CONFIGURATION, 0.05);
     SmartDashboard.putNumber("Index Speed Percent", 25);
   }
 
-  public void index(){
+  public void index() {
     indexSpeed = SmartDashboard.getNumber("Index Speed Percent", 25);
     m_indexer.set(indexSpeed/100);
+  }
+  public void indexWithBreak(){
+    indexSpeed = SmartDashboard.getNumber("Index Speed Percent", 25);
+    if (!m_CanRangeSubsystem.getIsDetected()){
+      m_indexer.set(indexSpeed/100);
+    }
+    else {
+      stopIndexer();
+    }
   }
 
   public void index(double indexSpeed){
