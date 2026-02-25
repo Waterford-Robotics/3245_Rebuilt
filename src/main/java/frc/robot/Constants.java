@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.XboxController.Axis;
 public class Constants {
     
   public static final class ShootConstants {
-    public static final int k_shooter1ID = 22;
-    public static final int k_shooter2ID = 23;
+    public static final int k_shooter1ID = 21;
+    public static final int k_shooter2ID = 22;
     public static final double k_shooterSpeed = -0.28;
     public static final double k_shooterRampRate = 0.05;
     public static final double k_shooterClosedMaxSpeed = 0.4;
@@ -16,8 +16,8 @@ public class Constants {
 
   public static final class IntakeConstants {
     //intake x40
-    public static final int k_intakeID = 25;
-    public static final int k_flipoutID = 22;
+    public static final int k_intakeID = 41;
+    public static final int k_flipoutID = 42;
     public static final double k_intakeRampRate = 0.05;
     public static final double k_intakeClosedMaxSpeed = 0.4;
     public static final int k_intakeSupplyCurrentLimit = 60;
@@ -31,7 +31,7 @@ public class Constants {
 
   public static final class SensorIDConstants {
     // Intake CANRange
-    public static final int k_shootCANRangeID = 42;
+    public static final int k_shootCANRangeID = 28;
   }
 
   // Controller Ports, Deadband, Buttons and Triggers

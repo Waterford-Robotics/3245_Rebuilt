@@ -19,7 +19,7 @@ public class IndexerSubsystem extends SubsystemBase {
   double indexSpeed;
   /** Creates a new IndexerSubsystem. */
   public IndexerSubsystem(CANRangeSubsystem canRangeSubsystem) {
-     m_indexer = new TalonFX(28, "Mechanisms");
+     m_indexer = new TalonFX(23, "Mechanisms");
      m_CanRangeSubsystem = canRangeSubsystem;
 
     m_indexer.getConfigurator().apply(ShootConfigs.INDEXER_TALON_FX_CONFIGURATION, 0.05);
