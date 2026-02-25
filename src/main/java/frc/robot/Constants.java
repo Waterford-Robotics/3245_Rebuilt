@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
+import edu.wpi.first.wpilibj.XboxController.Button;
 
 public class Constants {
     
@@ -45,6 +46,9 @@ public class Constants {
     public static final int kB = XboxController.Button.kB.value;
     public static final int kX = XboxController.Button.kX.value;
     public static final int kY = XboxController.Button.kY.value;
+
+    public final static int k_rightbump = Button.kRightBumper.value; // Right Bump
+    public final static int k_leftbump = Button.kLeftBumper.value; // Left Bump
 
     public static final int kDpadRight = 90; // D-Pad Right
     public static final int kDpadLeft = 270; // D-Pad Left

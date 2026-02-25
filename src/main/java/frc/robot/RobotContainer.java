@@ -69,12 +69,12 @@ public class RobotContainer {
     );
 
     //roller/indexer button A
-    new JoystickButton(joystick.getHID(), ControllerConstants.kA)
+    new JoystickButton(joystick.getHID(), ControllerConstants.k_leftbump)
     .onTrue(
       new InstantCommand(() -> m_rollerSubsystem.roller(), m_rollerSubsystem)
     )
-    .onTrue(
-      new InstantCommand(() -> m_rollerSubsystem.roller(), m_rollerSubsystem)
+    .onFalse(
+      new InstantCommand(() -> m_rollerSubsystem.stopRoller(), m_rollerSubsystem)
     );
 
         // shooter left trig
