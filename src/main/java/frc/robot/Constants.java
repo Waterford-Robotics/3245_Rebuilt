@@ -25,6 +25,11 @@ public class Constants {
     public static final double k_intakeSpeed = -0.5;
   }
 
+  public static final class IndexerConstants {
+    public static final int k_shooterIndexerID = 31;
+    public static final int k_rollerIndexerID = 30;
+  }
+
   public static final class ServoConstants {
     public static final int k_servoID1 = 1;
     public static final int k_servoID2 = 2;

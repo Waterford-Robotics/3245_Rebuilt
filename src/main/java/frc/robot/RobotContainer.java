@@ -20,12 +20,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.ServoConstants;
+import frc.robot.commands.IndexCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CANRangeSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.RollerSubsystem;
 import frc.robot.subsystems.ServoSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 
@@ -49,7 +49,6 @@ public class RobotContainer {
     private final ShootSubsystem m_shootSubsystem = new ShootSubsystem();
     private final IndexerSubsystem m_indexSubsystem = new IndexerSubsystem(m_canRangeSubsystem);
     private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-    private final RollerSubsystem m_rollerSubsystem = new RollerSubsystem();
     public static final ServoSubsystem m_servoSubsystem1 = new ServoSubsystem(ServoConstants.k_servoID1, 140, 100);
     public static final ServoSubsystem m_servoSubsystem2 = new ServoSubsystem(ServoConstants.k_servoID2, 140, 100);
 
@@ -68,13 +67,12 @@ public class RobotContainer {
       new InstantCommand(() -> m_servoSubsystem2.setPosition(m_servoSubsystem2.getSetpoint()), m_servoSubsystem2)
     );
 
-    //roller/indexer button A
-    new JoystickButton(joystick.getHID(), ControllerConstants.k_leftbump)
+    new JoystickButton(joystick.getHID(), ControllerConstants.k_rightbump)
     .onTrue(
-      new InstantCommand(() -> m_rollerSubsystem.roller(), m_rollerSubsystem)
+      new InstantCommand(() -> m_indexSubsystem.index(), m_indexSubsystem)
     )
     .onFalse(
-      new InstantCommand(() -> m_rollerSubsystem.stopRoller(), m_rollerSubsystem)
+      new InstantCommand(() -> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
     );
 
         // shooter left trig
@@ -87,7 +85,7 @@ public class RobotContainer {
 
     new Trigger(() -> joystick.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
       .whileTrue(
-        new InstantCommand(()-> m_indexSubsystem.indexWithBreak(), m_indexSubsystem))
+        new IndexCommand(m_indexSubsystem, m_canRangeSubsystem))
       .onFalse(
         new InstantCommand(()-> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
       );

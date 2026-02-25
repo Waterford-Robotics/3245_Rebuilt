@@ -29,18 +29,18 @@ public class ShootSubsystem extends SubsystemBase{
 
     m_shooter1.getConfigurator().apply(ShootConfigs.SHOOT_TALON_FX_CONFIGURATION, 0.05);
     m_shooter2.getConfigurator().apply(ShootConfigs.SHOOT_TALON_FX_CONFIGURATION, 0.05);
-    SmartDashboard.putNumber("Shoot Speed Percent", 30);
+    SmartDashboard.putNumber("Shoot Speed Percent", 35);
   }
 
   public void shoot(){
-    shootSpeed = SmartDashboard.getNumber("Shoot Speed Percent", 30);
-    m_shooter1.set(-shootSpeed/100);
-    m_shooter2.set(shootSpeed/100);
+    shootSpeed = SmartDashboard.getNumber("Shoot Speed Percent", 35);
+    m_shooter1.set(shootSpeed/100);
+    m_shooter2.set(-shootSpeed/100);
   }
 
   public void shoot(double shootSpeed){
-    m_shooter1.set(-shootSpeed/100);
-    m_shooter2.set(shootSpeed/100);
+    m_shooter1.set(shootSpeed/100);
+    m_shooter2.set(-shootSpeed/100);
   }
 
 

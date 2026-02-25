@@ -8,44 +8,41 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Configs.IntakeConfigs;
 import frc.robot.Configs.ShootConfigs;
+import frc.robot.Constants.IndexerConstants;
 
 public class IndexerSubsystem extends SubsystemBase {
-  private TalonFX m_indexer;
-
-
-  private CANRangeSubsystem m_CanRangeSubsystem;
+  private TalonFX m_shooterIndexer;
+  private TalonFX m_rollerIndexer;
 
   double indexSpeed;
-  /** Creates a new IndexerSubsystem. */
+  /** Creates a new rollererSubsystem. */
   public IndexerSubsystem(CANRangeSubsystem canRangeSubsystem) {
-     m_indexer = new TalonFX(23, "Mechanisms");
-     m_CanRangeSubsystem = canRangeSubsystem;
+     m_shooterIndexer = new TalonFX(IndexerConstants.k_shooterIndexerID, "Mechanisms");
+     m_rollerIndexer = new TalonFX(IndexerConstants.k_rollerIndexerID, "Mechanisms");
 
-    m_indexer.getConfigurator().apply(ShootConfigs.INDEXER_TALON_FX_CONFIGURATION, 0.05);
+    m_shooterIndexer.getConfigurator().apply(ShootConfigs.INDEXER_TALON_FX_CONFIGURATION, 0.05);
+    m_rollerIndexer.getConfigurator().apply(IntakeConfigs.INTAKE_TALON_FX_CONFIGURATION, 0.05);
+
+
     SmartDashboard.putNumber("Index Speed Percent", 25);
   }
 
   public void index() {
     indexSpeed = SmartDashboard.getNumber("Index Speed Percent", 25);
-    m_indexer.set(indexSpeed/100);
-  }
-  public void indexWithBreak(){
-    indexSpeed = SmartDashboard.getNumber("Index Speed Percent", 25);
-    if (!m_CanRangeSubsystem.getIsDetected()){
-      m_indexer.set(indexSpeed/100);
-    }
-    else {
-      stopIndexer();
-    }
+    m_shooterIndexer.set(indexSpeed/100);
+    m_rollerIndexer.set(indexSpeed/100);
   }
 
   public void index(double indexSpeed){
-    m_indexer.set(indexSpeed/100);
+    m_shooterIndexer.set(indexSpeed/100);
+    m_rollerIndexer.set(indexSpeed/100);
   }
 
   public void stopIndexer(){
-    m_indexer.set(0);
+    m_shooterIndexer.set(0);
+    m_rollerIndexer.set(0);
   }
 
 }
