@@ -6,12 +6,9 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.CANRangeSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.ShootSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class IndexCommand extends Command {
-
-  // Uses Elevator and Subsystems
 
   IndexerSubsystem m_indexSubsystem;
   CANRangeSubsystem m_canRangeSubsystem;
@@ -30,14 +27,14 @@ public class IndexCommand extends Command {
 
   public void initialize() {}
   
-  // run the centerer and conveyor until canrange detects
+  // run the roller indexer and shooter indexer until canrange detects
   public void execute() {
     if(!m_canRangeSubsystem.getIsDetected()) {
       m_indexSubsystem.index();
     }
   }
 
-  // when the command is over stop running the centerer and conveyors
+  // when the command is over stop running the roller indexer and shooter indexer
   public void end(boolean interrupted) {
     m_indexSubsystem.stopIndexer();
   }

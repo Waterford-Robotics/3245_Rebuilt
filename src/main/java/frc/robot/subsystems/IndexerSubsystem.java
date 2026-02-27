@@ -18,7 +18,7 @@ public class IndexerSubsystem extends SubsystemBase {
 
   double indexSpeed;
   /** Creates a new rollererSubsystem. */
-  public IndexerSubsystem(CANRangeSubsystem canRangeSubsystem) {
+  public IndexerSubsystem() {
      m_shooterIndexer = new TalonFX(IndexerConstants.k_shooterIndexerID, "Mechanisms");
      m_rollerIndexer = new TalonFX(IndexerConstants.k_rollerIndexerID, "Mechanisms");
 

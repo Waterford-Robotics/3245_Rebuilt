@@ -5,6 +5,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.UpdateModeValue;
 
+import frc.robot.Constants.IndexerConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ShootConstants;
 
@@ -64,7 +65,6 @@ public class Configs {
   public static final class IntakeConfigs {
   // Shooter Kraken x44
   public static final TalonFXConfiguration INTAKE_TALON_FX_CONFIGURATION = new TalonFXConfiguration();
-  public static final TalonFXConfiguration FLIPOUT_TALON_FX_CONFIGURATION = new TalonFXConfiguration();
 
   static{
     /*
@@ -78,18 +78,37 @@ public class Configs {
     INTAKE_TALON_FX_CONFIGURATION.MotorOutput.PeakReverseDutyCycle = -IntakeConstants.k_intakeClosedMaxSpeed;
     INTAKE_TALON_FX_CONFIGURATION.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     INTAKE_TALON_FX_CONFIGURATION.CurrentLimits.SupplyCurrentLimit = IntakeConstants.k_intakeSupplyCurrentLimit;
+  }
+}
+public static final class IndexConfigs {
+  // Shooter Kraken x44
+  public static final TalonFXConfiguration ROLLER_INDEXER_TALON_FX_CONFIGURATION = new TalonFXConfiguration();
+  public static final TalonFXConfiguration SHOOTER_INDEXER_TALON_FX_CONFIGURATION = new TalonFXConfiguration();
 
+  static{
     /*
       ********************************************
-      **    FLIPOUT KRAKEN x60 CONFIGURATIONS    **
+      **    INTAKE KRAKEN x44 CONFIGURATIONS    **
       ********************************************
     */
 
-    FLIPOUT_TALON_FX_CONFIGURATION.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = IntakeConstants.k_intakeRampRate;
-    FLIPOUT_TALON_FX_CONFIGURATION.MotorOutput.PeakForwardDutyCycle = IntakeConstants.k_intakeClosedMaxSpeed;
-    FLIPOUT_TALON_FX_CONFIGURATION.MotorOutput.PeakReverseDutyCycle = -IntakeConstants.k_intakeClosedMaxSpeed;
-    FLIPOUT_TALON_FX_CONFIGURATION.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    FLIPOUT_TALON_FX_CONFIGURATION.CurrentLimits.SupplyCurrentLimit = IntakeConstants.k_intakeSupplyCurrentLimit;
+    ROLLER_INDEXER_TALON_FX_CONFIGURATION.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = IndexerConstants.k_rollerIndexerRampRate;
+    ROLLER_INDEXER_TALON_FX_CONFIGURATION.MotorOutput.PeakForwardDutyCycle = IndexerConstants.k_rollerIndexerClosedMaxSpeed;
+    ROLLER_INDEXER_TALON_FX_CONFIGURATION.MotorOutput.PeakReverseDutyCycle = -IndexerConstants.k_rollerIndexerClosedMaxSpeed;
+    ROLLER_INDEXER_TALON_FX_CONFIGURATION.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    ROLLER_INDEXER_TALON_FX_CONFIGURATION.CurrentLimits.SupplyCurrentLimit = IndexerConstants.k_rollerIndexerSupplyCurrentLimit;
+
+    /*
+      ********************************************
+      **    INTAKE KRAKEN x60 CONFIGURATIONS    **
+      ********************************************
+    */
+
+    SHOOTER_INDEXER_TALON_FX_CONFIGURATION.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = IndexerConstants.k_rollerIndexerRampRate;
+    SHOOTER_INDEXER_TALON_FX_CONFIGURATION.MotorOutput.PeakForwardDutyCycle = IndexerConstants.k_rollerIndexerClosedMaxSpeed;
+    SHOOTER_INDEXER_TALON_FX_CONFIGURATION.MotorOutput.PeakReverseDutyCycle = -IndexerConstants.k_rollerIndexerClosedMaxSpeed;
+    SHOOTER_INDEXER_TALON_FX_CONFIGURATION.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    SHOOTER_INDEXER_TALON_FX_CONFIGURATION.CurrentLimits.SupplyCurrentLimit = IndexerConstants.k_rollerIndexerSupplyCurrentLimit;
   }
 }
 }

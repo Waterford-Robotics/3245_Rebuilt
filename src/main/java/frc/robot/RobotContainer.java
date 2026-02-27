@@ -47,7 +47,7 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     private final CANRangeSubsystem m_canRangeSubsystem = new CANRangeSubsystem();
     private final ShootSubsystem m_shootSubsystem = new ShootSubsystem();
-    private final IndexerSubsystem m_indexSubsystem = new IndexerSubsystem(m_canRangeSubsystem);
+    private final IndexerSubsystem m_indexSubsystem = new IndexerSubsystem();
     private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
     public static final ServoSubsystem m_servoSubsystem1 = new ServoSubsystem(ServoConstants.k_servoID1, 140, 100);
     public static final ServoSubsystem m_servoSubsystem2 = new ServoSubsystem(ServoConstants.k_servoID2, 140, 100);

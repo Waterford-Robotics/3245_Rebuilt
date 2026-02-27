@@ -9,16 +9,13 @@ import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase{
     private TalonFX m_intake;
-    private TalonFX m_flipout;
     double intakeSpeed;
 
     public IntakeSubsystem(){
         m_intake = new TalonFX(IntakeConstants.k_intakeID, "Mechanisms"); 
-        m_flipout = new TalonFX(IntakeConstants.k_flipoutID, "Mechanisms");
 
         // Kraken Configs
         m_intake.getConfigurator().apply(IntakeConfigs.INTAKE_TALON_FX_CONFIGURATION, 0.05);
-        m_flipout.getConfigurator().apply(IntakeConfigs.INTAKE_TALON_FX_CONFIGURATION, 0.05);
         SmartDashboard.putNumber("Intake Speed Percent", 25);
       
     }
