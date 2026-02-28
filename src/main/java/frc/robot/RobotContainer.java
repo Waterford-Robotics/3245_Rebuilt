@@ -53,44 +53,22 @@ public class RobotContainer {
     public static final ServoSubsystem m_servoSubsystem2 = new ServoSubsystem(ServoConstants.k_servoID2, 140, 100);
 
     public RobotContainer() {
-        configureBindings();
+      configureBindings();
     }
 
+    // Config the Button Buttons YAY
     private void configureBindings() {
 
-    // max of 60 for servo
+    // X - Set Servos
     new JoystickButton(joystick.getHID(), ControllerConstants.kX)
     .onTrue(
-      new InstantCommand(() -> m_servoSubsystem1.setPosition(m_servoSubsystem1.getSetpoint()), m_servoSubsystem1)
+      new InstantCommand(() -> m_servoSubsystem1.setPosition(m_servoSubsystem1.getSetpoint()), m_servoSubsystem1) // Max of 60 for servo
     )
     .onTrue(
       new InstantCommand(() -> m_servoSubsystem2.setPosition(m_servoSubsystem2.getSetpoint()), m_servoSubsystem2)
     );
 
-    new JoystickButton(joystick.getHID(), ControllerConstants.k_rightbump)
-    .onTrue(
-      new InstantCommand(() -> m_indexSubsystem.index(), m_indexSubsystem)
-    )
-    .onFalse(
-      new InstantCommand(() -> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
-    );
-
-        // shooter left trig
-    new Trigger(() -> joystick.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
-      .whileTrue(
-        new InstantCommand(()-> m_shootSubsystem.shoot(), m_shootSubsystem))
-      .onFalse(
-        new InstantCommand(()-> m_shootSubsystem.stopShooter(), m_shootSubsystem)
-      );
-
-    new Trigger(() -> joystick.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
-      .whileTrue(
-        new IndexCommand(m_indexSubsystem, m_canRangeSubsystem))
-      .onFalse(
-        new InstantCommand(()-> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
-      );
-
-    //intake button Y
+    // Y - Intake
     new JoystickButton(joystick.getHID(), ControllerConstants.kY)
     .whileTrue(
       new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem)
@@ -99,59 +77,83 @@ public class RobotContainer {
       new InstantCommand(() -> m_intakeSubsystem.stop(), m_intakeSubsystem)
     );
 
+    // Right Bump - Index
+    new JoystickButton(joystick.getHID(), ControllerConstants.k_rightbump)
+    .onTrue(
+      new InstantCommand(() -> m_indexSubsystem.index(), m_indexSubsystem)
+    )
+    .onFalse(
+      new InstantCommand(() -> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
+    );
 
-        // Note that X is defined as forward according to WPILib convention,
-        // and Y is defined as to the left according to WPILib convention.
-        drivetrain.setDefaultCommand(
-            // Drivetrain will execute this command periodically
-            drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-            )
-        );
+    // Left Trig - Shoot
+    new Trigger(() -> joystick.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
+      .whileTrue(
+        new InstantCommand(()-> m_shootSubsystem.shoot(), m_shootSubsystem))
+      .onFalse(
+        new InstantCommand(()-> m_shootSubsystem.stopShooter(), m_shootSubsystem)
+      );
 
-        // Idle while the robot is disabled. This ensures the configured
-        // neutral mode is applied to the drive motors while disabled.
-        final var idle = new SwerveRequest.Idle();
-        RobotModeTriggers.disabled().whileTrue(
-            drivetrain.applyRequest(() -> idle).ignoringDisable(true)
-        );
+    // Right Trig - Index with CANRange
+    new Trigger(() -> joystick.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
+      .whileTrue(
+        new IndexCommand(m_indexSubsystem, m_canRangeSubsystem))
+      .onFalse(
+        new InstantCommand(()-> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
+      );
 
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
-        ));
+    // Note that X is defined as forward according to WPILib convention,
+    // and Y is defined as to the left according to WPILib convention.
+    drivetrain.setDefaultCommand(
+        // Drivetrain will execute this command periodically
+        drivetrain.applyRequest(() ->
+            drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+        )
+    );
 
-        // Run SysId routines when holding back/start and X/Y.
-        // Note that each routine should be run exactly once in a single log.
-        joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+    // Idle while the robot is disabled. This ensures the configured
+    // neutral mode is applied to the drive motors while disabled.
+    final var idle = new SwerveRequest.Idle();
+    RobotModeTriggers.disabled().whileTrue(
+        drivetrain.applyRequest(() -> idle).ignoringDisable(true)
+    );
 
-        // Reset the field-centric heading on left bumper press.
-        joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+    joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+    joystick.b().whileTrue(drivetrain.applyRequest(() ->
+        point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
+    ));
 
-        drivetrain.registerTelemetry(logger::telemeterize);
-    }
+    // Run SysId routines when holding back/start and X/Y.
+    // Note that each routine should be run exactly once in a single log.
+    joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+    joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+    joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+    joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-    public Command getAutonomousCommand() {
-        // Simple drive forward auton
-        final var idle = new SwerveRequest.Idle();
-        return Commands.sequence(
-            // Reset our field centric heading to match the robot
-            // facing away from our alliance station wall (0 deg).
-            drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
-            // Then slowly drive forward (away from us) for 5 seconds.
-            drivetrain.applyRequest(() ->
-                drive.withVelocityX(0.5)
-                    .withVelocityY(0)
-                    .withRotationalRate(0)
-            )
-            .withTimeout(5.0),
-            // Finally idle for the rest of auton
-            drivetrain.applyRequest(() -> idle)
-        );
-    }
+    // Reset the field-centric heading on left bumper press.
+    joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+
+    drivetrain.registerTelemetry(logger::telemeterize);
+  }
+
+  public Command getAutonomousCommand() {
+    // Simple drive forward auton
+    final var idle = new SwerveRequest.Idle();
+    return Commands.sequence(
+      // Reset our field centric heading to match the robot
+      // facing away from our alliance station wall (0 deg).
+      drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
+      // Then slowly drive forward (away from us) for 5 seconds.
+      drivetrain.applyRequest(() ->
+        drive.withVelocityX(0.5)
+          .withVelocityY(0)
+          .withRotationalRate(0)
+      )
+      .withTimeout(5.0),
+      // Finally idle for the rest of auton
+      drivetrain.applyRequest(() -> idle)
+    );
+  }
 }

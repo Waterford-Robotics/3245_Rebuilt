@@ -17,12 +17,11 @@ public class IndexCommand extends Command {
   public IndexCommand(IndexerSubsystem indexSubsystem, CANRangeSubsystem canRangeSubsystem) {
         
     // Definitions and setting parameters are equal to members!
-
     m_indexSubsystem = indexSubsystem;
-    addRequirements(indexSubsystem);
-
     m_canRangeSubsystem = canRangeSubsystem;
+
     addRequirements(canRangeSubsystem);
+    addRequirements(indexSubsystem);
   }
 
   public void initialize() {}
