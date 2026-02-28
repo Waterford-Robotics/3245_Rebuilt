@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs.IntakeConfigs;
 import frc.robot.Configs.ShootConfigs;
@@ -18,16 +17,13 @@ public class IndexerSubsystem extends SubsystemBase {
   private TalonFX m_rollerIndexer;
 
   double indexSpeed;
-  /** Creates a new IndexerSubsystem. */
+  /* Creates a new IndexerSubsystem. */
   public IndexerSubsystem() {
-     m_shooterIndexer = new TalonFX(MotorIDConstants.k_shooterIndexerID, "Mechanisms");
-     m_rollerIndexer = new TalonFX(MotorIDConstants.k_rollerIndexerID, "Mechanisms");
+    m_shooterIndexer = new TalonFX(MotorIDConstants.k_shooterIndexerID, "Mechanisms");
+    m_rollerIndexer = new TalonFX(MotorIDConstants.k_rollerIndexerID, "Mechanisms");
 
     m_shooterIndexer.getConfigurator().apply(ShootConfigs.INDEXER_TALON_FX_CONFIGURATION, 0.05);
     m_rollerIndexer.getConfigurator().apply(IntakeConfigs.INTAKE_TALON_FX_CONFIGURATION, 0.05);
-
-
-    SmartDashboard.putNumber("Index Speed Percent", 0.25);
   }
 
   public void index() {

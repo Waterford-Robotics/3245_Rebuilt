@@ -45,6 +45,9 @@ public class Constants {
   public static final class ServoConstants {
     public static final int k_servoID1 = 1;
     public static final int k_servoID2 = 2;
+    
+    //Subsystem
+    public static final int k_servoSetpoint = 10;
   }
 
   // CAN IDs for Sensors
@@ -73,7 +76,7 @@ public class Constants {
     public static final int k_intakeSupplyCurrentLimit = 60;
 
     // Subsystems
-    public static final double k_intakeSpeed = -0.5;
+    public static final double k_intakeSpeed = 0.5;
   }
 
   // Indexer Stuff 

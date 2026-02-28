@@ -14,8 +14,7 @@ public class IntakeSubsystem extends SubsystemBase {
 	private TalonFX m_innerIntake;
 
 	public IntakeSubsystem() {
-
-		// Config stuff yeah
+	  // Config stuff yeah
 		m_intakeRoller = new TalonFX(MotorIDConstants.k_intakeRollerID, "Mechanisms"); 
 		m_innerIntake = new TalonFX(MotorIDConstants.k_innerIntakeID, "Mechanisms"); 
 
