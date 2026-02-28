@@ -61,7 +61,7 @@ public class Constants {
     public static final int k_shooterSupplyCurrentLimit = 60;
 
     // Subsystem
-    public static final double k_shooterSpeed = -0.28;
+    public static final double k_shooterSpeed = 0.35;
   }
 
   // Intake Stuff
@@ -85,7 +85,7 @@ public class Constants {
     public static final int k_rollerIndexerSupplyCurrentLimit = 40;
 
     // Subsystems
-    public static final double k_rollerIndexerSpeed = -0.5;
+    public static final double k_indexerSpeed = 0.25;
   }
 
   // Limelight Stuff
