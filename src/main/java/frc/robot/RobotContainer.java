@@ -59,6 +59,17 @@ public class RobotContainer {
     // Config the Button Buttons YAY
     private void configureBindings() {
 
+    /*
+     * DRIVER CONTROLLER
+     * 
+     * X - Set Servoes
+     * Y - Intake
+     * 
+     * Right Bump - Index
+     * Right Trig - Shoot
+     * Left Trig - Index with CANRange
+     */
+
     // X - Set Servos
     new JoystickButton(joystick.getHID(), ControllerConstants.kX)
     .onTrue(
