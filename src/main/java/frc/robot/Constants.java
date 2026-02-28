@@ -5,44 +5,6 @@ import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
 public class Constants {
-    
-  public static final class ShootConstants {
-    public static final int k_shooter1ID = 21;
-    public static final int k_shooter2ID = 22;
-    public static final double k_shooterRampRate = 0.05;
-    public static final double k_shooterClosedMaxSpeed = 0.8;
-    public static final int k_shooterSupplyCurrentLimit = 60;
-
-    public static final double k_shooterSpeed = -0.28;
-  }
-
-  public static final class IntakeConstants {
-    //intake x40
-    public static final int k_intakeID = 41;
-    public static final double k_intakeRampRate = 0.05;
-    public static final double k_intakeClosedMaxSpeed = 0.4;
-    public static final int k_intakeSupplyCurrentLimit = 60;
-    public static final double k_intakeSpeed = -0.5;
-  }
-
-  public static final class IndexerConstants {
-    public static final int k_shooterIndexerID = 31;
-    public static final int k_rollerIndexerID = 30;
-    public static final double k_rollerIndexerRampRate = 0.05;
-    public static final double k_rollerIndexerClosedMaxSpeed = 0.4;
-    public static final int k_rollerIndexerSupplyCurrentLimit = 40;
-    public static final double k_rollerIndexerSpeed = -0.5;
-  }
-
-  public static final class ServoConstants {
-    public static final int k_servoID1 = 1;
-    public static final int k_servoID2 = 2;
-  }
-
-  public static final class SensorIDConstants {
-    // Intake CANRange
-    public static final int k_shootCANRangeID = 28;
-  }
 
   // Controller Ports, Deadband, Buttons and Triggers
   public static final class ControllerConstants {
@@ -66,9 +28,68 @@ public class Constants {
     public final static int k_lefttrig = Axis.kLeftTrigger.value; // Left Trig
   }
 
-    public static final class VisionConstants {
-    // Name
-    public static final String kLimelightName = "limelight-two";
+  // CAN IDs for Motors
+  public static final class MotorIDConstants {
+
+    public static final int k_shooterRightID = 21;
+    public static final int k_shooterLeftID = 22;
+
+    public static final int k_rollerIndexerID = 30;
+    public static final int k_shooterIndexerID = 31;
+
+    public static final int k_intakeRollerID = 40;
+    public static final int k_innerIntakeID = 41;
+  }
+
+  // PWM IDs for Servos
+  public static final class ServoConstants {
+    public static final int k_servoID1 = 1;
+    public static final int k_servoID2 = 2;
+  }
+
+  // CAN IDs for Sensors
+  public static final class SensorIDConstants {
+    public static final int k_shootCANRangeID = 50;
+  }
+  
+  // Shooter Stuff
+  public static final class ShootConstants {
+    
+    // Configs
+    public static final double k_shooterRampRate = 0.05;
+    public static final double k_shooterClosedMaxSpeed = 0.9;
+    public static final int k_shooterSupplyCurrentLimit = 60;
+
+    // Subsystem
+    public static final double k_shooterSpeed = -0.28;
+  }
+
+  // Intake Stuff
+  public static final class IntakeConstants {
+
+    // Configs
+    public static final double k_intakeRampRate = 0.05;
+    public static final double k_intakeClosedMaxSpeed = 0.4;
+    public static final int k_intakeSupplyCurrentLimit = 60;
+
+    // Subsystems
+    public static final double k_intakeSpeed = -0.5;
+  }
+
+  // Indexer Stuff 
+  public static final class IndexerConstants {
+
+    // Configs
+    public static final double k_rollerIndexerRampRate = 0.05;
+    public static final double k_rollerIndexerClosedMaxSpeed = 0.4;
+    public static final int k_rollerIndexerSupplyCurrentLimit = 40;
+
+    // Subsystems
+    public static final double k_rollerIndexerSpeed = -0.5;
+  }
+
+  // Limelight Stuff
+  public static final class VisionConstants {
 
     // PID for Tag Relative Control in General
     public static final double kPAim = 0.015;
