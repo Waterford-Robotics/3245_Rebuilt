@@ -16,13 +16,13 @@ public class IntakeSubsystem extends SubsystemBase{
 
         // Kraken Configs
         m_intake.getConfigurator().apply(IntakeConfigs.INTAKE_TALON_FX_CONFIGURATION, 0.05);
-        SmartDashboard.putNumber("Intake Speed Percent", 25);
+        SmartDashboard.putNumber("Intake Speed Percent", 0.25);
       
     }
     
     public void intake(){
-        intakeSpeed = SmartDashboard.getNumber("Intake Speed Percent", 25);
-        m_intake.set(-intakeSpeed/100);
+        intakeSpeed = SmartDashboard.getNumber("Intake Speed Percent", 0.25);
+        m_intake.set(-intakeSpeed);
     }
 
     public void stop() {

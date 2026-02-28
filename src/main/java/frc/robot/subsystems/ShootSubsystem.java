@@ -17,36 +17,36 @@ public class ShootSubsystem extends SubsystemBase{
    4.5 meters = (32, 28.75)
    */
 
-  private TalonFX m_shooter1;
-  private TalonFX m_shooter2;
+  private TalonFX m_shooterLeft;
+  private TalonFX m_shooterRight;
 
   double shootSpeed;
 
   public ShootSubsystem() {
     
-    m_shooter1 = new TalonFX(ShootConstants.k_shooter1ID, "Mechanisms");//left
-    m_shooter2 = new TalonFX(ShootConstants.k_shooter2ID, "Mechanisms");//right
+    m_shooterLeft = new TalonFX(ShootConstants.k_shooter1ID, "Mechanisms");//left
+    m_shooterRight = new TalonFX(ShootConstants.k_shooter2ID, "Mechanisms");//right
 
-    m_shooter1.getConfigurator().apply(ShootConfigs.SHOOT_TALON_FX_CONFIGURATION, 0.05);
-    m_shooter2.getConfigurator().apply(ShootConfigs.SHOOT_TALON_FX_CONFIGURATION, 0.05);
-    SmartDashboard.putNumber("Shoot Speed Percent", 35);
+    m_shooterLeft.getConfigurator().apply(ShootConfigs.SHOOT_TALON_FX_CONFIGURATION, 0.05);
+    m_shooterRight.getConfigurator().apply(ShootConfigs.SHOOT_TALON_FX_CONFIGURATION, 0.05);
+    SmartDashboard.putNumber("Shoot Speed Percent", 0.35);
   }
 
   public void shoot(){
-    shootSpeed = SmartDashboard.getNumber("Shoot Speed Percent", 35);
-    m_shooter1.set(shootSpeed/100);
-    m_shooter2.set(-shootSpeed/100);
+    shootSpeed = SmartDashboard.getNumber("Shoot Speed Percent", 0.35);
+    m_shooterLeft.set(shootSpeed);
+    m_shooterRight.set(-shootSpeed);
   }
 
   public void shoot(double shootSpeed){
-    m_shooter1.set(shootSpeed/100);
-    m_shooter2.set(-shootSpeed/100);
+    m_shooterLeft.set(shootSpeed);
+    m_shooterRight.set(-shootSpeed);
   }
 
 
   public void stopShooter() {
-    m_shooter1.set(0);
-    m_shooter2.set(0);
+    m_shooterLeft.set(0);
+    m_shooterRight.set(0);
   }
 
   public void periodic() {

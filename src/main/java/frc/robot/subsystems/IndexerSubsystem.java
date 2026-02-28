@@ -26,18 +26,18 @@ public class IndexerSubsystem extends SubsystemBase {
     m_rollerIndexer.getConfigurator().apply(IntakeConfigs.INTAKE_TALON_FX_CONFIGURATION, 0.05);
 
 
-    SmartDashboard.putNumber("Index Speed Percent", 25);
+    SmartDashboard.putNumber("Index Speed Percent", 0.25);
   }
 
   public void index() {
-    indexSpeed = SmartDashboard.getNumber("Index Speed Percent", 25);
-    m_shooterIndexer.set(indexSpeed/100);
-    m_rollerIndexer.set(indexSpeed/100);
+    indexSpeed = SmartDashboard.getNumber("Index Speed Percent", 0.25);
+    m_shooterIndexer.set(indexSpeed);
+    m_rollerIndexer.set(indexSpeed);
   }
 
   public void index(double indexSpeed){
-    m_shooterIndexer.set(indexSpeed/100);
-    m_rollerIndexer.set(indexSpeed/100);
+    m_shooterIndexer.set(indexSpeed);
+    m_rollerIndexer.set(indexSpeed);
   }
 
   public void stopIndexer(){
