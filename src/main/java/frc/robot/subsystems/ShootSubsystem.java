@@ -31,14 +31,13 @@ public class ShootSubsystem extends SubsystemBase{
   }
 
   public void shoot(){
-    shootSpeed = ShootConstants.k_shooterSpeed;
-    m_shooterLeft.set(shootSpeed);
-    m_shooterRight.set(-shootSpeed);
+    m_shooterLeft.set(-ShootConstants.k_shooterSpeed);
+    m_shooterRight.set(ShootConstants.k_shooterSpeed);
   }
 
   public void shoot(double shootSpeed){
-    m_shooterLeft.set(shootSpeed);
-    m_shooterRight.set(-shootSpeed);
+    m_shooterLeft.set(-shootSpeed);
+    m_shooterRight.set(shootSpeed);
   }
 
 

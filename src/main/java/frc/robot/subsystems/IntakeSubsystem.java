@@ -25,7 +25,7 @@ public class IntakeSubsystem extends SubsystemBase {
 	// Vroom vroom
 	public void intake() {
 		m_intakeRoller.set(IntakeConstants.k_intakeSpeed);
-		m_innerIntake.set(-IntakeConstants.k_intakeSpeed);
+		m_innerIntake.set(IntakeConstants.k_intakeSpeed);
 	}
 
 	// STOP!

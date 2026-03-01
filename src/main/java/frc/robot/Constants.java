@@ -31,8 +31,8 @@ public class Constants {
   // CAN IDs for Motors
   public static final class MotorIDConstants {
 
+    public static final int k_shooterLeftID = 20;
     public static final int k_shooterRightID = 21;
-    public static final int k_shooterLeftID = 22;
 
     public static final int k_rollerIndexerID = 30;
     public static final int k_shooterIndexerID = 31;

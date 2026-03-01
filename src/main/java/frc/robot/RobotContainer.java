@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
@@ -82,7 +83,7 @@ public class RobotContainer {
     // Y - Intake
     new JoystickButton(joystick.getHID(), ControllerConstants.kY)
     .whileTrue(
-      new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem)
+      new RunCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem)
     )
     .onFalse(
       new InstantCommand(() -> m_intakeSubsystem.stop(), m_intakeSubsystem)
@@ -91,7 +92,7 @@ public class RobotContainer {
     // Right Bump - Index
     new JoystickButton(joystick.getHID(), ControllerConstants.k_rightbump)
     .onTrue(
-      new InstantCommand(() -> m_indexSubsystem.index(), m_indexSubsystem)
+      new RunCommand(() -> m_indexSubsystem.index(), m_indexSubsystem)
     )
     .onFalse(
       new InstantCommand(() -> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
@@ -100,7 +101,7 @@ public class RobotContainer {
     // Left Trig - Shoot
     new Trigger(() -> joystick.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
       .whileTrue(
-        new InstantCommand(()-> m_shootSubsystem.shoot(), m_shootSubsystem))
+        new RunCommand(()-> m_shootSubsystem.shoot(), m_shootSubsystem))
       .onFalse(
         new InstantCommand(()-> m_shootSubsystem.stopShooter(), m_shootSubsystem)
       );
