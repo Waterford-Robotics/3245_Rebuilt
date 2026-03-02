@@ -282,20 +282,20 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     // For each limelight...
-    for (Localization.LimelightPoseEstimateWrapper estimateWrapper : Localization.getPoseEstimates(getState().Pose.getRotation().getDegrees())) {
+    for (Localization.LimelightPoseEstimateWrapper estimateWrapper : Localization.getPoseEstimates(this.getState().Pose.getRotation().getDegrees())) {
 
       // If there is a tag in view and the pose estimate is valid...
       if (estimateWrapper.tiv && poseEstimateIsValid(estimateWrapper.poseEstimate)) {
 
         // Add the vision measurement to the swerve drive
-        super.addVisionMeasurement(estimateWrapper.poseEstimate.pose,
-          estimateWrapper.poseEstimate.timestampSeconds,
+        this.addVisionMeasurement(estimateWrapper.poseEstimate.pose,
+          Utils.fpgaToCurrentTime(estimateWrapper.poseEstimate.timestampSeconds),
           estimateWrapper.getStdvs(estimateWrapper.poseEstimate.avgTagDist));
       }
     }
     
     // Update pos on Field2d
-    m_field.setRobotPose(getState().Pose);
+    m_field.setRobotPose(this.getState().Pose);
     SmartDashboard.putData("Localization/Field", m_field);
 
     // Localization values

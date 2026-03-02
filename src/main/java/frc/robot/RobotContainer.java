@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -34,7 +35,7 @@ public class RobotContainer {
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
   // Logging
-  private final Telemetry logger = new Telemetry(DriveConstants.MaxSpeed);
+  // private final Telemetry logger = new Telemetry(DriveConstants.MaxSpeed);
 
   // Xbox Controllers here!
   private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.kDriverControllerPort);
@@ -47,6 +48,9 @@ public class RobotContainer {
 
   // Real Robot Container!
   public RobotContainer() {
+
+    // Disable logs
+    SignalLogger.enableAutoLogging(false);
 
     // Triggers
     configureBindings();
@@ -97,7 +101,7 @@ public class RobotContainer {
     // Reset the field-centric heading on left bumper press.
     m_driverController.leftBumper().onTrue(m_drivetrain.runOnce(m_drivetrain::seedFieldCentric));
 
-    m_drivetrain.registerTelemetry(logger::telemeterize);
+    // m_drivetrain.registerTelemetry(logger::telemeterize);
 
     // Zero Gyro - Start Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.kStart)
