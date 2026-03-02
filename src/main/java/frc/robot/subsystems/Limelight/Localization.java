@@ -125,7 +125,7 @@ public class Localization extends SubsystemBase {
       String name = limelightNames[i];
 
       // Sets the orientation using the external IMU
-      LimelightHelpers.SetRobotOrientation(name, headingDegrees + CommandSwerveDrivetrain.AllianceYaw, RobotContainer.drivetrain.getPigeon2().getAngularVelocityZWorld().getValueAsDouble(), 0, 0, 0, 0);
+      LimelightHelpers.SetRobotOrientation(name, headingDegrees + CommandSwerveDrivetrain.AllianceYaw, RobotContainer.m_drivetrain.getPigeon2().getAngularVelocityZWorld().getValueAsDouble(), 0, 0, 0, 0);
       
       // Use internal IMU + external IMU
       LimelightHelpers.SetIMUMode(name, 4);
@@ -154,7 +154,7 @@ public class Localization extends SubsystemBase {
 
   // Returns Pose2d
   public static Pose2d getPose2d() { 
-    return RobotContainer.drivetrain.getState().Pose;
+    return RobotContainer.m_drivetrain.getState().Pose;
   }
 
   // Finds a mechanism's (e.g. turret's) field relative position

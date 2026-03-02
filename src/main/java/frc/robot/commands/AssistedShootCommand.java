@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ServoSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
-import frc.robot.subsystems.Swerve.CommandSwerveDrivetrain;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AssistedShootCommand extends Command {
@@ -35,9 +34,9 @@ public class AssistedShootCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_servoSubsystem1.setPosition(RobotContainer.drivetrain.getServoAngle(RobotContainer.drivetrain.getDistanceToHubCenter()));
-    m_servoSubsystem2.setPosition(RobotContainer.drivetrain.getServoAngle(RobotContainer.drivetrain.getDistanceToHubCenter()));
-    m_shootSubsystem.shoot(RobotContainer.drivetrain.getShooterSpeed(RobotContainer.drivetrain.getDistanceToHubCenter()));
+    m_servoSubsystem1.setPosition(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()));
+    m_servoSubsystem2.setPosition(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()));
+    m_shootSubsystem.shoot(RobotContainer.m_drivetrain.getShooterSpeed(RobotContainer.m_drivetrain.getDistanceToHubCenter()));
   }
 
   // Called once the command ends or is interrupted.

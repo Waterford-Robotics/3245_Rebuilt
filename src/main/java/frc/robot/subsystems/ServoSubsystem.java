@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ServoConstants;
 
 public class ServoSubsystem extends SubsystemBase {
 	Servo m_linearServo;

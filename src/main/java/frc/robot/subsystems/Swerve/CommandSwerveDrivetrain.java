@@ -34,8 +34,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
-import frc.robot.subsystems.ServoSubsystem;
-import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.Limelight.LimelightHelpers;
 import frc.robot.subsystems.Limelight.Localization;
 import frc.robot.Constants.VisionConstants;
@@ -77,10 +75,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   // Aiming Values
   private boolean useRotationAssistance = false;
   private PIDController m_aimController = new PIDController(VisionConstants.kPAim, VisionConstants.kIAim, VisionConstants.kDAim);
-
-  // Servos + Shooters
-  ServoSubsystem m_servoSubsystem1;
-  ServoSubsystem m_servoSubsystem2;
 
   // SysId routine for characterizing translation. This is used to find PID gains for the drive motors.
   private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
@@ -299,7 +293,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     // For each limelight...
-    for (Localization.LimelightPoseEstimateWrapper estimateWrapper : Localization.getPoseEstimates(getState().Pose.getRotation().getDegrees())) {
+    for (Localization.LimelightPoseEstimateWrapper estimateWrapper : Localization.getPoseEstimates(this.getState().Pose.getRotation().getDegrees())) {
 
       // If there is a tag in view and the pose estimate is valid...
       if (estimateWrapper.tiv && poseEstimateIsValid(estimateWrapper.poseEstimate)) {
@@ -312,7 +306,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
     
     // Update pos on Field2d
-    m_field.setRobotPose(getState().Pose);
+    m_field.setRobotPose(this.getState().Pose);
     SmartDashboard.putData("Localization/Field", m_field);
 
     // Localization values

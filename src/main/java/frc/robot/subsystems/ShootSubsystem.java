@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs.ShootConfigs;
 import frc.robot.Constants.MotorIDConstants;
-import frc.robot.Constants.ShootConstants;
 
 public class ShootSubsystem extends SubsystemBase{
   /*
