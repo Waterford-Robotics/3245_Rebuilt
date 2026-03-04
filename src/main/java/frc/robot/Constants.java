@@ -15,31 +15,29 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.generated.TunerConstants;
-import edu.wpi.first.wpilibj.XboxController.Axis;
-import edu.wpi.first.wpilibj.XboxController.Button;
 
 public final class Constants {
 
   // Drivebase
   public static final class DriveConstants {
-    public static final double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    public static final double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    public static final double k_maxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    public static final double k_maxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
   }
 
   // Controller Ports, Deadband, Buttons and Triggers
   public static final class ControllerConstants {
 
-    public static final int kDriverControllerPort = 0;
-    public static final double kDriveDeadband = 0.1; // Cure stick drift
+    public static final int k_driverControllerPort = 0;
+    public static final double k_driveDeadband = 0.1; // Cure stick drift
 
-    public static final int kStart = XboxController.Button.kStart.value;
-    public static final int kBack = XboxController.Button.kBack.value;
+    public static final int k_start = XboxController.Button.kStart.value;
+    public static final int k_back = XboxController.Button.kBack.value;
 
 
-    public static final int kA = XboxController.Button.kA.value;
-    public static final int kB = XboxController.Button.kB.value;
-    public static final int kX = XboxController.Button.kX.value;
-    public static final int kY = XboxController.Button.kY.value;
+    public static final int k_A = XboxController.Button.kA.value;
+    public static final int k_B = XboxController.Button.kB.value;
+    public static final int k_X = XboxController.Button.kX.value;
+    public static final int k_Y = XboxController.Button.kY.value;
 
     public static final int kDpadRight = 90; // D-Pad Right
     public static final int kDpadLeft = 270; // D-Pad Left
@@ -55,7 +53,7 @@ public final class Constants {
   public static final class AutoConstants {
 
     // For Pathfinding TODO: Tune?
-    public static final PathConstraints kconstraints = new PathConstraints(
+    public static final PathConstraints k_constraints = new PathConstraints(
       3.0, 
       4.0,
       Units.degreesToRadians(540), 
@@ -66,16 +64,16 @@ public final class Constants {
   // Localization wow
   public static final class VisionConstants {
     // Name
-    public static final String kLimelightFrontLeftName = "limelight-orange";
-    public static final String kLimelightFrontRightName = "limelight-yellow";
-    public static final String kLimelightBackLeftName = "limelight-green";
-    public static final String kLimelightBackRightName = "limelight-blue";
+    public static final String k_limelightFrontLeftName = "limelight-orange";
+    public static final String k_limelightFrontRightName = "limelight-yellow";
+    public static final String k_limelightBackLeftName = "limelight-green";
+    public static final String k_limelightBackRightName = "limelight-blue";
 
     // Tag Reject Distance
-    public static final double kRejectionDistance = 4;
+    public static final double k_rejectionDistance = 4;
 
     // Tag Reject Rotation Rate
-    public static final int kRejectionRotationRate = 720;
+    public static final int k_rejectionRotationRate = 720;
 
     // Aim Controller PID Constants
     public static final double kPAim = 0.015;
@@ -83,8 +81,24 @@ public final class Constants {
     public static final double kDAim = 0.000;
   }
 
+  // Localization code stuff omg
   public static final class PoseConstants {
-    public static final Pose2d kRedTrenchLeftAlliance = new Pose2d(14, 2.5, Rotation2d.fromDegrees(180));  
+
+    // RED TRENCH LEFT
+    public static final Pose2d k_redTrenchLeftNeutralPose = new Pose2d(10.25, 0.6, Rotation2d.fromDegrees(180));  
+    public static final Pose2d k_redTrenchLeftAlliancePose = new Pose2d(13.5, 0.6, Rotation2d.fromDegrees(180));
+    
+    // RED TRENCH RIGHT
+    public static final Pose2d k_redTrenchRightNeutralPose = new Pose2d(10.25, 6.5, Rotation2d.fromDegrees(180));  
+    public static final Pose2d k_redTrenchRightAlliancePose = new Pose2d(13.5, 6.5, Rotation2d.fromDegrees(180));
+
+    // BLUE TRENCH LEFT
+    public static final Pose2d k_blueTrenchLeftNeutralPose = new Pose2d(6, 6.5, Rotation2d.fromDegrees(180));  
+    public static final Pose2d k_blueTrenchLeftAlliancePose = new Pose2d(3, 6.5, Rotation2d.fromDegrees(180));
+
+    // BLUE TRENCH RIGHT
+    public static final Pose2d k_blueTrenchRightNeutralPose = new Pose2d(6, 0.6, Rotation2d.fromDegrees(180));  
+    public static final Pose2d k_blueTrenchRightAlliancePose = new Pose2d(3, 0.6, Rotation2d.fromDegrees(180));
   }
 
   // CAN IDs for Motors
