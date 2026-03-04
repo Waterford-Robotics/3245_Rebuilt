@@ -67,6 +67,11 @@ public final class Constants {
 
     // Tag Reject Rotation Rate
     public static final int kRejectionRotationRate = 720;
+
+    // Aim Controller PID Constants
+    public static final double kPAim = 0.015;
+    public static final double kIAim = 0.000;
+    public static final double kDAim = 0.000;
   }
 
   public static final class PoseConstants {

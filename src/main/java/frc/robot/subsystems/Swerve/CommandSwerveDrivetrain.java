@@ -17,8 +17,10 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -69,6 +71,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
   private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
   private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
+
+  // Aiming Values
+  private boolean useRotationAssistance = false;
+  private PIDController m_aimController = new PIDController(VisionConstants.kPAim, VisionConstants.kIAim, VisionConstants.kDAim);
 
   // SysId routine for characterizing translation. This is used to find PID gains for the drive motors.
   private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
@@ -265,6 +271,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     updateVisionMeasurements();
+
+    SmartDashboard.putNumber("angle to hub", getAngleToHubCenter().getDegrees());
+    SmartDashboard.putNumber("heading", getAllianceAdjustedHeading());
+    m_aimController.enableContinuousInput(-180,180);
   }
 
   // Updates poseEstimate with the Limelight Readings using MT2 
@@ -288,8 +298,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       if (estimateWrapper.tiv && poseEstimateIsValid(estimateWrapper.poseEstimate)) {
 
         // Add the vision measurement to the swerve drive
-        super.addVisionMeasurement(estimateWrapper.poseEstimate.pose,
-          estimateWrapper.poseEstimate.timestampSeconds,
+        this.addVisionMeasurement(estimateWrapper.poseEstimate.pose,
+          Utils.fpgaToCurrentTime(estimateWrapper.poseEstimate.timestampSeconds),
           estimateWrapper.getStdvs(estimateWrapper.poseEstimate.avgTagDist));
       }
     }
@@ -301,6 +311,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     // Localization values
     SmartDashboard.putNumber("Fused Local X", getState().Pose.getX());
     SmartDashboard.putNumber("Fused Local Y", getState().Pose.getY());
+
+    // Aiming values
+    SmartDashboard.putBoolean("Rotation Assistance", useRotationAssistance);
   }
 
   // Check if pose estimate is valid
@@ -364,5 +377,81 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   // Gets an Auto from PathPlanner
   public Command getAuto(String autoName) {
     return AutoBuilder.buildAuto(autoName);
+  }
+
+
+
+
+  // Auto-Aim Code
+  public double getAllianceAdjustedHeading() {
+    if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue){
+      return (getPigeon2().getYaw().getValueAsDouble()%360+540)%360 - 180;
+    }
+    else {
+      return (getPigeon2().getYaw().getValueAsDouble()%360 + 360)%360 - 180;
+    }
+  }
+
+  public double getDistanceToHubCenter() {
+    Translation2d blueHubCenter = new Translation2d(4.625594, 4.034536);
+    Translation2d redHubCenter = new Translation2d(11.915394, 4.034536);
+    Translation2d curPos = getState().Pose.getTranslation();
+    double distanceToHub;
+    if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
+      distanceToHub = redHubCenter.getDistance(curPos);
+    }
+    else {
+      distanceToHub = blueHubCenter.getDistance(curPos);
+    }
+    return distanceToHub;
+  }
+
+  public Rotation2d getAngleToHubCenter(){
+    Translation2d blueHubCenter = new Translation2d(4.625594, 4.034536);
+    Translation2d redHubCenter = new Translation2d(11.915394, 4.034536);
+    Translation2d curPos = getState().Pose.getTranslation();
+    Rotation2d directionToHub;
+    if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
+      directionToHub = new Rotation2d(redHubCenter.getX() - curPos.getX(), redHubCenter.getY() - curPos.getY());
+    }
+    else {
+      directionToHub = new Rotation2d(blueHubCenter.getX() - curPos.getX(), blueHubCenter.getY() - curPos.getY());
+    }
+    return directionToHub;
+  }
+
+  public void changeRotationAssistance(){
+    useRotationAssistance = !useRotationAssistance;
+  }
+
+  public double getAdjustedRotation(double rot){
+    if (Math.abs(rot) > 0.1 || useRotationAssistance == false){
+      return rot;
+    }
+    else{
+      // Proportional multiplier on the X-Offset value
+      double targetingAngularVelocity = m_aimController.calculate(getAllianceAdjustedHeading(), getAngleToHubCenter().getDegrees());
+      // Multiply by -1 because robot is CCW Positive. Multiply by a reduction 
+      // multiplier to reduce speed. Scale TX up with robot speed.
+      targetingAngularVelocity *= 2;
+      if (Math.abs((getAngleToHubCenter().getDegrees() - getAllianceAdjustedHeading() + 360 * 4)%360-180) > 179.5){
+        targetingAngularVelocity = 0;
+      }
+      double angleToTurn = (getAngleToHubCenter().getDegrees() - getAllianceAdjustedHeading() + 360*4)%360;
+      SmartDashboard.putNumber("Angle To Turn", angleToTurn);
+      SmartDashboard.putNumber("PID Number", targetingAngularVelocity);
+      if (Math.abs(targetingAngularVelocity) < 0.02){
+        targetingAngularVelocity = 0;
+      }
+      else {
+        if (targetingAngularVelocity > 0 && targetingAngularVelocity < 0.1){
+          targetingAngularVelocity = 0.1;
+        }
+        if (targetingAngularVelocity < 0 && targetingAngularVelocity > -0.1){
+          targetingAngularVelocity = -0.1;
+        }
+      }
+      return targetingAngularVelocity;
+    }
   }
 }
