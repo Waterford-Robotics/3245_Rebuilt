@@ -42,10 +42,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		// Seed Internal IMUs
-		LimelightHelpers.SetIMUMode(VisionConstants.kLimelightFrontLeftName, 1); 
-		LimelightHelpers.SetIMUMode(VisionConstants.kLimelightFrontRightName, 1); 
-		LimelightHelpers.SetIMUMode(VisionConstants.kLimelightBackLeftName, 1); 
-		LimelightHelpers.SetIMUMode(VisionConstants.kLimelightBackRightName, 1);
+		LimelightHelpers.SetIMUMode(VisionConstants.k_limelightFrontLeftName, 1); 
+		LimelightHelpers.SetIMUMode(VisionConstants.k_limelightFrontRightName, 1); 
+		LimelightHelpers.SetIMUMode(VisionConstants.k_limelightBackLeftName, 1); 
+		LimelightHelpers.SetIMUMode(VisionConstants.k_limelightBackRightName, 1);
 }
 
 	@Override

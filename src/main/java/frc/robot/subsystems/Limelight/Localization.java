@@ -70,10 +70,10 @@ public class Localization extends SubsystemBase {
 
   // Limelights
   private static String[] limelightNames = {
-    VisionConstants.kLimelightFrontLeftName,
-    VisionConstants.kLimelightFrontRightName,
-    VisionConstants.kLimelightBackLeftName,
-    VisionConstants.kLimelightBackRightName
+    VisionConstants.k_limelightFrontLeftName,
+    VisionConstants.k_limelightFrontRightName,
+    VisionConstants.k_limelightBackLeftName,
+    VisionConstants.k_limelightBackRightName
   };
 
   // The X, Y, Theta standard deviations for each LL

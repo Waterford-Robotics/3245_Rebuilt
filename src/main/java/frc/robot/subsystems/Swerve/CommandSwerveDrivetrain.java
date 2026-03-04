@@ -306,8 +306,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   // Check if pose estimate is valid
   private boolean poseEstimateIsValid(LimelightHelpers.PoseEstimate estimate) {
     return estimate != null 
-      && Math.abs(getTurnRate()) < VisionConstants.kRejectionRotationRate
-      && estimate.avgTagDist < VisionConstants.kRejectionDistance;
+      && Math.abs(getTurnRate()) < VisionConstants.k_rejectionRotationRate
+      && estimate.avgTagDist < VisionConstants.k_rejectionDistance;
   }
 
   // Pathfinds to pose and avoids obstacles in the way

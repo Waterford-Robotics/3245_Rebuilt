@@ -29,7 +29,7 @@ public class RobotContainer {
 
   // Setting up bindings for necessary control of the swerve drive platform
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-    .withDeadband(DriveConstants.MaxSpeed * 0.1).withRotationalDeadband(DriveConstants.MaxAngularRate * 0.1) // Add a 10% deadband
+    .withDeadband(DriveConstants.k_maxSpeed * 0.1).withRotationalDeadband(DriveConstants.k_maxAngularRate * 0.1) // Add a 10% deadband
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
@@ -38,7 +38,7 @@ public class RobotContainer {
   // private final Telemetry logger = new Telemetry(DriveConstants.MaxSpeed);
 
   // Xbox Controllers here!
-  private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.kDriverControllerPort);
+  private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.k_driverControllerPort);
 
   // Put subsystems here!
   public static final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
@@ -73,9 +73,9 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(
       // Drivetrain will execute this command periodically
       m_drivetrain.applyRequest(() ->
-        drive.withVelocityX(-m_driverController.getLeftY() * DriveConstants.MaxSpeed) // Drive forward with negative Y (forward)
-          .withVelocityY(-m_driverController.getLeftX() * DriveConstants.MaxSpeed) // Drive left with negative X (left)
-          .withRotationalRate(-m_driverController.getRightX() * DriveConstants.MaxAngularRate) // Drive counterclockwise with negative X (left)
+        drive.withVelocityX(-m_driverController.getLeftY() * DriveConstants.k_maxSpeed) // Drive forward with negative Y (forward)
+          .withVelocityY(-m_driverController.getLeftX() * DriveConstants.k_maxSpeed) // Drive left with negative X (left)
+          .withRotationalRate(-m_driverController.getRightX() * DriveConstants.k_maxAngularRate) // Drive counterclockwise with negative X (left)
       )
     );
 
@@ -104,14 +104,14 @@ public class RobotContainer {
     // m_drivetrain.registerTelemetry(logger::telemeterize);
 
     // Zero Gyro - Start Button
-    new JoystickButton(m_driverController.getHID(), ControllerConstants.kStart)
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_start)
     .onTrue(
       new InstantCommand(() -> m_drivetrain.resetGyro(), m_drivetrain)
     );
 
     // TODO: Pathfind to Pose - A
-    new JoystickButton(m_driverController.getHID(), ControllerConstants.kA)
-      .onTrue(new PathfindToPoseCommand(m_drivetrain, PoseConstants.kRedTrenchLeftAlliance, AutoConstants.kconstraints)
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_A)
+      .onTrue(new PathfindToPoseCommand(m_drivetrain, PoseConstants.k_redTrenchLeftAlliancePose, AutoConstants.k_constraints)
     );
   }
 
