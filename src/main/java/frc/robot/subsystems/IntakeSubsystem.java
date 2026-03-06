@@ -19,7 +19,7 @@ public class IntakeSubsystem extends SubsystemBase {
 		m_innerIntake = new TalonFX(MotorIDConstants.k_innerIntakeID, "Mechanisms"); 
 
 		m_intakeRoller.getConfigurator().apply(IntakeConfigs.INTAKE_TALON_FX_CONFIGURATION, 0.05);
-		m_intakeRoller.getConfigurator().apply(IntakeConfigs.INTAKE_TALON_FX_CONFIGURATION, 0.05);
+		m_innerIntake.getConfigurator().apply(IntakeConfigs.INTAKE_TALON_FX_CONFIGURATION, 0.05);
 	}
 	
 	// Vroom vroom

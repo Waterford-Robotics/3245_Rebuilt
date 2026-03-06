@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs.ShootConfigs;
 import frc.robot.Constants.MotorIDConstants;
@@ -28,11 +30,13 @@ public class ShootSubsystem extends SubsystemBase{
 
     m_shooterLeft.getConfigurator().apply(ShootConfigs.SHOOT_TALON_FX_CONFIGURATION, 0.05);
     m_shooterRight.getConfigurator().apply(ShootConfigs.SHOOT_TALON_FX_CONFIGURATION, 0.05);
+    SmartDashboard.putNumber("Shoot Speed Percent", 0.25);
   }
 
   public void shoot(){
-    m_shooterLeft.set(-ShootConstants.k_shooterSpeed);
-    m_shooterRight.set(ShootConstants.k_shooterSpeed);
+    shootSpeed = SmartDashboard.getNumber("Shoot Speed Percent", 0.25);
+    m_shooterLeft.set(-shootSpeed);
+    m_shooterRight.set(shootSpeed);
   }
 
   public void shoot(double shootSpeed){

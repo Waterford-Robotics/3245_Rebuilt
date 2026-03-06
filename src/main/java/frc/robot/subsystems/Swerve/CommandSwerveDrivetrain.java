@@ -276,10 +276,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       );
     }
 
-    updateVisionMeasurements();
+    // updateVisionMeasurements();
 
     SmartDashboard.putNumber("angle to hub", getAngleToHubCenter().getDegrees());
     SmartDashboard.putNumber("heading", getAllianceAdjustedHeading());
+    SmartDashboard.putNumber("Distance to Hub Center", getDistanceToHubCenter());
     m_aimController.enableContinuousInput(-180,180);
   }
 
@@ -446,18 +447,61 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       double angleToTurn = (getAngleToHubCenter().getDegrees() - getAllianceAdjustedHeading() + 360*4)%360;
       SmartDashboard.putNumber("Angle To Turn", angleToTurn);
       SmartDashboard.putNumber("PID Number", targetingAngularVelocity);
-      if (Math.abs(targetingAngularVelocity) < 0.02){
+      if (Math.abs(targetingAngularVelocity) < 0.04){
         targetingAngularVelocity = 0;
       }
       else {
-        if (targetingAngularVelocity > 0 && targetingAngularVelocity < 0.1){
-          targetingAngularVelocity = 0.1;
+        if (targetingAngularVelocity > 0 && targetingAngularVelocity < 0.08){
+          targetingAngularVelocity = 0.08;
         }
-        if (targetingAngularVelocity < 0 && targetingAngularVelocity > -0.1){
-          targetingAngularVelocity = -0.1;
+        if (targetingAngularVelocity < 0 && targetingAngularVelocity > -0.08){
+          targetingAngularVelocity = -0.08;
         }
       }
       return targetingAngularVelocity;
     }
+  }
+  /*
+  1.17m = (0, 0.33)
+  1.56m = (0, 0.35)
+  2.00m = (5, 0.37)
+  2.50m = (10, 0.39)
+  3.02m = (15, 0.42)
+  3.36m = (16.5, 0.43)
+  3.65m = (18, 0.44)
+  3.90m = (20, 0.448)
+  4.25m = (22, 0.46)
+   */
+  public double getShooterSpeed(double distance){
+    double[] testedDistances = {1.17, 1.56, 2.00, 2.50, 3.02, 3.36, 3.65, 3.90, 4.25};
+    double[] testedSpeeds = {0.33, 0.35, 0.37, 0.39, 0.42, 0.43, 0.44, 0.448, 0.46};
+    int index = 0;
+    while (index < testedDistances.length && testedDistances[index] < distance){
+      index++;
+    }
+    if (index == 0){
+      return testedSpeeds[0];
+    }
+    if (index == testedDistances.length){
+      return testedSpeeds[testedDistances.length-1];
+    }
+    return ((testedDistances[index] - distance) * testedSpeeds[index - 1] + 
+            (distance - testedDistances[index - 1]) * testedSpeeds[index])/(testedDistances[index] - testedDistances[index-1]);
+  }
+  public double getServoAngle(double distance){
+    double[] testedDistances = {1.17, 1.56, 2.00, 2.50, 3.02, 3.36, 3.65, 3.90, 4.25};
+    double[] testedAngles = {0, 0, 5, 10, 15, 16.5, 18, 20, 22};
+    int index = 0;
+    while (index < testedDistances.length && testedDistances[index] < distance){
+      index++;
+    }
+    if (index == 0){
+      return testedAngles[0];
+    }
+    if (index == testedDistances.length){
+      return testedAngles[testedDistances.length-1];
+    }
+    return ((testedDistances[index] - distance) * testedAngles[index - 1] + 
+            (distance - testedDistances[index - 1]) * testedAngles[index])/(testedDistances[index] - testedDistances[index-1]);
   }
 }

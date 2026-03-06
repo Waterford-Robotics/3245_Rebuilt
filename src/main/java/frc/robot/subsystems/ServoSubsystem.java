@@ -9,18 +9,19 @@ import frc.robot.Constants.ServoConstants;
 
 public class ServoSubsystem extends SubsystemBase {
 	Servo m_linearServo;
-  double m_speed;
+  	double m_speed;
 	double m_length;
 	double setPos;
 	double curPos;
 	double setPoint;
 
-  public ServoSubsystem(int channel, int length, int speed){
-    m_linearServo = new Servo(channel);
-    m_linearServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
+	public ServoSubsystem(int channel, int length, int speed){
+		m_linearServo = new Servo(channel);
+		m_linearServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
 		m_length = length;
 		m_speed = speed;
-  }
+		SmartDashboard.putNumber("Servo Setpoint", 10);
+	}
   /*
 	 * Run this method in any periodic function to update the position estimation of
 	 * your
@@ -74,7 +75,7 @@ public class ServoSubsystem extends SubsystemBase {
 	}
 
 	public double getSetpoint() {
-		setPoint = ServoConstants.k_servoSetpoint;
+		setPoint = SmartDashboard.getNumber("Servo Setpoint", 10);
 		return setPoint;
 	}
 

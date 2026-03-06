@@ -29,6 +29,7 @@ import frc.robot.commands.PathfindToPoseCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Swerve.CommandSwerveDrivetrain;
 import frc.robot.Constants.ServoConstants;
+import frc.robot.commands.AssistedShootCommand;
 import frc.robot.commands.IndexCommand;
 import frc.robot.subsystems.CANRangeSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -78,7 +79,7 @@ public class RobotContainer {
      * Right Trig - Shoot
      * Left Trig - Index with CANRange
      */
-
+    /*
     // X - Set Servos
     new JoystickButton(m_driverController.getHID(), ControllerConstants.kX)
     .onTrue(
@@ -109,9 +110,15 @@ public class RobotContainer {
     // Left Trig - Shoot
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
       .whileTrue(
-        new RunCommand(()-> m_shootSubsystem.shoot(), m_shootSubsystem))
+        new AssistedShootCommand(drivetrain, m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem))
       .onFalse(
         new InstantCommand(()-> m_shootSubsystem.stopShooter(), m_shootSubsystem)
+      )
+      .onFalse(
+        new InstantCommand(() -> m_servoSubsystem1.setPosition(0), m_servoSubsystem1)
+      )
+      .onFalse(
+        new InstantCommand(() -> m_servoSubsystem2.setPosition(0), m_servoSubsystem2)
       );
 
     // Right Trig - Index with CANRange
@@ -121,43 +128,6 @@ public class RobotContainer {
       .onFalse(
         new InstantCommand(()-> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
       );
-
-    // Note that X is defined as forward according to WPILib convention,
-    // and Y is defined as to the left according to WPILib convention.
-    drivetrain.setDefaultCommand(
-      // Drivetrain will execute this command periodically
-      drivetrain.applyRequest(() -> 
-        drive.withVelocityX(-m_driverController.getLeftY() * DriveConstants.MaxSpeed) // Drive forward with negative Y (forward)
-          .withVelocityY(-m_driverController.getLeftX() * DriveConstants.MaxSpeed) // Drive left with negative X (left)
-          .withRotationalRate(drivetrain.getAdjustedRotation(-MathUtil.applyDeadband(m_driverController.getRightX(),0.1)) * DriveConstants.MaxAngularRate) // Drive counterclockwise with negative X (left)
-      )
-    );
-
-    // Idle while the robot is disabled. This ensures the configured
-    // neutral mode is applied to the drive motors while disabled.
-    final var idle = new SwerveRequest.Idle();
-    RobotModeTriggers.disabled().whileTrue(
-      drivetrain.applyRequest(() -> idle).ignoringDisable(true)
-    );
-
-    // m_driverController.a().whileTrue(m_drivetrain.applyRequest(() -> brake));
-    /*
-    m_driverController.b().whileTrue(m_drivetrain.applyRequest(() ->
-      point.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))
-    ));
-    */
-
-    // Run SysId routines when holding back/start and X/Y.
-    // Note that each routine should be run exactly once in a single log.
-    m_driverController.back().and(m_driverController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-    m_driverController.back().and(m_driverController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-    m_driverController.start().and(m_driverController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-    m_driverController.start().and(m_driverController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-
-    // Reset the field-centric heading on left bumper press.
-    m_driverController.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-
-    //m_drivetrain.registerTelemetry(logger::telemeterize);
 
     // Zero Gyro - Start Button
     new JoystickButton(m_driverController.getHID(), ControllerConstants.kStart)
@@ -175,6 +145,45 @@ public class RobotContainer {
     .onTrue(
       new InstantCommand(() -> drivetrain.changeRotationAssistance(), drivetrain)
     );
+    */
+
+    // Note that X is defined as forward according to WPILib convention,
+    // and Y is defined as to the left according to WPILib convention.
+    drivetrain.setDefaultCommand(
+      // Drivetrain will execute this command periodically
+      drivetrain.applyRequest(() -> 
+        drive.withVelocityX(-m_driverController.getLeftY() * DriveConstants.MaxSpeed) // Drive forward with negative Y (forward)
+          .withVelocityY(-m_driverController.getLeftX() * DriveConstants.MaxSpeed) // Drive left with negative X (left)
+          .withRotationalRate(drivetrain.getAdjustedRotation(-MathUtil.applyDeadband(m_driverController.getRightX(),0.1)) * DriveConstants.MaxAngularRate) // Drive counterclockwise with negative X (left) (changed **)
+      )
+    );
+
+    /*
+
+    // Idle while the robot is disabled. This ensures the configured
+    // neutral mode is applied to the drive motors while disabled.
+    final var idle = new SwerveRequest.Idle();
+    RobotModeTriggers.disabled().whileTrue(
+      drivetrain.applyRequest(() -> idle).ignoringDisable(true)
+    );
+
+    // m_driverController.a().whileTrue(m_drivetrain.applyRequest(() -> brake));
+    m_driverController.b().whileTrue(m_drivetrain.applyRequest(() ->
+      point.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))
+    ));
+
+    // Run SysId routines when holding back/start and X/Y.
+    // Note that each routine should be run exactly once in a single log.
+    m_driverController.back().and(m_driverController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+    m_driverController.back().and(m_driverController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+    m_driverController.start().and(m_driverController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+    m_driverController.start().and(m_driverController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+
+    // Reset the field-centric heading on left bumper press.
+    m_driverController.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+
+    //m_drivetrain.registerTelemetry(logger::telemeterize);
+    */
   }
 
   public Command getAutonomousCommand() {
