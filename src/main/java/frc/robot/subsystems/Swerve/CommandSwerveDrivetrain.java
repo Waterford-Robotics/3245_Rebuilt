@@ -276,7 +276,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       );
     }
 
-    // updateVisionMeasurements();
+    updateVisionMeasurements();
 
     SmartDashboard.putNumber("angle to hub", getAngleToHubCenter().getDegrees());
     SmartDashboard.putNumber("heading", getAllianceAdjustedHeading());

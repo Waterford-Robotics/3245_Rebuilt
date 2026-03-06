@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ServoSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.Swerve.CommandSwerveDrivetrain;
@@ -12,19 +13,16 @@ import frc.robot.subsystems.Swerve.CommandSwerveDrivetrain;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AssistedShootCommand extends Command {
 
-  CommandSwerveDrivetrain m_drivetrain;
   ServoSubsystem m_servoSubsystem1;
   ServoSubsystem m_servoSubsystem2;
   ShootSubsystem m_shootSubsystem;
   /** Creates a new AssistedShootCommand. */
-  public AssistedShootCommand(CommandSwerveDrivetrain drivetrain, ServoSubsystem servoSubsystem1,
+  public AssistedShootCommand(ServoSubsystem servoSubsystem1,
               ServoSubsystem servoSubsystem2, ShootSubsystem shootSubsystem) {
-    m_drivetrain = drivetrain;
     m_servoSubsystem1 = servoSubsystem1;
     m_servoSubsystem2 = servoSubsystem2;
     m_shootSubsystem = shootSubsystem;
 
-    addRequirements(drivetrain);
     addRequirements(servoSubsystem1);
     addRequirements(servoSubsystem2);
     addRequirements(shootSubsystem);
@@ -37,9 +35,9 @@ public class AssistedShootCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_servoSubsystem1.setPosition(m_drivetrain.getServoAngle(m_drivetrain.getDistanceToHubCenter()));
-    m_servoSubsystem2.setPosition(m_drivetrain.getServoAngle(m_drivetrain.getDistanceToHubCenter()));
-    m_shootSubsystem.shoot(m_drivetrain.getShooterSpeed(m_drivetrain.getDistanceToHubCenter()));
+    m_servoSubsystem1.setPosition(RobotContainer.drivetrain.getServoAngle(RobotContainer.drivetrain.getDistanceToHubCenter()));
+    m_servoSubsystem2.setPosition(RobotContainer.drivetrain.getServoAngle(RobotContainer.drivetrain.getDistanceToHubCenter()));
+    m_shootSubsystem.shoot(RobotContainer.drivetrain.getShooterSpeed(RobotContainer.drivetrain.getDistanceToHubCenter()));
   }
 
   // Called once the command ends or is interrupted.

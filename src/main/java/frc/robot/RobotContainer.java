@@ -79,7 +79,7 @@ public class RobotContainer {
      * Right Trig - Shoot
      * Left Trig - Index with CANRange
      */
-    /*
+
     // X - Set Servos
     new JoystickButton(m_driverController.getHID(), ControllerConstants.kX)
     .onTrue(
@@ -110,7 +110,7 @@ public class RobotContainer {
     // Left Trig - Shoot
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
       .whileTrue(
-        new AssistedShootCommand(drivetrain, m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem))
+        new AssistedShootCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem))
       .onFalse(
         new InstantCommand(()-> m_shootSubsystem.stopShooter(), m_shootSubsystem)
       )
@@ -145,7 +145,6 @@ public class RobotContainer {
     .onTrue(
       new InstantCommand(() -> drivetrain.changeRotationAssistance(), drivetrain)
     );
-    */
 
     // Note that X is defined as forward according to WPILib convention,
     // and Y is defined as to the left according to WPILib convention.
