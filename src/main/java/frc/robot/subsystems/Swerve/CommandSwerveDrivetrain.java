@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.subsystems.Limelight.LimelightHelpers;
 import frc.robot.subsystems.Limelight.Localization;
+import frc.robot.Constants.LiveConstants;
 import frc.robot.Constants.VisionConstants;
 
 // It drives the robot!
@@ -158,9 +159,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   */
   public CommandSwerveDrivetrain(SwerveDrivetrainConstants drivetrainConstants, SwerveModuleConstants<?, ?, ?>... modules) {
     super(drivetrainConstants, modules);
-    if (Utils.isSimulation()) {
-      startSimThread();
-    }
 
     configureAutoBuilder();
   }
@@ -171,9 +169,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     SwerveModuleConstants<?, ?, ?>... modules
   ) {
     super(drivetrainConstants, odometryUpdateFrequency, modules);
-    if (Utils.isSimulation()) {
-      startSimThread();
-    }
 
     configureAutoBuilder();
   }
@@ -186,9 +181,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     SwerveModuleConstants<?, ?, ?>... modules
   ) {
     super(drivetrainConstants, odometryUpdateFrequency, odometryStandardDeviation, visionStandardDeviation, modules);
-    if (Utils.isSimulation()) {
-      startSimThread();
-    }
 
     configureAutoBuilder();
   }
@@ -272,13 +264,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     updateVisionMeasurements();
 
+    SmartDashboard.putBoolean("Enable Shoot", LiveConstants._enableShooter);
     SmartDashboard.putNumber("angle to hub", getAngleToHubCenter().getDegrees());
     SmartDashboard.putNumber("heading", getAllianceAdjustedHeading());
     SmartDashboard.putNumber("Distance to Hub Center", getDistanceToHubCenter());
-    m_aimController.enableContinuousInput(-180,180);
+    SmartDashboard.putBoolean("Rotation Assistance", useRotationAssistance);
+    // m_aimController.enableContinuousInput(-180,180);
   }
 
-  // Updates poseEstimate with the Limelight Readings using MT2 
+  // Updates poseEstimate with the Limelight Readings using MT1 
   public void updateVisionMeasurements() {
 
     // Setting Yaw to Compensate for Red Alliance Limelight Localization
@@ -349,30 +343,19 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
   } 
 
-  // Simulation stuff
-  private void startSimThread() {
-    m_lastSimTime = Utils.getCurrentTimeSeconds();
-
-    // Run simulation at a faster rate so PID gains behave more reasonably
-    m_simNotifier = new Notifier(() -> {
-      final double currentTime = Utils.getCurrentTimeSeconds();
-      double deltaTime = currentTime - m_lastSimTime;
-      m_lastSimTime = currentTime;
-
-      // use the measured time delta, get battery voltage from WPILib
-      updateSimState(deltaTime, RobotController.getBatteryVoltage());
-    });
-    m_simNotifier.startPeriodic(kSimLoopPeriod);
-  }
-
   // Turn rate stuff
   public double getTurnRate() {
-    return getPigeon2().getAngularVelocityZWorld().getValueAsDouble();
+    return this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble();
   }
 
   // Reset Gyro
   public void resetGyro() {
-    getPigeon2().setYaw(0);
+    var alliance = DriverStation.getAlliance();
+
+    if (alliance.isPresent()) {
+      if (alliance.get() == DriverStation.Alliance.Red) this.getPigeon2().setYaw(0);
+      if (alliance.get() == DriverStation.Alliance.Blue) this.getPigeon2().setYaw(180);
+    }
   }
 
   // Gets an Auto from PathPlanner
@@ -380,13 +363,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     return AutoBuilder.buildAuto(autoName);
   }
 
-
-
-
   // Auto-Aim Code
   public double getAllianceAdjustedHeading() {
     if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue){
-      return (getPigeon2().getYaw().getValueAsDouble()%360+540)%360 - 180;
+      return (getPigeon2().getYaw().getValueAsDouble()%360+360)%360 - 180;
     }
     else {
       return (getPigeon2().getYaw().getValueAsDouble()%360 + 360)%360 - 180;

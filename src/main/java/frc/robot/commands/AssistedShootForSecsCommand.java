@@ -4,20 +4,24 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ServoSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AssistedShootCommand extends Command {
+public class AssistedShootForSecsCommand extends Command {
 
   ServoSubsystem m_servoSubsystem1;
   ServoSubsystem m_servoSubsystem2;
   ShootSubsystem m_shootSubsystem;
+
+  Timer m_timer;
+  double m_seconds;
   
   /** Creates a new AssistedShootCommand. */
-  public AssistedShootCommand(ServoSubsystem servoSubsystem1, ServoSubsystem servoSubsystem2, ShootSubsystem shootSubsystem) {
+  public AssistedShootForSecsCommand(ServoSubsystem servoSubsystem1, ServoSubsystem servoSubsystem2, ShootSubsystem shootSubsystem, double seconds) {
 
     m_servoSubsystem1 = servoSubsystem1;
     m_servoSubsystem2 = servoSubsystem2;
@@ -26,12 +30,18 @@ public class AssistedShootCommand extends Command {
     addRequirements(servoSubsystem1);
     addRequirements(servoSubsystem2);
     addRequirements(shootSubsystem);
+
+    m_timer = new Timer();
+    m_seconds = seconds;
   }
 
   // Called when the command is initially scheduled.
-  public void initialize() {}
+  public void initialize() {
+    m_timer.start();
+    m_timer.reset();
+  }
 
-  // Called every time the scheduler runs while the command is scheduled.
+  // Called every time the scheduler runs while the command is scheduled
   public void execute() {
     m_servoSubsystem1.setPosition(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()));
     m_servoSubsystem2.setPosition(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()));
@@ -39,6 +49,7 @@ public class AssistedShootCommand extends Command {
   }
 
   // Called once the command ends or is interrupted.
+  @Override
   public void end(boolean interrupted) {
     m_shootSubsystem.stopShooter();
     m_servoSubsystem1.setPosition(0);
@@ -46,7 +57,8 @@ public class AssistedShootCommand extends Command {
   }
 
   // Returns true when the command should end.
+  @Override
   public boolean isFinished() {
-    return false;
+    return m_timer.hasElapsed(m_seconds);
   }
 }

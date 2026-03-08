@@ -28,6 +28,8 @@ public final class Constants {
   public static final class ControllerConstants {
 
     public static final int k_driverControllerPort = 0;
+    public static final int k_operatorControllerPort = 1;
+
     public static final double k_driveDeadband = 0.1; // Cure stick drift
 
     public static final int k_start = XboxController.Button.kStart.value;
@@ -85,11 +87,21 @@ public final class Constants {
   public static final class PoseConstants {
 
     // RED TRENCH LEFT
-    public static final Pose2d k_redTrenchLeftNeutralPose = new Pose2d(10.25, 0.6, Rotation2d.fromDegrees(180));  
+    public static final Pose2d k_redTrenchLeftNeutralPose = new Pose2d(10.25, 0.6, Rotation2d.fromDegrees(180)); 
     public static final Pose2d k_redTrenchLeftAlliancePose = new Pose2d(13.5, 0.6, Rotation2d.fromDegrees(180));
-    
+
+    public static final Pose2d k_redTrenchLeftNeutralPoseRotated = new Pose2d(10.25, 0.6, Rotation2d.fromDegrees(270));   
+
+    // RED TRENCH LEFT COLLECTION POSES
+    public static final Pose2d k_redLeftIntakeInitiatePose = new Pose2d(8.5, 1, Rotation2d.fromDegrees(270));   
+    public static final Pose2d k_redLeftIntakeTerminatePose = new Pose2d(8.5, 1, Rotation2d.fromDegrees(270)); 
+
+    // RED TRENCH LEFT SCORE POSE
+    public static final Pose2d k_redLeftShootPose = new Pose2d(14, 2, Rotation2d.fromDegrees(180)); 
+
     // RED TRENCH RIGHT
     public static final Pose2d k_redTrenchRightNeutralPose = new Pose2d(10.25, 6.5, Rotation2d.fromDegrees(180));  
+    public static final Pose2d k_redTrenchRightNeutralPoseRotated = new Pose2d(10.25, 6.5, Rotation2d.fromDegrees(90));
     public static final Pose2d k_redTrenchRightAlliancePose = new Pose2d(13.5, 6.5, Rotation2d.fromDegrees(180));
 
     // BLUE TRENCH LEFT
@@ -164,4 +176,7 @@ public final class Constants {
     public static final double k_indexerSpeed = 0.25;
   }
 
+  public static final class LiveConstants {
+    public static boolean _enableShooter = false;
+  }
 }

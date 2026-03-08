@@ -31,6 +31,11 @@ public class IndexerSubsystem extends SubsystemBase {
     m_shooterIndexer.set(indexSpeed);
     m_rollerIndexer.set(indexSpeed);
   }
+  public void reverseIndex() {
+    indexSpeed = IndexerConstants.k_indexerSpeed;
+    m_shooterIndexer.set(-indexSpeed);
+    m_rollerIndexer.set(-indexSpeed);
+  }
 
   public void index(double indexSpeed){
     m_shooterIndexer.set(indexSpeed);

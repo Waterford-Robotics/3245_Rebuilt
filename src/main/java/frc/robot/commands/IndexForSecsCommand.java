@@ -6,31 +6,38 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.CANRangeSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class IndexCommand extends Command {
+public class IndexForSecsCommand extends Command {
 
   IndexerSubsystem m_indexSubsystem;
   CANRangeSubsystem m_canRangeSubsystem;
 
+  Timer m_timer;
+
+  double m_seconds;
+
   // Constructor
-  public IndexCommand(IndexerSubsystem indexSubsystem, CANRangeSubsystem canRangeSubsystem) {
+  public IndexForSecsCommand(IndexerSubsystem indexSubsystem, double seconds) {
         
     // Definitions and setting parameters are equal to members!
     m_indexSubsystem = indexSubsystem;
-    m_canRangeSubsystem = canRangeSubsystem;
 
-    addRequirements(canRangeSubsystem);
     addRequirements(indexSubsystem);
+
+    m_timer = new Timer();
+    m_seconds = seconds;
   }
 
-  public void initialize() {}
+  public void initialize() {
+    m_timer.start();
+    m_timer.reset();
+  }
   
   // run the roller indexer and shooter indexer until canrange detects
   public void execute() {
-    if(!m_canRangeSubsystem.getIsDetected()) {
-      m_indexSubsystem.index();
-    }
+    m_indexSubsystem.index();
   }
 
   // when the command is over stop running the roller indexer and shooter indexer
@@ -40,6 +47,6 @@ public class IndexCommand extends Command {
 
   // Checks if the command is done
   public boolean isFinished() {
-    return m_canRangeSubsystem.getIsDetected();
+    return m_timer.hasElapsed(m_seconds);
   }
 }
