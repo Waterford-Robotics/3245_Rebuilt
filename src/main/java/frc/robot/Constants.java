@@ -90,11 +90,12 @@ public final class Constants {
     public static final Pose2d k_redTrenchLeftNeutralPose = new Pose2d(10.25, 0.6, Rotation2d.fromDegrees(180)); 
     public static final Pose2d k_redTrenchLeftAlliancePose = new Pose2d(13.5, 0.6, Rotation2d.fromDegrees(180));
 
-    public static final Pose2d k_redTrenchLeftNeutralPoseRotated = new Pose2d(10.25, 0.6, Rotation2d.fromDegrees(270));   
+    public static final Pose2d k_redTrenchLeftNeutralPoseRotated = new Pose2d(10.25, 0.6, Rotation2d.fromDegrees(90)); 
+    public static final Pose2d k_redTrenchLeftAlliancePoseRotated = new Pose2d(13.5, 0.6, Rotation2d.fromDegrees(90));  
 
     // RED TRENCH LEFT COLLECTION POSES
-    public static final Pose2d k_redLeftIntakeInitiatePose = new Pose2d(8.5, 1, Rotation2d.fromDegrees(270));   
-    public static final Pose2d k_redLeftIntakeTerminatePose = new Pose2d(8.5, 1, Rotation2d.fromDegrees(270)); 
+    public static final Pose2d k_redLeftIntakeInitiatePose = new Pose2d(8.5, 1, Rotation2d.fromDegrees(90));   
+    public static final Pose2d k_redLeftIntakeTerminatePose = new Pose2d(8.5, 1, Rotation2d.fromDegrees(90)); 
 
     // RED TRENCH LEFT SCORE POSE
     public static final Pose2d k_redLeftShootPose = new Pose2d(14, 2, Rotation2d.fromDegrees(180)); 
@@ -149,7 +150,7 @@ public final class Constants {
     public static final int k_shooterSupplyCurrentLimit = 60;
 
     // Subsystem
-    public static final double k_shooterSpeed = 0.35;
+    public static final double k_hubShotSpeed = 0.35;
   }
 
   // Intake Stuff

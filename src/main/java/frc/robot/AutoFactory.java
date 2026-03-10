@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.CANRangeSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -54,13 +55,13 @@ public class AutoFactory {
       // Spin Up
       new ParallelDeadlineGroup(
         new ShootForSecsCommand(this.m_shootSubsystem, 2), // TODO: Condense to one command
-        new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5),
+        // new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5),
         new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
       ),
       // Shoot
       new ParallelDeadlineGroup(
-        new ShootForSecsCommand(m_shootSubsystem, 2), 
-        new RunIntakeForSecsCommand(m_intakeSubsystem, 5),
+        new ShootForSecsCommand(m_shootSubsystem, 4), 
+        // new RunIntakeForSecsCommand(m_intakeSubsystem, 5),
         new IndexForSecsCommand(this.m_indexerSubsystem, 5)
       )
     );  
@@ -72,18 +73,19 @@ public class AutoFactory {
       // Spin Up
       new ParallelDeadlineGroup(
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
-        new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5),
         new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
       ),
       // Shoot
       new ParallelDeadlineGroup(
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
-        new RunIntakeForSecsCommand(m_intakeSubsystem, 5),
         new IndexForSecsCommand(this.m_indexerSubsystem, 5)
       ),
       // Intake
-      new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redTrenchLeftNeutralPoseRotated, AutoConstants.k_constraints),
-      new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
+      new ParallelDeadlineGroup(
+        new WaitCommand(3),
+        new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redTrenchLeftNeutralPoseRotated, AutoConstants.k_constraints)
+      ),
+      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
       new ParallelDeadlineGroup(
         new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5)

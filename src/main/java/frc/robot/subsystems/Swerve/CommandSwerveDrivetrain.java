@@ -462,6 +462,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     return ((testedDistances[index] - distance) * testedSpeeds[index - 1] + 
             (distance - testedDistances[index - 1]) * testedSpeeds[index])/(testedDistances[index] - testedDistances[index-1]);
   }
+
   public double getServoAngle(double distance){
     double[] testedDistances = {1.17, 1.56, 2.00, 2.50, 3.02, 3.36, 3.65, 3.90, 4.25};
     double[] testedAngles = {0, 0, 5, 10, 15, 16.5, 18, 20, 22};
@@ -477,5 +478,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
     return ((testedDistances[index] - distance) * testedAngles[index - 1] + 
             (distance - testedDistances[index - 1]) * testedAngles[index])/(testedDistances[index] - testedDistances[index-1]);
+  }
+
+  public double getXVelocity() {
+    return this.getState().Speeds.vxMetersPerSecond;
+  }
+
+  public double getYVelocity() {
+    return this.getState().Speeds.vyMetersPerSecond;
   }
 }

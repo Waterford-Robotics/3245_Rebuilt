@@ -36,9 +36,7 @@ public class RunIntakeForSecsCommand extends Command {
   // Actual command
   public void execute() {
 
-    if(m_timer.get() < m_seconds) {
-      m_intakeSubsystem.intake();
-    }
+    m_intakeSubsystem.intake();
   }
 
   // Stuff that happens when command is over
@@ -50,6 +48,6 @@ public class RunIntakeForSecsCommand extends Command {
   public boolean isFinished() {
 
     // Am I done?  Am I done? Am I finally done?
-    return m_timer.get() > m_seconds;
+    return m_timer.hasElapsed(m_seconds);
   }
 }
