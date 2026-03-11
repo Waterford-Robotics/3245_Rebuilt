@@ -13,6 +13,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -84,13 +85,14 @@ public class RobotContainer {
             .withRotationalRate(m_drivetrain.getAdjustedRotation(-MathUtil.applyDeadband(m_driverController.getRightX(),0.1)) * DriveConstants.k_maxAngularRate) // Drive counterclockwise with negative X (left) (changed **)
         )
       );
-
       // COMP AUTOS
       m_chooser.addOption("Hub Shot Auto", m_autoFactory.HubShotAuto());
       m_chooser.addOption("Red Left Trench Single Dip", m_autoFactory.RedLeftTrenchSingleDipAuto());
 
       // Puts a chooser on the SmartDashboard!
       SmartDashboard.putData("AutoMode", m_chooser);
+      SmartDashboard.putNumber("Shoot Speed", 0.25);
+      SmartDashboard.putNumber("Shoot Angle", 0);
     }
 
     // Config the Button Buttons YAY
@@ -116,7 +118,7 @@ public class RobotContainer {
     //   new InstantCommand(() -> m_servoSubsystem2.setPosition(m_servoSubsystem2.getSetpoint()), m_servoSubsystem2)
     // );
 
-    // Y - Intake
+    // Left Trig - Intake
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
     .onTrue(
       new RunCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem)
@@ -130,7 +132,7 @@ public class RobotContainer {
       new InstantCommand(() -> m_intakeSubsystem.stop(), m_intakeSubsystem)
     );
 
-    // Right Bump - Index
+    // Right Trig - Index for Shooting
     new Trigger(() -> m_driverController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
     .onTrue(
       new RunCommand(() -> m_indexSubsystem.index(), m_indexSubsystem)
@@ -159,6 +161,15 @@ public class RobotContainer {
       .whileTrue(
         new AssistedShootCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem)
       );
+    /*
+    new Trigger(() -> m_operatorController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
+      .whileTrue(new RunCommand(() -> m_shootSubsystem.shoot(SmartDashboard.getNumber("Shoot Speed", 0.25))))
+      .whileTrue(new RunCommand(() -> m_servoSubsystem1.setPosition(SmartDashboard.getNumber("Shoot Angle", 0))))
+      .whileTrue(new RunCommand(() -> m_servoSubsystem2.setPosition(SmartDashboard.getNumber("Shoot Angle", 0))))
+      .onFalse(new InstantCommand(() -> m_shootSubsystem.stopShooter()))
+      .onFalse(new InstantCommand(() -> m_servoSubsystem1.setPosition(0)))
+      .onFalse(new InstantCommand(() -> m_servoSubsystem2.setPosition(0)));
+    */
 
       // .onFalse(
       //   new SetAssistedShotCommand(false)
@@ -185,8 +196,8 @@ public class RobotContainer {
 
     // Switch Between Rotation Assistance - B
     new Trigger(() -> m_operatorController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
-    .onTrue(new InstantCommand(() -> m_drivetrain.changeRotationAssistance(), m_drivetrain))
-    .onFalse(new InstantCommand(() -> m_drivetrain.changeRotationAssistance(), m_drivetrain));
+      .onTrue(new InstantCommand(() -> m_drivetrain.changeRotationAssistance(), m_drivetrain))
+      .onFalse(new InstantCommand(() -> m_drivetrain.changeRotationAssistance(), m_drivetrain));
 
     // Idle while the robot is disabled. This ensures the configured
     // neutral mode is applied to the drive motors while disabled.

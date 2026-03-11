@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -16,7 +17,7 @@ import frc.robot.commands.RunIntakeForSecsCommand;
 import frc.robot.commands.AutoIndexCommand;
 import frc.robot.commands.IndexForSecsCommand;
 import frc.robot.commands.PathfindToPoseCommand;
-
+import frc.robot.commands.ResetPoseCommand;
 import frc.robot.Constants.PoseConstants;
 import frc.robot.Constants.AutoConstants;
 
@@ -70,6 +71,7 @@ public class AutoFactory {
   // Red Alliance Left Trench Auto - Starts on the line in Left Trench of Red Alliance, Shoots Balls x8, Collects, Shoot Again
   public SequentialCommandGroup RedLeftTrenchSingleDipAuto() {
     return new SequentialCommandGroup(
+      new ResetPoseCommand(this.m_drivetrain, PoseConstants.k_redAutoStartingPose),
       // Spin Up
       new ParallelDeadlineGroup(
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
@@ -82,25 +84,154 @@ public class AutoFactory {
       ),
       // Intake
       new ParallelDeadlineGroup(
-        new WaitCommand(3),
-        new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redTrenchLeftNeutralPoseRotated, AutoConstants.k_constraints)
+        new WaitCommand(2),
+        m_drivetrain.Pathfind(PoseConstants.k_redTrenchLeftNeutralPoseRotated, AutoConstants.k_constraints)
       ),
       // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
       new ParallelDeadlineGroup(
-        new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
+        m_drivetrain.followPath("Red Left Trench", AutoConstants.k_intakeconstraints, true, false),
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5)
       ),
       // Return
-      new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redTrenchLeftNeutralPose, AutoConstants.k_constraints),
-      new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redTrenchLeftAlliancePose, AutoConstants.k_constraints),
-      new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftShootPose, AutoConstants.k_constraints),
-
-      // Spin Up TODO: RUN IN Parallel with Return stuff
       new ParallelDeadlineGroup(
-        new ShootForSecsCommand(this.m_shootSubsystem, 2), 
-        new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5),
+        new SequentialCommandGroup(m_drivetrain.Pathfind(PoseConstants.k_redTrenchLeftNeutralPose, AutoConstants.k_constraints),
+        m_drivetrain.Pathfind(PoseConstants.k_redTrenchLeftAlliancePose, AutoConstants.k_constraints),
+        m_drivetrain.Pathfind(PoseConstants.k_redLeftShootPose, AutoConstants.k_constraints)),
+        new ShootForSecsCommand(this.m_shootSubsystem, 8), 
+        new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
         new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
       ),
+      new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
+      // Shoot
+      new ParallelDeadlineGroup(
+        new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 10),
+        new RunIntakeForSecsCommand(m_intakeSubsystem, 5),
+        new IndexForSecsCommand(this.m_indexerSubsystem, 5)
+      )
+    );
+  }
+
+  // Red Alliance Left Trench Auto - Starts on the line in Left Trench of Red Alliance, Shoots Balls x8, Collects, Shoot Again
+  public SequentialCommandGroup RedRightTrenchSingleDipAuto() {
+    return new SequentialCommandGroup(
+      new ResetPoseCommand(this.m_drivetrain, m_drivetrain.flipPose(PoseConstants.k_redAutoStartingPose)),
+      // Spin Up
+      new ParallelDeadlineGroup(
+        new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
+        new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
+      ),
+      // Shoot
+      new ParallelDeadlineGroup(
+        new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
+        new IndexForSecsCommand(this.m_indexerSubsystem, 5)
+      ),
+      // Intake
+      new ParallelDeadlineGroup(
+        new WaitCommand(2),
+        m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftNeutralPoseRotated), AutoConstants.k_constraints)
+      ),
+      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
+      new ParallelDeadlineGroup(
+        m_drivetrain.followPath("Red Left Trench", AutoConstants.k_intakeconstraints, false, false),
+        new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5)
+      ),
+      // Return
+      new ParallelDeadlineGroup(
+        new SequentialCommandGroup(
+          m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftNeutralPose), AutoConstants.k_constraints),
+          m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftAlliancePose), AutoConstants.k_constraints),
+          m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redLeftShootPose), AutoConstants.k_constraints)),
+          new ShootForSecsCommand(this.m_shootSubsystem, 8), 
+          new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
+          new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
+      ),
+      new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
+      // Shoot
+      new ParallelDeadlineGroup(
+        new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 10),
+        new RunIntakeForSecsCommand(m_intakeSubsystem, 5),
+        new IndexForSecsCommand(this.m_indexerSubsystem, 5)
+      )
+    );
+  }
+
+  // Red Alliance Left Trench Auto - Starts on the line in Left Trench of Red Alliance, Shoots Balls x8, Collects, Shoot Again
+  public SequentialCommandGroup BlueLeftTrenchSingleDipAuto() {
+    return new SequentialCommandGroup(
+      new ResetPoseCommand(this.m_drivetrain, m_drivetrain.mirrorPose(PoseConstants.k_redAutoStartingPose)),
+      // Spin Up
+      new ParallelDeadlineGroup(
+        new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
+        new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
+      ),
+      // Shoot
+      new ParallelDeadlineGroup(
+        new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
+        new IndexForSecsCommand(this.m_indexerSubsystem, 5)
+      ),
+      // Intake
+      new ParallelDeadlineGroup(
+        new WaitCommand(2),
+        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftNeutralPoseRotated), AutoConstants.k_constraints)
+      ),
+      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
+      new ParallelDeadlineGroup(
+        m_drivetrain.followPath("Red Left Trench", AutoConstants.k_intakeconstraints, true, true),
+        new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5)
+      ),
+      // Return
+      new ParallelDeadlineGroup(
+        new SequentialCommandGroup(m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftNeutralPose), AutoConstants.k_constraints),
+        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftAlliancePose), AutoConstants.k_constraints),
+        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redLeftShootPose), AutoConstants.k_constraints)),
+        new ShootForSecsCommand(this.m_shootSubsystem, 8), 
+        new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
+        new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
+      ),
+      new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
+      // Shoot
+      new ParallelDeadlineGroup(
+        new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 10),
+        new RunIntakeForSecsCommand(m_intakeSubsystem, 5),
+        new IndexForSecsCommand(this.m_indexerSubsystem, 5)
+      )
+    );
+  }
+
+  // Red Alliance Left Trench Auto - Starts on the line in Left Trench of Red Alliance, Shoots Balls x8, Collects, Shoot Again
+  public SequentialCommandGroup BlueRightTrenchSingleDipAuto() {
+    return new SequentialCommandGroup(
+      new ResetPoseCommand(this.m_drivetrain, m_drivetrain.flipPose(m_drivetrain.mirrorPose(PoseConstants.k_redAutoStartingPose))),
+      // Spin Up
+      new ParallelDeadlineGroup(
+        new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
+        new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
+      ),
+      // Shoot
+      new ParallelDeadlineGroup(
+        new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
+        new IndexForSecsCommand(this.m_indexerSubsystem, 5)
+      ),
+      // Intake
+      new ParallelDeadlineGroup(
+        new WaitCommand(2),
+        m_drivetrain.Pathfind(m_drivetrain.flipPose(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftNeutralPoseRotated)), AutoConstants.k_constraints)
+      ),
+      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
+      new ParallelDeadlineGroup(
+        m_drivetrain.followPath("Red Left Trench", AutoConstants.k_intakeconstraints, false, true),
+        new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5)
+      ),
+      // Return
+      new ParallelDeadlineGroup(
+        new SequentialCommandGroup(m_drivetrain.Pathfind(m_drivetrain.flipPose(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftNeutralPose)), AutoConstants.k_constraints),
+        m_drivetrain.Pathfind(m_drivetrain.flipPose(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftAlliancePose)), AutoConstants.k_constraints),
+        m_drivetrain.Pathfind(m_drivetrain.flipPose(m_drivetrain.mirrorPose(PoseConstants.k_redLeftShootPose)), AutoConstants.k_constraints)),
+        new ShootForSecsCommand(this.m_shootSubsystem, 8), 
+        new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
+        new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
+      ),
+      new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
       // Shoot
       new ParallelDeadlineGroup(
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 10),

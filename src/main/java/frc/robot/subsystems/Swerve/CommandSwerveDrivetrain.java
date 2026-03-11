@@ -17,6 +17,7 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -31,12 +32,14 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.subsystems.Limelight.LimelightHelpers;
 import frc.robot.subsystems.Limelight.Localization;
 import frc.robot.Constants.LiveConstants;
+import frc.robot.Constants.PoseConstants;
 import frc.robot.Constants.VisionConstants;
 
 // It drives the robot!
@@ -269,7 +272,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     SmartDashboard.putNumber("heading", getAllianceAdjustedHeading());
     SmartDashboard.putNumber("Distance to Hub Center", getDistanceToHubCenter());
     SmartDashboard.putBoolean("Rotation Assistance", useRotationAssistance);
-    // m_aimController.enableContinuousInput(-180,180);
+    m_aimController.enableContinuousInput(-180,180);
   }
 
   // Updates poseEstimate with the Limelight Readings using MT1 
@@ -351,7 +354,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   // Reset Gyro
   public void resetGyro() {
     var alliance = DriverStation.getAlliance();
-
     if (alliance.isPresent()) {
       if (alliance.get() == DriverStation.Alliance.Red) this.getPigeon2().setYaw(0);
       if (alliance.get() == DriverStation.Alliance.Blue) this.getPigeon2().setYaw(180);
@@ -446,9 +448,20 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   3.90m = (20, 0.448)
   4.25m = (22, 0.46)
    */
+
+   /*
+    1.69 = (0, 0.40)
+    2.17 = (4, 0.445)
+    2.58 = (6, 0.45)
+    2.90 = (10, 0.46)
+    3.20 = (12.5, 0.48)
+    3.48 = (15, 0.49)
+    3.92 = (15, 0.53)
+    4.37 = (20, 0.55)
+    */
   public double getShooterSpeed(double distance){
-    double[] testedDistances = {1.17, 1.56, 2.00, 2.50, 3.02, 3.36, 3.65, 3.90, 4.25};
-    double[] testedSpeeds = {0.33, 0.35, 0.37, 0.39, 0.42, 0.43, 0.44, 0.448, 0.46};
+    double[] testedDistances = {1.69, 2.17, 2.58, 2.90, 3.20, 3.48, 3.92, 4.37};
+    double[] testedSpeeds = {0.40, 0.455, 0.46, 0.47, 0.48, 0.49, 0.52, 0.55};
     int index = 0;
     while (index < testedDistances.length && testedDistances[index] < distance){
       index++;
@@ -464,8 +477,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   }
 
   public double getServoAngle(double distance){
-    double[] testedDistances = {1.17, 1.56, 2.00, 2.50, 3.02, 3.36, 3.65, 3.90, 4.25};
-    double[] testedAngles = {0, 0, 5, 10, 15, 16.5, 18, 20, 22};
+    double[] testedDistances = {1.69, 2.17, 2.58, 2.90, 3.20, 3.48, 3.92, 4.37};
+    double[] testedAngles = {0, 4, 6, 10, 12.5, 15, 15, 20};
     int index = 0;
     while (index < testedDistances.length && testedDistances[index] < distance){
       index++;
@@ -486,5 +499,43 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
   public double getYVelocity() {
     return this.getState().Speeds.vyMetersPerSecond;
+  }
+
+  public Command Pathfind(Pose2d targetPose, PathConstraints constraints){
+    return AutoBuilder.pathfindToPose(
+      targetPose, 
+      constraints, 
+      0.0
+    ).withName("HIIIIII");
+  }
+
+  public Command followPath(String pathName, PathConstraints constraints, boolean withFlip, boolean withMirror){
+    PathPlannerPath path;
+    try{
+      path = PathPlannerPath.fromPathFile(pathName);
+      if (withFlip){
+        path = path.flipPath();
+      }
+      if (withMirror) {
+        path = path.mirrorPath();
+      }
+      Command m_pathfindingCommand = AutoBuilder.pathfindThenFollowPath(
+        path, 
+        constraints
+      );
+      return m_pathfindingCommand;
+    }
+    catch(Exception e) {
+      e.printStackTrace();
+      return new InstantCommand();
+    }
+  }
+
+  public Pose2d mirrorPose(Pose2d pose){
+    return new Pose2d(pose.getX(), 8.043 - pose.getY(), new Rotation2d(-pose.getRotation().getRadians()));
+  }
+
+  public Pose2d flipPose(Pose2d pose){
+    return new Pose2d(16.513 - pose.getX(), 8.043 - pose.getY(), new Rotation2d(pose.getRotation().getRadians() + Math.PI));
   }
 }

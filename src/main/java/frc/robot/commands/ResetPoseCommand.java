@@ -9,40 +9,28 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Swerve.CommandSwerveDrivetrain;
 
 // Move Robot to Target Pose
-public class PathfindToPoseCommand extends Command {
+public class ResetPoseCommand extends Command {
     
   // Instantiate Stuff
   CommandSwerveDrivetrain m_driveSubsystem;
 
-  // Target Pose
-  Pose2d m_targetPose;
-
-  // Constraints
-  PathConstraints m_constraints;
-
-  // Command
-  Command m_pathfindingCommand;
+  Pose2d m_pose;
 
   // Constructor
-  public PathfindToPoseCommand(CommandSwerveDrivetrain driveSubsystem, Pose2d targetPose, PathConstraints constraints) {
+  public ResetPoseCommand(CommandSwerveDrivetrain driveSubsystem, Pose2d pose) {
         
     // Definitions and setting parameters are equal to members!
     m_driveSubsystem = driveSubsystem;
     addRequirements(driveSubsystem);
 
-    m_targetPose = targetPose;
-    m_constraints = constraints;
+    m_pose = pose;
+
   }
 
   // What we do to set up the command
   public void initialize() {
 
-    // Build the path automatically using Pathplanner
-    m_pathfindingCommand = AutoBuilder.pathfindToPose(
-      m_targetPose, 
-      m_constraints, 
-      0.0
-    ).withName("HIIIIII");
+    m_driveSubsystem.resetPose(m_pose);
   }
     
   // The actual control!

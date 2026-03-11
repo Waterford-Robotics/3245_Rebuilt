@@ -61,6 +61,13 @@ public final class Constants {
       Units.degreesToRadians(540), 
       Units.degreesToRadians(720)
     );
+
+    public static final PathConstraints k_intakeconstraints = new PathConstraints(
+      3.0, 
+      3.0,
+      Units.degreesToRadians(540), 
+      Units.degreesToRadians(720)
+    );
   }
 
   // Localization wow
@@ -86,6 +93,9 @@ public final class Constants {
   // Localization code stuff omg
   public static final class PoseConstants {
 
+    // RED START
+    public static final Pose2d k_redAutoStartingPose = new Pose2d(10.25, 0.6, Rotation2d.fromDegrees(180)); // FIX
+
     // RED TRENCH LEFT
     public static final Pose2d k_redTrenchLeftNeutralPose = new Pose2d(10.25, 0.6, Rotation2d.fromDegrees(180)); 
     public static final Pose2d k_redTrenchLeftAlliancePose = new Pose2d(13.5, 0.6, Rotation2d.fromDegrees(180));
@@ -98,7 +108,7 @@ public final class Constants {
     public static final Pose2d k_redLeftIntakeTerminatePose = new Pose2d(8.5, 1, Rotation2d.fromDegrees(90)); 
 
     // RED TRENCH LEFT SCORE POSE
-    public static final Pose2d k_redLeftShootPose = new Pose2d(14, 2, Rotation2d.fromDegrees(180)); 
+    public static final Pose2d k_redLeftShootPose = new Pose2d(14, 2, Rotation2d.fromDegrees(135)); 
 
     // RED TRENCH RIGHT
     public static final Pose2d k_redTrenchRightNeutralPose = new Pose2d(10.25, 6.5, Rotation2d.fromDegrees(180));  
@@ -150,7 +160,7 @@ public final class Constants {
     public static final int k_shooterSupplyCurrentLimit = 60;
 
     // Subsystem
-    public static final double k_hubShotSpeed = 0.35;
+    public static final double k_hubShotSpeed = 0.39;
   }
 
   // Intake Stuff
@@ -162,7 +172,7 @@ public final class Constants {
     public static final int k_intakeSupplyCurrentLimit = 60;
 
     // Subsystems
-    public static final double k_intakeSpeed = 0.5;
+    public static final double k_intakeSpeed = 0.75;
   }
 
   // Indexer Stuff 
@@ -174,7 +184,7 @@ public final class Constants {
     public static final int k_rollerIndexerSupplyCurrentLimit = 40;
 
     // Subsystems
-    public static final double k_indexerSpeed = 0.25;
+    public static final double k_indexerSpeed = 0.50;
   }
 
   public static final class LiveConstants {
