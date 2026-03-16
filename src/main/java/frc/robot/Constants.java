@@ -94,12 +94,14 @@ public final class Constants {
   public static final class PoseConstants {
 
     // RED START
-    public static final Pose2d k_redAutoStartingPose = new Pose2d(10.25, 0.6, Rotation2d.fromDegrees(180)); // FIX
+    public static final Pose2d k_redLeftAutoStartingPose = new Pose2d(12.703, 0.394, Rotation2d.fromDegrees(103.6));
 
     // RED TRENCH LEFT
+    public static final Pose2d k_redTrenchLeftFarPose = new Pose2d(8.7, 0.6, Rotation2d.fromDegrees(180));
     public static final Pose2d k_redTrenchLeftNeutralPose = new Pose2d(10.25, 0.6, Rotation2d.fromDegrees(180)); 
     public static final Pose2d k_redTrenchLeftAlliancePose = new Pose2d(13.5, 0.6, Rotation2d.fromDegrees(180));
 
+    public static final Pose2d k_redTrenchLeftFarPoseRotated = new Pose2d(9.1, 0.6, Rotation2d.fromDegrees(90));
     public static final Pose2d k_redTrenchLeftNeutralPoseRotated = new Pose2d(10.25, 0.6, Rotation2d.fromDegrees(90)); 
     public static final Pose2d k_redTrenchLeftAlliancePoseRotated = new Pose2d(13.5, 0.6, Rotation2d.fromDegrees(90));  
 
@@ -160,7 +162,7 @@ public final class Constants {
     public static final int k_shooterSupplyCurrentLimit = 60;
 
     // Subsystem
-    public static final double k_hubShotSpeed = 0.39;
+    public static final double k_hubShotSpeed = 0.365;
   }
 
   // Intake Stuff

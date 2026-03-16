@@ -5,7 +5,8 @@
 package frc.robot;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -87,7 +88,22 @@ public class RobotContainer {
       );
       // COMP AUTOS
       m_chooser.addOption("Hub Shot Auto", m_autoFactory.HubShotAuto());
-      m_chooser.addOption("Red Left Trench Single Dip", m_autoFactory.RedLeftTrenchSingleDipAuto());
+      m_chooser.addOption("Red Left Trench Single Dip", m_autoFactory.RedLeftTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench"));
+      m_chooser.addOption("Red Right Trench Single Dip", m_autoFactory.RedRightTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench"));
+      m_chooser.addOption("Blue Left Trench Single Dip", m_autoFactory.BlueLeftTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench"));
+      m_chooser.addOption("Blue Right Trench Single Dip", m_autoFactory.BlueRightTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench"));
+      m_chooser.addOption("Close Red Left Trench Single Dip", m_autoFactory.RedLeftTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench Close"));
+      m_chooser.addOption("Close Red Right Trench Single Dip", m_autoFactory.RedRightTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench Close"));
+      m_chooser.addOption("Playoffs Left", m_autoFactory.BlueLeftTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench Close"));
+      m_chooser.addOption("Playoffs Right", m_autoFactory.BlueRightTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench Close"));
+      m_chooser.addOption("Far Red Left Trench Single Dip", m_autoFactory.RedLeftTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftFarPoseRotated, "Red Left Trench Far"));
+      m_chooser.addOption("Far Red Right Trench Single Dip", m_autoFactory.RedRightTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftFarPoseRotated, "Red Left Trench Far"));
+      m_chooser.addOption("Far Blue Left Trench Single Dip", m_autoFactory.BlueLeftTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftFarPoseRotated, "Red Left Trench Far"));
+      m_chooser.addOption("Far Blue Right Trench Single Dip", m_autoFactory.BlueRightTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftFarPoseRotated, "Red Left Trench Far"));
+      m_chooser.addOption("New: Red Left to Right Trench Single Dip", m_autoFactory.RedLeftTrenchToRightAuto());
+      m_chooser.addOption("New: Red Right to Left Trench Single Dip", m_autoFactory.RedRightTrenchToLeftAuto());
+      m_chooser.addOption("New: Blue Left to Right Trench Single Dip", m_autoFactory.BlueLeftTrenchToRightAuto());
+      m_chooser.addOption("New: Blue Right to Left Trench Single Dip", m_autoFactory.BlueRightTrenchToLeftAuto());
 
       // Puts a chooser on the SmartDashboard!
       SmartDashboard.putData("AutoMode", m_chooser);
@@ -156,11 +172,33 @@ public class RobotContainer {
       new InstantCommand(() -> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
     );
 
+    // Y Operator - Reverse Intake
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_Y)
+    .onTrue(
+      new RunCommand(() -> m_intakeSubsystem.reverseIntake(), m_intakeSubsystem)
+    )
+    .onFalse(
+      new InstantCommand(() -> m_intakeSubsystem.stop(), m_intakeSubsystem)
+    );
+
+    // Left Bump Operator - Passing
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_leftbump)
+    .onTrue(new RunCommand(() -> m_shootSubsystem.shoot(0.40), m_shootSubsystem))
+    .onFalse(new InstantCommand(() -> m_shootSubsystem.stopShooter(), m_shootSubsystem));
+
     // Left Trig - Shoot Rev Up
     new Trigger(() -> m_operatorController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
       .whileTrue(
         new AssistedShootCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem)
       );
+
+
+    // A Driver - EMERGENCY REV UP
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_A)
+    .whileTrue(
+        new AssistedShootCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem)
+      );
+
     /*
     new Trigger(() -> m_operatorController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
       .whileTrue(new RunCommand(() -> m_shootSubsystem.shoot(SmartDashboard.getNumber("Shoot Speed", 0.25))))
@@ -188,6 +226,8 @@ public class RobotContainer {
     .onTrue(
       new InstantCommand(() -> m_drivetrain.resetGyro(), m_drivetrain)
     );
+
+    
 
     // TODO: Pathfind to Pose - A
     //new JoystickButton(m_driverController.getHID(), ControllerConstants.k_A)

@@ -206,7 +206,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       () -> getState().Speeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
       (speeds, feedforwards) -> setControl(
         m_pathApplyRobotSpeeds.withSpeeds(ChassisSpeeds.discretize(speeds, 0.020))
-          .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
+          .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons()) // TODO: This might be causing problems in PPLib
           .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())
       ),
       new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
@@ -376,7 +376,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   }
 
   public double getDistanceToHubCenter() {
-    Translation2d blueHubCenter = new Translation2d(4.625594, 4.034536);
+    Translation2d blueHubCenter = new Translation2d(4.605594, 4.034536);
     Translation2d redHubCenter = new Translation2d(11.915394, 4.034536);
     Translation2d curPos = getState().Pose.getTranslation();
     double distanceToHub;
@@ -390,7 +390,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   }
 
   public Rotation2d getAngleToHubCenter(){
-    Translation2d blueHubCenter = new Translation2d(4.625594, 4.034536);
+    Translation2d blueHubCenter = new Translation2d(4.605594, 4.034536);
     Translation2d redHubCenter = new Translation2d(11.915394, 4.034536);
     Translation2d curPos = getState().Pose.getTranslation();
     Rotation2d directionToHub;
@@ -460,8 +460,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     4.37 = (20, 0.55)
     */
   public double getShooterSpeed(double distance){
-    double[] testedDistances = {1.69, 2.17, 2.58, 2.90, 3.20, 3.48, 3.92, 4.37};
-    double[] testedSpeeds = {0.40, 0.455, 0.46, 0.47, 0.48, 0.49, 0.52, 0.55};
+    double[] testedDistances = {1.3, 1.69, 2.17, 2.58, 2.90, 3.20, 3.48, 3.92, 4.37};
+    double[] testedSpeeds = {0.365, 0.40, 0.455, 0.46, 0.47, 0.48, 0.49, 0.52, 0.55};
     int index = 0;
     while (index < testedDistances.length && testedDistances[index] < distance){
       index++;
@@ -519,10 +519,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       if (withMirror) {
         path = path.mirrorPath();
       }
-      Command m_pathfindingCommand = AutoBuilder.pathfindThenFollowPath(
-        path, 
-        constraints
-      );
+      Command m_pathfindingCommand = AutoBuilder.followPath(path);
       return m_pathfindingCommand;
     }
     catch(Exception e) {
