@@ -6,11 +6,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs.ShootConfigs;
 import frc.robot.Constants.SensorIDConstants;
+
+// Tiny subsystem for CANRange fun
 public class CANRangeSubsystem extends SubsystemBase{
   
   private CANrange m_canrange;
 
   public CANRangeSubsystem() {
+
     m_canrange = new CANrange(SensorIDConstants.k_shootCANRangeID, "Mechanisms");
     m_canrange.getConfigurator().apply(ShootConfigs.SHOOT_CANRANGE_CONFIGURATION, 0.05);
   }
@@ -20,7 +23,7 @@ public class CANRangeSubsystem extends SubsystemBase{
   }
 
   public void periodic() {
-    SmartDashboard.putBoolean("canrange", getIsDetected());
-    SmartDashboard.putNumber("fuel distance", m_canrange.getDistance().getValueAsDouble());
+    SmartDashboard.putBoolean("CANRange/isDetected", getIsDetected());
+    // SmartDashboard.putNumber("CANRange/Fuel Distance", m_canrange.getDistance().getValueAsDouble());
   }
 }

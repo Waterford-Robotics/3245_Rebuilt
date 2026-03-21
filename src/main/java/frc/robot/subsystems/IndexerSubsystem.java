@@ -7,44 +7,46 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Configs.IntakeConfigs;
-import frc.robot.Configs.ShootConfigs;
+import frc.robot.Configs.IndexConfigs;
 import frc.robot.Constants.IndexerConstants;
 import frc.robot.Constants.MotorIDConstants;
 
 public class IndexerSubsystem extends SubsystemBase {
-  private TalonFX m_shooterIndexer;
-  private TalonFX m_rollerIndexer;
 
-  double indexSpeed;
-  /* Creates a new IndexerSubsystem. */
+  private TalonFX m_transferIndexer;
+  private TalonFX m_rollerFloor;
+
   public IndexerSubsystem() {
-    m_shooterIndexer = new TalonFX(MotorIDConstants.k_shooterIndexerID, "Mechanisms");
-    m_rollerIndexer = new TalonFX(MotorIDConstants.k_rollerIndexerID, "Mechanisms");
 
-    m_shooterIndexer.getConfigurator().apply(ShootConfigs.INDEXER_TALON_FX_CONFIGURATION, 0.05);
-    m_rollerIndexer.getConfigurator().apply(IntakeConfigs.INTAKE_TALON_FX_CONFIGURATION, 0.05);
+    m_transferIndexer = new TalonFX(MotorIDConstants.k_transferIndexerID, "Mechanisms");
+    m_rollerFloor = new TalonFX(MotorIDConstants.k_rollerFloorID, "Mechanisms");
+
+    m_transferIndexer.getConfigurator().apply(IndexConfigs.TRANSFER_INDEXER_TALON_FX_CONFIGURATION, 0.05);
+    m_rollerFloor.getConfigurator().apply(IndexConfigs.ROLLER_FLOOR_TALON_FX_CONFIGURATION, 0.05);
   }
 
+  // Index Fuels
   public void index() {
-    indexSpeed = IndexerConstants.k_indexerSpeed;
-    m_shooterIndexer.set(indexSpeed);
-    m_rollerIndexer.set(indexSpeed);
+    m_transferIndexer.set(IndexerConstants.k_indexerSpeed);
+    m_rollerFloor.set(IndexerConstants.k_indexerSpeed);
   }
+
+  // Run indexers backwards
   public void reverseIndex() {
-    indexSpeed = IndexerConstants.k_indexerSpeed;
-    m_shooterIndexer.set(-indexSpeed);
-    m_rollerIndexer.set(-indexSpeed);
+    m_transferIndexer.set(-IndexerConstants.k_indexerSpeed);
+    m_rollerFloor.set(-IndexerConstants.k_indexerSpeed);
   }
 
-  public void index(double indexSpeed){
-    m_shooterIndexer.set(indexSpeed);
-    m_rollerIndexer.set(indexSpeed);
+  // Index at custom speed
+  public void index(double indexSpeed) {
+    m_transferIndexer.set(indexSpeed);
+    m_rollerFloor.set(indexSpeed);
   }
 
-  public void stopIndexer(){
-    m_shooterIndexer.set(0);
-    m_rollerIndexer.set(0);
+  // STOP! Hammer time
+  public void stopIndexer() {
+    m_transferIndexer.set(0);
+    m_rollerFloor.set(0);
   }
 
   public void periodic() {}

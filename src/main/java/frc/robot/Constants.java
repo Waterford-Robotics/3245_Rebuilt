@@ -13,6 +13,7 @@ import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.generated.TunerConstants;
 
@@ -32,37 +33,40 @@ public final class Constants {
 
     public static final double k_driveDeadband = 0.1; // Cure stick drift
 
-    public static final int k_start = XboxController.Button.kStart.value;
-    public static final int k_back = XboxController.Button.kBack.value;
+    public static final int k_start = XboxController.Button.kStart.value; // Start
+    public static final int k_back = XboxController.Button.kBack.value; // Back
 
 
-    public static final int k_A = XboxController.Button.kA.value;
-    public static final int k_B = XboxController.Button.kB.value;
-    public static final int k_X = XboxController.Button.kX.value;
-    public static final int k_Y = XboxController.Button.kY.value;
+    public static final int k_A = XboxController.Button.kA.value; // A
+    public static final int k_B = XboxController.Button.kB.value; // B
+    public static final int k_X = XboxController.Button.kX.value; // X
+    public static final int k_Y = XboxController.Button.kY.value; // Y
 
-    public static final int kDpadRight = 90; // D-Pad Right
-    public static final int kDpadLeft = 270; // D-Pad Left
+    public static final int k_dpadUp = 0; // D-Pad Up
+    public static final int k_dpadRight = 90; // D-Pad Right
+    public static final int k_dpadDown = 180; // D-Pad Right
+    public static final int k_dpadLeft = 270; // D-Pad Left
 
-    public static final int k_rightbump = XboxController.Button.kRightBumper.value;
-    public static final int k_leftbump = XboxController.Button.kLeftBumper.value;
+    public static final int k_rightbump = XboxController.Button.kRightBumper.value; // Right Bump
+    public static final int k_leftbump = XboxController.Button.kLeftBumper.value; // Left Bump
 
-    public static final int k_righttrig = XboxController.Axis.kRightTrigger.value;
-    public static final int k_lefttrig = XboxController.Axis.kLeftTrigger.value;
+    public static final int k_righttrig = XboxController.Axis.kRightTrigger.value; // Right Trigger
+    public static final int k_lefttrig = XboxController.Axis.kLeftTrigger.value; // Left Trigger
   }
 
   // Auto stuff
   public static final class AutoConstants {
 
-    // For Pathfinding TODO: Tune?
-    public static final PathConstraints k_constraints = new PathConstraints(
+    // For General Pathfinding
+    public static final PathConstraints k_defaultConstraints = new PathConstraints(
       3.0, 
       4.0,
       Units.degreesToRadians(540), 
       Units.degreesToRadians(720)
     );
 
-    public static final PathConstraints k_intakeconstraints = new PathConstraints(
+    // For Pathfinding with Intake
+    public static final PathConstraints k_intakingConstraints = new PathConstraints(
       3.0, 
       3.0,
       Units.degreesToRadians(540), 
@@ -72,6 +76,7 @@ public final class Constants {
 
   // Localization wow
   public static final class VisionConstants {
+
     // Name
     public static final String k_limelightFrontLeftName = "limelight-orange";
     public static final String k_limelightFrontRightName = "limelight-yellow";
@@ -129,28 +134,39 @@ public final class Constants {
   // CAN IDs for Motors
   public static final class MotorIDConstants {
 
+    // Shooter
     public static final int k_shooterLeftID = 20;
     public static final int k_shooterRightID = 21;
 
-    public static final int k_rollerIndexerID = 30;
-    public static final int k_shooterIndexerID = 31;
+    // Indexer
+    public static final int k_rollerFloorID = 30;
+    public static final int k_transferIndexerID = 31;
 
+    // Intake
     public static final int k_intakeRollerID = 40;
-    public static final int k_innerIntakeID = 41;
+    public static final int k_intakeFlipoutLeftID = 41;
+    public static final int k_intakeFlipoutRightID = 42;
   }
 
-  // PWM IDs for Servos
+  // Servo Stuff
   public static final class ServoConstants {
+
+    // PWM IDs for Servos
     public static final int k_servoID1 = 1;
     public static final int k_servoID2 = 2;
     
-    //Subsystem
+    // Setpoints
     public static final int k_servoSetpoint = 10;
   }
 
   // CAN IDs for Sensors
   public static final class SensorIDConstants {
+
+    // Shooter CANRange
     public static final int k_shootCANRangeID = 50;
+
+    // Intake CANCoder TODO: REMOVE?
+    public static final int k_intakeCANCoderID = 51;
   }
   
   // Shooter Stuff
@@ -158,7 +174,7 @@ public final class Constants {
     
     // Configs
     public static final double k_shooterRampRate = 0.05;
-    public static final double k_shooterClosedMaxSpeed = 0.9;
+    public static final double k_shooterClosedMaxSpeed = 0.95;
     public static final int k_shooterSupplyCurrentLimit = 60;
 
     // Subsystem
@@ -170,11 +186,26 @@ public final class Constants {
 
     // Configs
     public static final double k_intakeRampRate = 0.05;
-    public static final double k_intakeClosedMaxSpeed = 0.4;
+    public static final double k_intakeClosedMaxSpeed = 0.95;
     public static final int k_intakeSupplyCurrentLimit = 60;
 
     // Subsystems
     public static final double k_intakeSpeed = 0.75;
+
+    // Intake Deploy Angles
+    public static final Angle k_intakeRetractedAngle = edu.wpi.first.units.Units.Rotations.of(0);
+    public static final Angle k_intakedexRetractedAngle = edu.wpi.first.units.Units.Rotations.of(1.5);
+    public static final Angle k_intakedexDeployedAngle = edu.wpi.first.units.Units.Rotations.of(2);
+    public static final Angle k_intakeDeployedAngle = edu.wpi.first.units.Units.Rotations.of(3.75);
+
+    // Flipout PIDs TODO: RETUNE ME WHEN ASSEMBLED
+    public static final double k_intakeFlipoutP = 0.7; 
+    public static final double k_intakeFlipoutI = 0.3;
+    public static final double k_intakeFlipoutD = 0.0;
+    public static final double k_intakeFlipoutS = 0.4;
+    public static final double k_intakeFlipoutV = 0.001;
+    public static final double k_intakeFlipoutA = 0.0;
+    public static final double k_intakeFlipoutG = 0.5;
   }
 
   // Indexer Stuff 
@@ -182,7 +213,7 @@ public final class Constants {
 
     // Configs
     public static final double k_rollerIndexerRampRate = 0.05;
-    public static final double k_rollerIndexerClosedMaxSpeed = 0.4;
+    public static final double k_rollerIndexerClosedMaxSpeed = 0.95;
     public static final int k_rollerIndexerSupplyCurrentLimit = 40;
 
     // Subsystems

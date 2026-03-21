@@ -1,10 +1,6 @@
 package frc.robot;
 
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.PathPlannerLogging;
-
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -18,10 +14,8 @@ import frc.robot.subsystems.Swerve.CommandSwerveDrivetrain;
 import frc.robot.commands.ShootForSecsCommand;
 import frc.robot.commands.AssistedShootForSecsCommand;
 import frc.robot.commands.RunIntakeForSecsCommand;
-import frc.robot.commands.RunIntakeReverseForSecsCommand;
 import frc.robot.commands.AutoIndexCommand;
 import frc.robot.commands.IndexForSecsCommand;
-import frc.robot.commands.PathfindToPoseCommand;
 import frc.robot.commands.ResetPoseCommand;
 import frc.robot.Constants.PoseConstants;
 import frc.robot.Constants.AutoConstants;
@@ -90,18 +84,18 @@ public class AutoFactory {
       // Intake
       new ParallelDeadlineGroup(
         new WaitCommand(2),
-        m_drivetrain.Pathfind(startPose, AutoConstants.k_constraints)
+        m_drivetrain.Pathfind(startPose, AutoConstants.k_defaultConstraints)
       ),
-      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
+      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_defaultConstraints),
       new ParallelDeadlineGroup(
-        m_drivetrain.followPath(pathName, AutoConstants.k_intakeconstraints, true, false),
+        m_drivetrain.followPath(pathName, AutoConstants.k_intakingConstraints, true, false),
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5)
       ),
       // Return
       new ParallelDeadlineGroup(
-        new SequentialCommandGroup(m_drivetrain.Pathfind(PoseConstants.k_redTrenchLeftNeutralPose, AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(PoseConstants.k_redTrenchLeftAlliancePose, AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(PoseConstants.k_redLeftShootPose, AutoConstants.k_constraints)),
+        new SequentialCommandGroup(m_drivetrain.Pathfind(PoseConstants.k_redTrenchLeftNeutralPose, AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(PoseConstants.k_redTrenchLeftAlliancePose, AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(PoseConstants.k_redLeftShootPose, AutoConstants.k_defaultConstraints)),
         new ShootForSecsCommand(this.m_shootSubsystem, 8), 
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
         new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
@@ -133,19 +127,19 @@ public class AutoFactory {
       // Intake
       new ParallelDeadlineGroup(
         new WaitCommand(2),
-        m_drivetrain.Pathfind(m_drivetrain.flipPose(startPose), AutoConstants.k_constraints)
+        m_drivetrain.Pathfind(m_drivetrain.flipPose(startPose), AutoConstants.k_defaultConstraints)
       ),
-      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
+      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_defaultConstraints),
       new ParallelDeadlineGroup(
-        m_drivetrain.followPath(pathName, AutoConstants.k_intakeconstraints, true, false),
+        m_drivetrain.followPath(pathName, AutoConstants.k_intakingConstraints, true, false),
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5)
       ),
       // Return
       new ParallelDeadlineGroup(
         new SequentialCommandGroup(
-          m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftNeutralPose), AutoConstants.k_constraints),
-          m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftAlliancePose), AutoConstants.k_constraints),
-          m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redLeftShootPose), AutoConstants.k_constraints)),
+          m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftNeutralPose), AutoConstants.k_defaultConstraints),
+          m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftAlliancePose), AutoConstants.k_defaultConstraints),
+          m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redLeftShootPose), AutoConstants.k_defaultConstraints)),
           new ShootForSecsCommand(this.m_shootSubsystem, 8), 
           new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
           new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
@@ -177,18 +171,18 @@ public class AutoFactory {
       // Intake
       new ParallelDeadlineGroup(
         new WaitCommand(2),
-        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(startPose), AutoConstants.k_constraints)
+        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(startPose), AutoConstants.k_defaultConstraints)
       ),
-      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
+      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_defaultConstraints),
       new ParallelDeadlineGroup(
-        m_drivetrain.followPath(pathName, AutoConstants.k_intakeconstraints, true, true),
+        m_drivetrain.followPath(pathName, AutoConstants.k_intakingConstraints, true, true),
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5)
       ),
       // Return
       new ParallelDeadlineGroup(
-        new SequentialCommandGroup(m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftNeutralPose), AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftAlliancePose), AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redLeftShootPose), AutoConstants.k_constraints)),
+        new SequentialCommandGroup(m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftNeutralPose), AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftAlliancePose), AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redLeftShootPose), AutoConstants.k_defaultConstraints)),
         new ShootForSecsCommand(this.m_shootSubsystem, 8), 
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
         new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
@@ -220,18 +214,18 @@ public class AutoFactory {
       // Intake
       new ParallelDeadlineGroup(
         new WaitCommand(2),
-        m_drivetrain.Pathfind(m_drivetrain.flipPose(m_drivetrain.mirrorPose(startPose)), AutoConstants.k_constraints)
+        m_drivetrain.Pathfind(m_drivetrain.flipPose(m_drivetrain.mirrorPose(startPose)), AutoConstants.k_defaultConstraints)
       ),
-      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
+      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_defaultConstraints),
       new ParallelDeadlineGroup(
-        m_drivetrain.followPath(pathName, AutoConstants.k_intakeconstraints, true, true),
+        m_drivetrain.followPath(pathName, AutoConstants.k_intakingConstraints, true, true),
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5)
       ),
       // Return
       new ParallelDeadlineGroup(
-        new SequentialCommandGroup(m_drivetrain.Pathfind(m_drivetrain.flipPose(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftNeutralPose)), AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(m_drivetrain.flipPose(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftAlliancePose)), AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(m_drivetrain.flipPose(m_drivetrain.mirrorPose(PoseConstants.k_redLeftShootPose)), AutoConstants.k_constraints)),
+        new SequentialCommandGroup(m_drivetrain.Pathfind(m_drivetrain.flipPose(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftNeutralPose)), AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(m_drivetrain.flipPose(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftAlliancePose)), AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(m_drivetrain.flipPose(m_drivetrain.mirrorPose(PoseConstants.k_redLeftShootPose)), AutoConstants.k_defaultConstraints)),
         new ShootForSecsCommand(this.m_shootSubsystem, 8), 
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
         new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
@@ -262,18 +256,18 @@ public class AutoFactory {
       // Intake
       new ParallelDeadlineGroup(
         new WaitCommand(2),
-        m_drivetrain.Pathfind(PoseConstants.k_redTrenchLeftNeutralPoseRotated, AutoConstants.k_constraints)
+        m_drivetrain.Pathfind(PoseConstants.k_redTrenchLeftNeutralPoseRotated, AutoConstants.k_defaultConstraints)
       ),
-      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
+      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_defaultConstraints),
       new ParallelDeadlineGroup(
-        m_drivetrain.followPath("Red Left to Right Trench", AutoConstants.k_intakeconstraints, true, false),
+        m_drivetrain.followPath("Red Left to Right Trench", AutoConstants.k_intakingConstraints, true, false),
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5)
       ),
       // Return
       new ParallelDeadlineGroup(
-        new SequentialCommandGroup(m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftNeutralPose), AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftAlliancePose), AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redLeftShootPose), AutoConstants.k_constraints)),
+        new SequentialCommandGroup(m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftNeutralPose), AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftAlliancePose), AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redLeftShootPose), AutoConstants.k_defaultConstraints)),
         new ShootForSecsCommand(this.m_shootSubsystem, 8), 
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
         new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
@@ -304,18 +298,18 @@ public class AutoFactory {
       // Intake
       new ParallelDeadlineGroup(
         new WaitCommand(2),
-        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftNeutralPoseRotated), AutoConstants.k_constraints)
+        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(PoseConstants.k_redTrenchLeftNeutralPoseRotated), AutoConstants.k_defaultConstraints)
       ),
-      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
+      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_defaultConstraints),
       new ParallelDeadlineGroup(
-        m_drivetrain.followPath("Red Left to Right Trench", AutoConstants.k_intakeconstraints, true, false),
+        m_drivetrain.followPath("Red Left to Right Trench", AutoConstants.k_intakingConstraints, true, false),
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5)
       ),
       // Return
       new ParallelDeadlineGroup(
-        new SequentialCommandGroup(m_drivetrain.Pathfind(PoseConstants.k_redTrenchLeftNeutralPose, AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(PoseConstants.k_redTrenchLeftAlliancePose, AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(PoseConstants.k_redLeftShootPose, AutoConstants.k_constraints)),
+        new SequentialCommandGroup(m_drivetrain.Pathfind(PoseConstants.k_redTrenchLeftNeutralPose, AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(PoseConstants.k_redTrenchLeftAlliancePose, AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(PoseConstants.k_redLeftShootPose, AutoConstants.k_defaultConstraints)),
         new ShootForSecsCommand(this.m_shootSubsystem, 8), 
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
         new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
@@ -346,18 +340,18 @@ public class AutoFactory {
       // Intake
       new ParallelDeadlineGroup(
         new WaitCommand(2),
-        m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftNeutralPoseRotated), AutoConstants.k_constraints)
+        m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftNeutralPoseRotated), AutoConstants.k_defaultConstraints)
       ),
-      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
+      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_defaultConstraints),
       new ParallelDeadlineGroup(
-        m_drivetrain.followPath("Red Left to Right Trench", AutoConstants.k_intakeconstraints, true, false),
+        m_drivetrain.followPath("Red Left to Right Trench", AutoConstants.k_intakingConstraints, true, false),
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5)
       ),
       // Return
       new ParallelDeadlineGroup(
-        new SequentialCommandGroup(m_drivetrain.Pathfind(m_drivetrain.mirrorPose(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftNeutralPose)), AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftAlliancePose)), AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(m_drivetrain.flipPose(PoseConstants.k_redLeftShootPose)), AutoConstants.k_constraints)),
+        new SequentialCommandGroup(m_drivetrain.Pathfind(m_drivetrain.mirrorPose(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftNeutralPose)), AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftAlliancePose)), AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(m_drivetrain.flipPose(PoseConstants.k_redLeftShootPose)), AutoConstants.k_defaultConstraints)),
         new ShootForSecsCommand(this.m_shootSubsystem, 8), 
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
         new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
@@ -388,18 +382,18 @@ public class AutoFactory {
       // Intake
       new ParallelDeadlineGroup(
         new WaitCommand(2),
-        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftNeutralPoseRotated)), AutoConstants.k_constraints)
+        m_drivetrain.Pathfind(m_drivetrain.mirrorPose(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftNeutralPoseRotated)), AutoConstants.k_defaultConstraints)
       ),
-      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_constraints),
+      // new PathfindToPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftIntakeInitiatePose, AutoConstants.k_defaultConstraints),
       new ParallelDeadlineGroup(
-        m_drivetrain.followPath("Red Left to Right Trench", AutoConstants.k_intakeconstraints, true, false),
+        m_drivetrain.followPath("Red Left to Right Trench", AutoConstants.k_intakingConstraints, true, false),
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 5)
       ),
       // Return
       new ParallelDeadlineGroup(
-        new SequentialCommandGroup(m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftNeutralPose), AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftAlliancePose), AutoConstants.k_constraints),
-        m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redLeftShootPose), AutoConstants.k_constraints)),
+        new SequentialCommandGroup(m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftNeutralPose), AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redTrenchLeftAlliancePose), AutoConstants.k_defaultConstraints),
+        m_drivetrain.Pathfind(m_drivetrain.flipPose(PoseConstants.k_redLeftShootPose), AutoConstants.k_defaultConstraints)),
         new ShootForSecsCommand(this.m_shootSubsystem, 8), 
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
         new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
