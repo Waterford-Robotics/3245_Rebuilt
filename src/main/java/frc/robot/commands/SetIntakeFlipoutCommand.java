@@ -6,36 +6,24 @@ import frc.robot.subsystems.IntakeFlipoutSubsystem;
 
 public class SetIntakeFlipoutCommand extends Command {
 
-    IntakeFlipoutSubsystem m_flipout;
-    String m_position;
+	IntakeFlipoutSubsystem m_flipout;
+	String m_position;
 
-    public SetIntakeFlipoutCommand(IntakeFlipoutSubsystem flipout, String position) {
-        m_flipout = flipout;
+	public SetIntakeFlipoutCommand(IntakeFlipoutSubsystem flipout, String position) {
+		m_flipout = flipout;
 
-        m_position = position;
-        addRequirements(flipout);
-    }
+		m_position = position;
+		addRequirements(flipout);
+	}
 
-    public void initialize() {}
-    
-    public void execute() {
-        if (m_position.equals("STOW")){
-            m_flipout.setPosition(IntakeConstants.k_intakeRetractedAngle);
-        }
-
-        if (m_position.equals("INTAKEDEX UPPER")){
-            m_flipout.setPosition(IntakeConstants.k_intakedexRetractedAngle);
-        }
-
-        if (m_position.equals("INTAKEDEX LOWER")){
-            m_flipout.setPosition(IntakeConstants.k_intakedexDeployedAngle);
-        }
-
-        if (m_position.equals("DEPLOY")){
-            m_flipout.setPosition(IntakeConstants.k_intakeDeployedAngle);
-        }
-        
-    }
+	public void initialize() {}
+	
+	public void execute() {
+		if (m_position.equals("STOW")) m_flipout.setPosition(IntakeConstants.k_intakeRetractedAngle);
+		else if (m_position.equals("DEPLOY")) m_flipout.setPosition(IntakeConstants.k_intakeDeployedAngle);
+		else if (m_position.equals("INTAKEDEX UPPER")) m_flipout.setPosition(IntakeConstants.k_intakedexRetractedAngle);
+		else if (m_position.equals("INTAKEDEX LOWER")) m_flipout.setPosition(IntakeConstants.k_intakedexDeployedAngle);
+	}
 
     // Stuff that happens when command is over
   public void end(boolean interrupted) {

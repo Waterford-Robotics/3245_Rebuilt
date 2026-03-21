@@ -16,7 +16,7 @@ import frc.robot.commands.AssistedShootForSecsCommand;
 import frc.robot.commands.RunIntakeForSecsCommand;
 import frc.robot.commands.AutoIndexCommand;
 import frc.robot.commands.IndexForSecsCommand;
-import frc.robot.commands.ResetPoseCommand;
+import frc.robot.commands.ResetRobotPoseCommand;
 import frc.robot.Constants.PoseConstants;
 import frc.robot.Constants.AutoConstants;
 
@@ -70,7 +70,7 @@ public class AutoFactory {
   // Red Alliance Left Trench Auto - Starts on the line in Left Trench of Red Alliance, Shoots Balls x8, Collects, Shoot Again
   public SequentialCommandGroup RedLeftTrenchSingleDipAuto(Pose2d startPose, String pathName) {
     return new SequentialCommandGroup(
-      new ResetPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftAutoStartingPose),
+      new ResetRobotPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftAutoStartingPose),
       // Spin Up
       new ParallelDeadlineGroup(
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
@@ -113,7 +113,7 @@ public class AutoFactory {
   // Red Alliance Left Trench Auto - Starts on the line in Left Trench of Red Alliance, Shoots Balls x8, Collects, Shoot Again
   public SequentialCommandGroup BlueLeftTrenchSingleDipAuto(Pose2d startPose, String pathName) {
     return new SequentialCommandGroup(
-      new ResetPoseCommand(this.m_drivetrain, m_drivetrain.flipPose(PoseConstants.k_redLeftAutoStartingPose)),
+      new ResetRobotPoseCommand(this.m_drivetrain, m_drivetrain.flipPose(PoseConstants.k_redLeftAutoStartingPose)),
       // Spin Up
       new ParallelDeadlineGroup(
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
@@ -157,7 +157,7 @@ public class AutoFactory {
   // Red Alliance Left Trench Auto - Starts on the line in Left Trench of Red Alliance, Shoots Balls x8, Collects, Shoot Again
   public SequentialCommandGroup RedRightTrenchSingleDipAuto(Pose2d startPose, String pathName) {
     return new SequentialCommandGroup(
-      new ResetPoseCommand(this.m_drivetrain, m_drivetrain.mirrorPose(PoseConstants.k_redLeftAutoStartingPose)),
+      new ResetRobotPoseCommand(this.m_drivetrain, m_drivetrain.mirrorPose(PoseConstants.k_redLeftAutoStartingPose)),
       // Spin Up
       new ParallelDeadlineGroup(
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
@@ -200,7 +200,7 @@ public class AutoFactory {
   // Red Alliance Left Trench Auto - Starts on the line in Left Trench of Red Alliance, Shoots Balls x8, Collects, Shoot Again
   public SequentialCommandGroup BlueRightTrenchSingleDipAuto(Pose2d startPose, String pathName) {
     return new SequentialCommandGroup(
-      new ResetPoseCommand(this.m_drivetrain, m_drivetrain.flipPose(m_drivetrain.mirrorPose(PoseConstants.k_redLeftAutoStartingPose))),
+      new ResetRobotPoseCommand(this.m_drivetrain, m_drivetrain.flipPose(m_drivetrain.mirrorPose(PoseConstants.k_redLeftAutoStartingPose))),
       // Spin Up
       new ParallelDeadlineGroup(
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
@@ -242,7 +242,7 @@ public class AutoFactory {
 
   public SequentialCommandGroup RedLeftTrenchToRightAuto() {
     return new SequentialCommandGroup(
-      new ResetPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftAutoStartingPose),
+      new ResetRobotPoseCommand(this.m_drivetrain, PoseConstants.k_redLeftAutoStartingPose),
       // Spin Up
       new ParallelDeadlineGroup(
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
@@ -284,7 +284,7 @@ public class AutoFactory {
 
   public SequentialCommandGroup RedRightTrenchToLeftAuto() {
     return new SequentialCommandGroup(
-      new ResetPoseCommand(this.m_drivetrain, m_drivetrain.mirrorPose(PoseConstants.k_redLeftAutoStartingPose)),
+      new ResetRobotPoseCommand(this.m_drivetrain, m_drivetrain.mirrorPose(PoseConstants.k_redLeftAutoStartingPose)),
       // Spin Up
       new ParallelDeadlineGroup(
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
@@ -326,7 +326,7 @@ public class AutoFactory {
 
   public SequentialCommandGroup BlueLeftTrenchToRightAuto() {
     return new SequentialCommandGroup(
-      new ResetPoseCommand(this.m_drivetrain, m_drivetrain.flipPose(PoseConstants.k_redLeftAutoStartingPose)),
+      new ResetRobotPoseCommand(this.m_drivetrain, m_drivetrain.flipPose(PoseConstants.k_redLeftAutoStartingPose)),
       // Spin Up
       new ParallelDeadlineGroup(
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),
@@ -368,7 +368,7 @@ public class AutoFactory {
 
   public SequentialCommandGroup BlueRightTrenchToLeftAuto() {
     return new SequentialCommandGroup(
-      new ResetPoseCommand(this.m_drivetrain, m_drivetrain.mirrorPose(m_drivetrain.flipPose(PoseConstants.k_redLeftAutoStartingPose))),
+      new ResetRobotPoseCommand(this.m_drivetrain, m_drivetrain.mirrorPose(m_drivetrain.flipPose(PoseConstants.k_redLeftAutoStartingPose))),
       // Spin Up
       new ParallelDeadlineGroup(
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 2),

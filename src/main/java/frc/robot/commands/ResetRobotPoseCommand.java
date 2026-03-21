@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Swerve.CommandSwerveDrivetrain;
 
 // Move Robot to Target Pose
-public class ResetPoseCommand extends Command {
+public class ResetRobotPoseCommand extends Command {
     
   // Instantiate Stuff
   CommandSwerveDrivetrain m_driveSubsystem;
@@ -13,7 +13,7 @@ public class ResetPoseCommand extends Command {
   Pose2d m_pose;
 
   // Constructor
-  public ResetPoseCommand(CommandSwerveDrivetrain driveSubsystem, Pose2d pose) {
+  public ResetRobotPoseCommand(CommandSwerveDrivetrain driveSubsystem, Pose2d pose) {
         
     // Definitions and setting parameters are equal to members!
     m_driveSubsystem = driveSubsystem;

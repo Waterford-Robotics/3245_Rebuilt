@@ -26,14 +26,14 @@ public class AutoIndexCommand extends Command {
 
   public void initialize() {}
   
-  // run the roller indexer and shooter indexer until canrange detects
+  // Run the roller indexer and shooter indexer until canrange detects
   public void execute() {
     if(!m_canRangeSubsystem.getIsDetected()) {
       m_indexSubsystem.index();
     }
   }
 
-  // when the command is over stop running the roller indexer and shooter indexer
+  // When the command is over stop running the roller indexer and shooter indexer
   public void end(boolean interrupted) {
     m_indexSubsystem.stopIndexer();
   }
