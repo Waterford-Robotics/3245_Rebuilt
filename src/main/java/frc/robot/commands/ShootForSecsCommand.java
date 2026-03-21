@@ -7,14 +7,17 @@ package frc.robot.commands;
 import frc.robot.subsystems.ShootSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.LEDSubsystem;
 
 // Runs Shooter for a Certain Number of Seconds
 public class ShootForSecsCommand extends Command {
 
   // Uses Shooter
   ShootSubsystem m_shootSubsystem;
+  LEDSubsystem LEDs;
   double m_seconds;
   Timer m_timer = new Timer();
+
 
   // Constructor
   public ShootForSecsCommand(ShootSubsystem shootSubsystem, double seconds) {
@@ -29,6 +32,7 @@ public class ShootForSecsCommand extends Command {
 
   // Reset timer when the command starts executing
   public void initialize() {
+    LEDs.setRed();
     m_timer.start();
     m_timer.reset();
   }
@@ -36,6 +40,12 @@ public class ShootForSecsCommand extends Command {
   // Actual command
   public void execute() {
 
+
+    if(m_timer.get() > k_timeBeforeRevComplete.get() && m_timer.get() < m_seconds) {
+      LEDs.setGreen();
+    } else {
+      LEDs.setRed();
+    }
     if(m_timer.get() < m_seconds) {
       m_shootSubsystem.shoot();
     }
@@ -51,5 +61,6 @@ public class ShootForSecsCommand extends Command {
 
     // Am I done?  Am I done? Am I finally done?
     return m_timer.get() > m_seconds;
+    // LEDs.setStrobeGold();
   }
 }

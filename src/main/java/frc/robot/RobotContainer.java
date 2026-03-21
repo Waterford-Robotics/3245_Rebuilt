@@ -53,6 +53,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public static final ServoSubsystem m_servoSubsystem1 = new ServoSubsystem(ServoConstants.k_servoID1, 140, 100);
   public static final ServoSubsystem m_servoSubsystem2 = new ServoSubsystem(ServoConstants.k_servoID2, 140, 100);
+  private final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
 
   // Auto Factory
   private AutoFactory m_autoFactory = new AutoFactory(

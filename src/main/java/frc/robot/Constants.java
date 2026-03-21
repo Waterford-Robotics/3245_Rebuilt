@@ -177,6 +177,12 @@ public final class Constants {
     public static final double k_intakeSpeed = 0.75;
   }
 
+  //LED Stuff
+  public static final class LEDConstants {
+
+    public static final double k_timeBeforeRevComplete = 3.0;
+  }
+
   // Indexer Stuff 
   public static final class IndexerConstants {
 
