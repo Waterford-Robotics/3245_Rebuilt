@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.LiveConstants;
+import frc.robot.Constants.LEDConstants;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.LEDSubsystem;
 
@@ -13,18 +13,22 @@ import frc.robot.subsystems.LEDSubsystem;
 public class LEDColorChangeCommand extends Command {
 
 //   private boolean m_status;
-  LEDSubsystem LEDs;
-  Timer m_timer = new Timer();
+  LEDSubsystem m_ledSubsystem;
+  Timer m_timer;
+  double m_seconds;
 
-  /** Creates a new AssistedShootCommand. */
-  public LEDColorChangeCommand(boolean statusBoolean) {
-    
-    // m_status = statusBoolean;
+  /** Creates a new LEDColorChangeCommand. */
+  public LEDColorChangeCommand(LEDSubsystem LEDs, double seconds) {
+    m_ledSubsystem = LEDs;
+    m_seconds = seconds;
+    m_timer = new Timer();
+
+    addRequirements(LEDs);
   }
 
   // Called when the command is initially scheduled.
   public void initialize() {
-    LEDs.setRed();
+   // m_ledSubsystem.setRed();
     m_timer.start();
     m_timer.reset();
   }
@@ -32,20 +36,17 @@ public class LEDColorChangeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {
     // LiveConstants._enableShooter = m_status;
-    if(m_timer.get() > LEDConstants.k_timeBeforeRevComplete) {
-      LEDs.setGreen();
-    } else {
-      LEDs.setRed();
-    }
+    if(m_timer.get() > LEDConstants.k_timeBeforeRevComplete) m_ledSubsystem.setGreen();
+
   }
 
   // Called once the command ends or is interrupted.
   public void end(boolean interrupted) {
-    // LEDs.setStrobeGold();
+    //m_ledSubsystem.setStrobeGold();
   }
 
   // Returns true when the command should end.
   public boolean isFinished() {
-    return true;
+    return m_timer.get() > LEDConstants.k_timeBeforeRevComplete;
   }
 }

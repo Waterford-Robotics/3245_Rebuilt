@@ -11,8 +11,6 @@ import frc.robot.Constants.LiveConstants;
 public class SetAssistedShotCommand extends Command {
 
   private boolean m_status;
-  // LEDSubsystem LEDs;
-  // Timer m_timer = new Timer();
 
   /** Creates a new AssistedShootCommand. */
   public SetAssistedShotCommand(boolean statusBoolean) {
@@ -21,20 +19,11 @@ public class SetAssistedShotCommand extends Command {
   }
 
   // Called when the command is initially scheduled.
-  public void initialize() {
-    // LEDs.setRed();
-    // m_timer.start();
-    // m_timer.reset();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {
     LiveConstants._enableShooter = m_status;
-    // if(m_timer.get() > LEDConstants.k_timeBeforeRevComplete){
-    //   LEDs.setGreen();
-    // } else {
-    //   LEDs.setRed();
-    // }
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +32,5 @@ public class SetAssistedShotCommand extends Command {
   // Returns true when the command should end.
   public boolean isFinished() {
     return true;
-    // LEDs.setStrobeGold();
   }
 }

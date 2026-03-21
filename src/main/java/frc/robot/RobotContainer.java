@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -190,7 +192,10 @@ public class RobotContainer {
     // Left Trig - Shoot Rev Up
     new Trigger(() -> m_operatorController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
       .whileTrue(
-        new AssistedShootCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem)
+        new ParallelDeadlineGroup(
+          new AssistedShootCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem), 
+          new LEDColorChangeCommand(m_LEDSubsystem, 3)
+        )
       );
 
 

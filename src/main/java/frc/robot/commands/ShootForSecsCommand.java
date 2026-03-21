@@ -7,6 +7,7 @@ package frc.robot.commands;
 import frc.robot.subsystems.ShootSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.LEDConstants;
 import frc.robot.subsystems.LEDSubsystem;
 
 // Runs Shooter for a Certain Number of Seconds
@@ -41,7 +42,7 @@ public class ShootForSecsCommand extends Command {
   public void execute() {
 
 
-    if(m_timer.get() > k_timeBeforeRevComplete.get() && m_timer.get() < m_seconds) {
+    if(m_timer.get() > LEDConstants.k_timeBeforeRevComplete && m_timer.get() < m_seconds) {
       LEDs.setGreen();
     } else {
       LEDs.setRed();
