@@ -180,7 +180,8 @@ public final class Constants {
   //LED Stuff
   public static final class LEDConstants {
 
-    public static final double k_timeBeforeRevComplete = 3.0;
+    public static final double k_timeBeforeRevComplete = 1.0;
+    public static final int k_ledID = 3;
   }
 
   // Indexer Stuff 

@@ -194,8 +194,11 @@ public class RobotContainer {
       .whileTrue(
         new ParallelDeadlineGroup(
           new AssistedShootCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem), 
-          new LEDColorChangeCommand(m_LEDSubsystem, 3)
+          new LEDColorChangeCommand(m_LEDSubsystem, LEDConstants.k_timeBeforeRevComplete)
         )
+      )
+      .onFalse(
+        new InstantCommand(() -> m_LEDSubsystem.setRainbowParty(), m_LEDSubsystem)
       );
 
 

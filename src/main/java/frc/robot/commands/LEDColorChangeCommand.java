@@ -28,9 +28,9 @@ public class LEDColorChangeCommand extends Command {
 
   // Called when the command is initially scheduled.
   public void initialize() {
-   // m_ledSubsystem.setRed();
-    m_timer.start();
     m_timer.reset();
+    m_timer.start();
+    m_ledSubsystem.setRainbowParty();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,7 +42,7 @@ public class LEDColorChangeCommand extends Command {
 
   // Called once the command ends or is interrupted.
   public void end(boolean interrupted) {
-    //m_ledSubsystem.setStrobeGold();
+    // m_ledSubsystem.setStrobeGold();
   }
 
   // Returns true when the command should end.

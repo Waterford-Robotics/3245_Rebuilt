@@ -1,8 +1,8 @@
 package frc.robot.subsystems;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.LEDConstants;
 
 public class LEDSubsystem extends SubsystemBase {
   Spark m_blinkin;
@@ -10,12 +10,12 @@ public class LEDSubsystem extends SubsystemBase {
 
   public LEDSubsystem() {
     //enter port constant
-    m_blinkin = new Spark(1);
+    m_blinkin = new Spark(LEDConstants.k_ledID);
   } 
   //colors
 
-  public void setStrobeGold(){
-    m_blinkin.set(-0.07);
+  public void setRainbowParty(){
+    m_blinkin.set(-0.97);
   }
 
   public void setRed() {
@@ -56,29 +56,5 @@ public class LEDSubsystem extends SubsystemBase {
   
   public void setTwinklesOceanParty() {
   m_blinkin.set(-0.51);
-  }
-    
-  public void setTeamColor() {
-    var alliance = DriverStation.getAlliance();
-    if(alliance.isPresent()) {
-      if(alliance.get() == DriverStation.Alliance.Red) {
-          setRed();
-      }
-      else if(alliance.get() == DriverStation.Alliance.Blue) {
-          setBlue();
-      }
-    }
-  }
-    
-  public void setTeamColorTwinkles() {
-    var alliance = DriverStation.getAlliance();
-    if(alliance.isPresent()){
-      if(alliance.get() == DriverStation.Alliance.Red) {
-          setTwinklesLavaParty();
-      }
-      else if(alliance.get() == DriverStation.Alliance.Blue) {
-          setTwinklesOceanParty();
-      }
-    }
   }
 }
