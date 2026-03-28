@@ -427,8 +427,8 @@ public class AutoFactory {
     return new SequentialCommandGroup(
       new ParallelDeadlineGroup(
         new SequentialCommandGroup(
-          m_drivetrain.Pathfind(firstPose, AutoConstants.k_constraints),
-          m_drivetrain.Pathfind(endPose, AutoConstants.k_constraints)
+          m_drivetrain.Pathfind(firstPose, AutoConstants.k_defaultConstraints),
+          m_drivetrain.Pathfind(endPose, AutoConstants.k_defaultConstraints)
         ),
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
         new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
@@ -450,14 +450,14 @@ public class AutoFactory {
     return new SequentialCommandGroup(
       new ParallelDeadlineGroup(
         new SequentialCommandGroup(
-          m_drivetrain.Pathfind(firstPose, AutoConstants.k_constraints),
-          m_drivetrain.Pathfind(midPose, AutoConstants.k_constraints)
+          m_drivetrain.Pathfind(firstPose, AutoConstants.k_defaultConstraints),
+          m_drivetrain.Pathfind(midPose, AutoConstants.k_defaultConstraints)
         ),
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
         new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
       ),
        new ParallelDeadlineGroup(
-        m_drivetrain.Pathfind(shootPose, AutoConstants.k_constraints),
+        m_drivetrain.Pathfind(shootPose, AutoConstants.k_defaultConstraints),
         new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
         new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem),
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 5)
