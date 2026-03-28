@@ -35,12 +35,12 @@ public class IndexForSecsCommand extends Command {
     m_timer.reset();
   }
   
-  // run the roller indexer and shooter indexer until canrange detects
+  // Run the indexer until time is up
   public void execute() {
     m_indexSubsystem.index();
   }
 
-  // when the command is over stop running the roller indexer and shooter indexer
+  // When the command is over stop running indexer
   public void end(boolean interrupted) {
     m_indexSubsystem.stopIndexer();
   }

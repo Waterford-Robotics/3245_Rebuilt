@@ -9,14 +9,12 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.ServoSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AssistedShootCommand extends Command {
 
   ServoSubsystem m_servoSubsystem1;
   ServoSubsystem m_servoSubsystem2;
   ShootSubsystem m_shootSubsystem;
   
-  /** Creates a new AssistedShootCommand. */
   public AssistedShootCommand(ServoSubsystem servoSubsystem1, ServoSubsystem servoSubsystem2, ShootSubsystem shootSubsystem) {
 
     m_servoSubsystem1 = servoSubsystem1;

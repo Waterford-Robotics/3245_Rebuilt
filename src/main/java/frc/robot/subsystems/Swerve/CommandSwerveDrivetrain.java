@@ -17,7 +17,6 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -27,8 +26,6 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,16 +36,10 @@ import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.subsystems.Limelight.LimelightHelpers;
 import frc.robot.subsystems.Limelight.Localization;
 import frc.robot.Constants.LiveConstants;
-import frc.robot.Constants.PoseConstants;
 import frc.robot.Constants.VisionConstants;
 
 // It drives the robot!
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
-    
-  // For simulation stuff
-  private static final double kSimLoopPeriod = 0.004; // 4 ms
-  private Notifier m_simNotifier = null;
-  private double m_lastSimTime;
 
   /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
   private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -244,7 +235,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     return m_sysIdRoutineToApply.dynamic(direction);
   }
 
-  // TODO: PUT LOCALIZATION STUFF HERE
   public void periodic() {
     /*
      * Periodically try to apply the operator perspective.
