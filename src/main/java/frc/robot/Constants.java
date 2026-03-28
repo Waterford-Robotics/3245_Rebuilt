@@ -63,9 +63,9 @@ public final class Constants {
     );
 
     public static final PathConstraints k_intakeconstraints = new PathConstraints(
-      3.0, 
+      0.5, 
       3.0,
-      Units.degreesToRadians(540), 
+      Units.degreesToRadians(90), 
       Units.degreesToRadians(720)
     );
   }

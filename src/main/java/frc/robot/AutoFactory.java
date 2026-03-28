@@ -72,6 +72,7 @@ public class AutoFactory {
       )
     );  
   }
+  /*
 
   // Red Alliance Left Trench Auto - Starts on the line in Left Trench of Red Alliance, Shoots Balls x8, Collects, Shoot Again
   public SequentialCommandGroup RedLeftTrenchSingleDipAuto(Pose2d startPose, String pathName) {
@@ -410,6 +411,62 @@ public class AutoFactory {
         new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 10),
         new RunIntakeForSecsCommand(m_intakeSubsystem, 5),
         new IndexForSecsCommand(this.m_indexerSubsystem, 5)
+      )
+    );
+  }
+  */
+
+  public SequentialCommandGroup Score(double revUpSeconds, double shootSeconds) {
+    return new SequentialCommandGroup(
+      new ParallelDeadlineGroup(
+        new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, revUpSeconds),
+        new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
+      ),
+      new ParallelDeadlineGroup(
+        new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, shootSeconds),
+        new IndexForSecsCommand(this.m_indexerSubsystem, 5)
+      )
+    );
+  }
+
+  public SequentialCommandGroup GoOutTrench(Pose2d firstPose, Pose2d endPose){
+    return new SequentialCommandGroup(
+      new ParallelDeadlineGroup(
+        new SequentialCommandGroup(
+          m_drivetrain.Pathfind(firstPose, AutoConstants.k_constraints),
+          m_drivetrain.Pathfind(endPose, AutoConstants.k_constraints)
+        ),
+        new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
+        new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
+      )
+    );
+  }
+
+  public ParallelDeadlineGroup FollowPath(String path){
+    return new ParallelDeadlineGroup(
+      m_drivetrain.followPath(path, false, false)
+      /*
+      new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
+      new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
+      */
+    );
+  }
+
+  public SequentialCommandGroup GoBackTrench(Pose2d firstPose, Pose2d midPose, Pose2d shootPose){
+    return new SequentialCommandGroup(
+      new ParallelDeadlineGroup(
+        new SequentialCommandGroup(
+          m_drivetrain.Pathfind(firstPose, AutoConstants.k_constraints),
+          m_drivetrain.Pathfind(midPose, AutoConstants.k_constraints)
+        ),
+        new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
+        new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem)
+      ),
+       new ParallelDeadlineGroup(
+        m_drivetrain.Pathfind(shootPose, AutoConstants.k_constraints),
+        new RunIntakeForSecsCommand(this.m_intakeSubsystem, 8),
+        new AutoIndexCommand(this.m_indexerSubsystem, m_canRangeSubsystem),
+        new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 5)
       )
     );
   }

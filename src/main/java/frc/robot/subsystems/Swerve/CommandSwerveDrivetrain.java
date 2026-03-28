@@ -509,7 +509,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     ).withName("HIIIIII");
   }
 
-  public Command followPath(String pathName, PathConstraints constraints, boolean withFlip, boolean withMirror){
+  public Command followPath(String pathName, boolean withFlip, boolean withMirror){
     PathPlannerPath path;
     try{
       path = PathPlannerPath.fromPathFile(pathName);
@@ -526,6 +526,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       e.printStackTrace();
       return new InstantCommand();
     }
+  }
+
+  public Command followPath(PathPlannerPath path, boolean withFlip, boolean withMirror){
+      if (withFlip){
+        path = path.flipPath();
+      }
+      if (withMirror) {
+        path = path.mirrorPath();
+      }
+      Command m_pathfindingCommand = AutoBuilder.followPath(path);
+      return m_pathfindingCommand;
   }
 
   public Pose2d mirrorPose(Pose2d pose){

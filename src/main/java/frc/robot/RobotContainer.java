@@ -15,8 +15,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
@@ -68,6 +70,12 @@ public class RobotContainer {
   // Create New Choosing Option in SmartDashboard for Autos
   private SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+  private SendableChooser<Command> m_action1 = new SendableChooser<>();
+  private SendableChooser<Command> m_action2 = new SendableChooser<>();
+  private SendableChooser<Command> m_action3 = new SendableChooser<>();
+  private SendableChooser<Command> m_action4 = new SendableChooser<>();
+  private SendableChooser<Command> m_action5 = new SendableChooser<>();
+
     public RobotContainer() {
 
       // No logs
@@ -87,6 +95,7 @@ public class RobotContainer {
         )
       );
       // COMP AUTOS
+      /*
       m_chooser.addOption("Hub Shot Auto", m_autoFactory.HubShotAuto());
       m_chooser.addOption("Red Left Trench Single Dip", m_autoFactory.RedLeftTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench"));
       m_chooser.addOption("Red Right Trench Single Dip", m_autoFactory.RedRightTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench"));
@@ -104,9 +113,34 @@ public class RobotContainer {
       m_chooser.addOption("New: Red Right to Left Trench Single Dip", m_autoFactory.RedRightTrenchToLeftAuto());
       m_chooser.addOption("New: Blue Left to Right Trench Single Dip", m_autoFactory.BlueLeftTrenchToRightAuto());
       m_chooser.addOption("New: Blue Right to Left Trench Single Dip", m_autoFactory.BlueRightTrenchToLeftAuto());
+      */
+      
+      m_action1.setDefaultOption("Nothing", Commands.none());
+      m_action1.addOption("Shoot Eight", m_autoFactory.Score(2, 1.5));
+      
+      m_action2.setDefaultOption("Nothing", Commands.none());
+      m_action2.addOption("Close/Mid Pose", m_autoFactory.GoOutTrench(PoseConstants.k_redLeftAutoStartingPose, PoseConstants.k_redTrenchLeftNeutralPoseRotated));
+      m_action2.addOption("Far Pose", m_autoFactory.GoOutTrench(PoseConstants.k_redLeftAutoStartingPose, PoseConstants.k_redTrenchLeftFarPoseRotated));
+
+      m_action3.setDefaultOption("Nothing", Commands.none());
+      m_action3.addOption("Close Path", m_autoFactory.FollowPath("Red Left Trench Close"));
+      m_action3.addOption("Mid Path", m_autoFactory.FollowPath("Red Left Trench Mid"));
+      m_action3.addOption("Far Path", m_autoFactory.FollowPath("Red Left Trench Far"));
+
+      m_action4.setDefaultOption("Nothing", Commands.none());
+      m_action4.addOption("Off Trench Shoot", m_autoFactory.GoBackTrench(PoseConstants.k_redTrenchLeftNeutralPose, PoseConstants.k_redTrenchLeftAlliancePose, PoseConstants.k_redLeftShootPose));
+
+      m_action5.setDefaultOption("Nothing", Commands.none());
+      m_action5.addOption("Shoot Hopper", m_autoFactory.Score(0, 4));
+
 
       // Puts a chooser on the SmartDashboard!
       SmartDashboard.putData("AutoMode", m_chooser);
+      SmartDashboard.putData("Action 1", m_action1);
+      SmartDashboard.putData("Action 2", m_action2);
+      SmartDashboard.putData("Action 3", m_action3);
+      SmartDashboard.putData("Action 4", m_action4);
+      SmartDashboard.putData("Action 5", m_action5);
       SmartDashboard.putNumber("Shoot Speed", 0.25);
       SmartDashboard.putNumber("Shoot Angle", 0);
     }
@@ -161,6 +195,14 @@ public class RobotContainer {
     )
     .onFalse(
       new InstantCommand(() -> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
+    );
+
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_rightbump)
+    .onTrue(
+      new RunCommand(() -> m_shootSubsystem.shoot(0.35), m_shootSubsystem)
+    )
+    .onFalse(
+      new InstantCommand(() -> m_shootSubsystem.shoot(0), m_shootSubsystem)
     );
 
     // Right Bump - Reverse Index
@@ -250,6 +292,13 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return m_chooser.getSelected();
+    // return m_chooser.getSelected();
+    return new SequentialCommandGroup(
+      m_action1.getSelected(),
+      m_action2.getSelected(),
+      m_action3.getSelected(),
+      m_action4.getSelected(),
+      m_action5.getSelected()
+    );
   }
 }
