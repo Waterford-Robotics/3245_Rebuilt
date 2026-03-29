@@ -209,6 +209,15 @@ public class RobotContainer {
       new InstantCommand(() -> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
     );
 
+    // X - Hub Shot
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_X)
+    .onTrue(
+      new RunCommand(() -> m_shootSubsystem.shoot(ShootConstants.k_hubShotSpeed), m_shootSubsystem)
+    )
+    .onFalse(
+      new InstantCommand(() -> m_shootSubsystem.stopShooter(), m_shootSubsystem)
+    );
+
     // Left Trig - Shoot Rev Up
     new Trigger(() -> m_operatorController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
     .whileTrue(

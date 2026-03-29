@@ -178,7 +178,7 @@ public final class Constants {
     public static final int k_shooterSupplyCurrentLimit = 60;
 
     // Subsystem
-    public static final double k_hubShotSpeed = 0.365;
+    public static final double k_hubShotSpeed = 0.42;
   }
 
   // Intake Stuff
@@ -187,10 +187,10 @@ public final class Constants {
     // Configs
     public static final double k_intakeRampRate = 0.05;
     public static final double k_intakeClosedMaxSpeed = 0.95;
-    public static final int k_intakeSupplyCurrentLimit = 60;
+    public static final int k_intakeSupplyCurrentLimit = 40;
 
     // Subsystems
-    public static final double k_intakeSpeed = 0.75;
+    public static final double k_intakeSpeed = 0.40;
 
     // Intake Deploy Angles
     public static final Angle k_intakeRetractedAngle = edu.wpi.first.units.Units.Rotations.of(0);
