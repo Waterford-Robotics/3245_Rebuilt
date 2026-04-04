@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs.ShootConfigs;
 import frc.robot.Constants.MotorIDConstants;
@@ -21,6 +22,7 @@ public class ShootSubsystem extends SubsystemBase {
 
   private TalonFX m_shooterLeft;
   private TalonFX m_shooterRight;
+  double shootSpeed;
 
   public ShootSubsystem() {
     
@@ -29,11 +31,13 @@ public class ShootSubsystem extends SubsystemBase {
 
     m_shooterLeft.getConfigurator().apply(ShootConfigs.SHOOT_TALON_FX_CONFIGURATION, 0.05);
     m_shooterRight.getConfigurator().apply(ShootConfigs.SHOOT_TALON_FX_CONFIGURATION, 0.05);
+    SmartDashboard.putNumber("Shoot Speed", 0.35);
   }
 
   public void shoot(){
-    m_shooterLeft.set(-ShootConstants.k_hubShotSpeed);
-    m_shooterRight.set(ShootConstants.k_hubShotSpeed);
+    shootSpeed = SmartDashboard.getNumber("Shoot Speed", 0.35);
+    m_shooterLeft.set(-shootSpeed);
+    m_shooterRight.set(shootSpeed);
   }
 
   public void shoot(double shootSpeed){

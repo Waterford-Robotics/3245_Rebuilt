@@ -192,13 +192,51 @@ public class RobotContainer {
       new InstantCommand(() -> m_drivetrain.resetGyro(), m_drivetrain)
     );
 
+    // Testing
+
+    // X - Shot
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_X)
+    .onTrue(
+      new RunCommand(() -> m_shootSubsystem.shoot(), m_shootSubsystem)
+    )
+    .onFalse(
+      new InstantCommand(() -> m_shootSubsystem.stopShooter(), m_shootSubsystem)
+    );
+
+    // Y - Servos
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_Y)
+    .onTrue(
+      new RunCommand(() -> m_servoSubsystem1.setPosition(m_servoSubsystem1.getSetpoint()), m_servoSubsystem1)
+    )
+    .onTrue(
+      new RunCommand(() -> m_servoSubsystem2.setPosition(m_servoSubsystem2.getSetpoint()), m_servoSubsystem2)
+    );
+
+    // B - Auto Align
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_B)
+    .onTrue(
+      new InstantCommand(() -> m_drivetrain.changeRotationAssistance(), m_drivetrain)
+    )
+    .onFalse(
+      new InstantCommand(() -> m_drivetrain.changeRotationAssistance(), m_drivetrain)
+    );
+
+    // Left Bump
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_leftbump)
+    .whileTrue(
+      new AssistedShootCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem)
+    );
+
+    // End of Testing
+
     /*
      * OPERATOR CONTROLLER
      * Right Bump - Reverse Index
      * Left Trig - Rev Up
      * Right Trig - Shoot
      * Y - Reverse Intake
-    */    
+    */ 
+
 
     // Right Bump - Reverse Index
     new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_rightbump)
@@ -212,7 +250,7 @@ public class RobotContainer {
     // X - Hub Shot
     new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_X)
     .onTrue(
-      new RunCommand(() -> m_shootSubsystem.shoot(ShootConstants.k_hubShotSpeed), m_shootSubsystem)
+      new RunCommand(() -> m_shootSubsystem.shoot(), m_shootSubsystem)
     )
     .onFalse(
       new InstantCommand(() -> m_shootSubsystem.stopShooter(), m_shootSubsystem)

@@ -413,31 +413,20 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       double angleToTurn = (getAngleToHubCenter().getDegrees() - getAllianceAdjustedHeading() + 360*4)%360;
       SmartDashboard.putNumber("Angle To Turn", angleToTurn);
       SmartDashboard.putNumber("PID Number", targetingAngularVelocity);
-      if (Math.abs(targetingAngularVelocity) < 0.04){
+      if (Math.abs(targetingAngularVelocity) < 0.02){
         targetingAngularVelocity = 0;
       }
       else {
-        if (targetingAngularVelocity > 0 && targetingAngularVelocity < 0.08){
-          targetingAngularVelocity = 0.08;
+        if (targetingAngularVelocity > 0 && targetingAngularVelocity < 0.10){
+          targetingAngularVelocity = 0.10;
         }
-        if (targetingAngularVelocity < 0 && targetingAngularVelocity > -0.08){
-          targetingAngularVelocity = -0.08;
+        if (targetingAngularVelocity < 0 && targetingAngularVelocity > -0.10){
+          targetingAngularVelocity = -0.10;
         }
       }
       return targetingAngularVelocity;
     }
   }
-  /*
-  1.17m = (0, 0.33)
-  1.56m = (0, 0.35)
-  2.00m = (5, 0.37)
-  2.50m = (10, 0.39)
-  3.02m = (15, 0.42)
-  3.36m = (16.5, 0.43)
-  3.65m = (18, 0.44)
-  3.90m = (20, 0.448)
-  4.25m = (22, 0.46)
-   */
 
    /*
     1.69 = (0, 0.40)
@@ -449,9 +438,21 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     3.92 = (15, 0.53)
     4.37 = (20, 0.55)
     */
+
+    /*
+     1.47 = (0, 0.41)
+     1.70 = (0, 0.41)
+     2.17 = (4, 0.44) (okay)
+     2.53 = (7, 0.44)
+     2.80 = (8.5, 0.45)
+     3.15 = (10, 0.46)
+     3.60 = (15, 0.47)
+     4.09 = (22, 0.50)
+     4.26 = (25, 0.51)
+     */
   public double getShooterSpeed(double distance){
-    double[] testedDistances = {1.3, 1.69, 2.17, 2.58, 2.90, 3.20, 3.48, 3.92, 4.37};
-    double[] testedSpeeds = {0.365, 0.40, 0.455, 0.46, 0.47, 0.48, 0.49, 0.52, 0.55};
+    double[] testedDistances = {1.47, 1.70, 2.17, 2.53, 2.80, 3.15, 3.60, 4.09, 4.26};
+    double[] testedSpeeds = {0.41, 0.41, 0.44, 0.44, 0.46, 0.46, 0.47, 0.50, 0.51};
     int index = 0;
     while (index < testedDistances.length && testedDistances[index] < distance){
       index++;
@@ -467,8 +468,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   }
 
   public double getServoAngle(double distance){
-    double[] testedDistances = {1.69, 2.17, 2.58, 2.90, 3.20, 3.48, 3.92, 4.37};
-    double[] testedAngles = {0, 4, 6, 10, 12.5, 15, 15, 20};
+    double[] testedDistances = {1.47, 1.70, 2.17, 2.53, 2.80, 3.15, 3.60, 4.09, 4.26};
+    double[] testedAngles = {0, 0, 4, 7, 8.5, 10, 15, 22, 25};
     int index = 0;
     while (index < testedDistances.length && testedDistances[index] < distance){
       index++;
