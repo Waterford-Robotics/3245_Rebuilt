@@ -99,7 +99,7 @@ public class Configs {
       INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.MotorOutput.NeutralMode = NeutralModeValue.Brake;
       INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.CurrentLimits.SupplyCurrentLimit = 60;
       INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.SoftwareLimitSwitch.ForwardSoftLimitEnable = true; 
-      INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(4).in(Units.Rotations); // TODO: UPDATE FOR FINAL
+      INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(3.2).in(Units.Rotations); // TODO: UPDATE FOR FINAL
       INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
       INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Units.Rotations.of(0).in(Units.Rotations); // Starting position
       INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.Slot0.GravityType = GravityTypeValue.Arm_Cosine;

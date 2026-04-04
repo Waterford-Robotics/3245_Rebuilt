@@ -194,9 +194,9 @@ public final class Constants {
 
     // Intake Deploy Angles
     public static final Angle k_intakeRetractedAngle = edu.wpi.first.units.Units.Rotations.of(0);
-    public static final Angle k_intakedexRetractedAngle = edu.wpi.first.units.Units.Rotations.of(1.5);
-    public static final Angle k_intakedexDeployedAngle = edu.wpi.first.units.Units.Rotations.of(2);
-    public static final Angle k_intakeDeployedAngle = edu.wpi.first.units.Units.Rotations.of(3.75);
+    public static final Angle k_intakedexRetractedAngle = edu.wpi.first.units.Units.Rotations.of(1.2);
+    public static final Angle k_intakedexDeployedAngle = edu.wpi.first.units.Units.Rotations.of(1.5);
+    public static final Angle k_intakeDeployedAngle = edu.wpi.first.units.Units.Rotations.of(3.1);
 
     // Flipout PIDs TODO: RETUNE ME WHEN ASSEMBLED
     public static final double k_intakeFlipoutP = 0.7; 
