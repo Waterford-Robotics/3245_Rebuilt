@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.454524792706525,
-        "y": 0.6
+        "x": 7.7243530415500015,
+        "y": 6.83911833560828
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.187679647489986,
-        "y": 0.6
+        "x": 8.724353041550001,
+        "y": 6.83911833560828
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Left Fuel Snipe Finish Waypoint"
     },
     {
       "anchor": {
-        "x": 3.0,
-        "y": 0.6
+        "x": 3.6050737693093042,
+        "y": 7.069974007654671
       },
       "prevControl": {
-        "x": 2.0,
-        "y": 0.6000000000000001
+        "x": 2.8608385402024394,
+        "y": 7.395054208774759
       },
       "nextControl": null,
       "isLocked": false,

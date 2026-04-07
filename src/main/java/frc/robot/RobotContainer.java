@@ -11,9 +11,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -51,27 +49,10 @@ public class RobotContainer {
   public static final ServoSubsystem m_servoSubsystem1 = new ServoSubsystem(ServoConstants.k_servoID1, 140, 100);
   public static final ServoSubsystem m_servoSubsystem2 = new ServoSubsystem(ServoConstants.k_servoID2, 140, 100);
 
-  // Auto Factory
-  private AutoFactory m_autoFactory = new AutoFactory(
-    m_drivetrain, 
-    m_intakeSubsystem, 
-    m_indexSubsystem, 
-    m_canRangeSubsystem, 
-    m_servoSubsystem2, 
-    m_servoSubsystem1, 
-    m_shootSubsystem
-  );
-
   // Create New Choosing Option in SmartDashboard for Autos
   private SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  private SendableChooser<Command> m_action1 = new SendableChooser<>();
-  private SendableChooser<Command> m_action2 = new SendableChooser<>();
-  private SendableChooser<Command> m_action3 = new SendableChooser<>();
-  private SendableChooser<Command> m_action4 = new SendableChooser<>();
-  private SendableChooser<Command> m_action5 = new SendableChooser<>();
-
-    public RobotContainer() {
+  public RobotContainer() {
 
     // Cos those warnings are so annoying (TODO: SILENCE WARNING REMOVE LATER)
     DriverStation.silenceJoystickConnectionWarning(true); 
@@ -79,68 +60,24 @@ public class RobotContainer {
     // No logs
     SignalLogger.enableAutoLogging(false);
 
-      // Note that X is defined as forward according to WPILib convention,
-      // and Y is defined as to the left according to WPILib convention.
-      m_drivetrain.setDefaultCommand(
-        // Drivetrain will execute this command periodically
-        m_drivetrain.applyRequest(() -> 
-          drive.withVelocityX(-m_driverController.getLeftY() * DriveConstants.k_maxSpeed) // Drive forward with negative Y (forward)
-            .withVelocityY(-m_driverController.getLeftX() * DriveConstants.k_maxSpeed) // Drive left with negative X (left)
-            .withRotationalRate(m_drivetrain.getAdjustedRotation(-MathUtil.applyDeadband(m_driverController.getRightX(),0.1)) * DriveConstants.k_maxAngularRate) // Drive counterclockwise with negative X (left) (changed **)
-        )
-      );
-      // COMP AUTOS
-      /*
-      m_chooser.addOption("Hub Shot Auto", m_autoFactory.HubShotAuto());
-      m_chooser.addOption("Red Left Trench Single Dip", m_autoFactory.RedLeftTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench"));
-      m_chooser.addOption("Red Right Trench Single Dip", m_autoFactory.RedRightTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench"));
-      m_chooser.addOption("Blue Left Trench Single Dip", m_autoFactory.BlueLeftTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench"));
-      m_chooser.addOption("Blue Right Trench Single Dip", m_autoFactory.BlueRightTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench"));
-      m_chooser.addOption("Close Red Left Trench Single Dip", m_autoFactory.RedLeftTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench Close"));
-      m_chooser.addOption("Close Red Right Trench Single Dip", m_autoFactory.RedRightTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench Close"));
-      m_chooser.addOption("Playoffs Left", m_autoFactory.BlueLeftTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench Close"));
-      m_chooser.addOption("Playoffs Right", m_autoFactory.BlueRightTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftNeutralPoseRotated, "Red Left Trench Close"));
-      m_chooser.addOption("Far Red Left Trench Single Dip", m_autoFactory.RedLeftTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftFarPoseRotated, "Red Left Trench Far"));
-      m_chooser.addOption("Far Red Right Trench Single Dip", m_autoFactory.RedRightTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftFarPoseRotated, "Red Left Trench Far"));
-      m_chooser.addOption("Far Blue Left Trench Single Dip", m_autoFactory.BlueLeftTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftFarPoseRotated, "Red Left Trench Far"));
-      m_chooser.addOption("Far Blue Right Trench Single Dip", m_autoFactory.BlueRightTrenchSingleDipAuto(PoseConstants.k_redTrenchLeftFarPoseRotated, "Red Left Trench Far"));
-      m_chooser.addOption("New: Red Left to Right Trench Single Dip", m_autoFactory.RedLeftTrenchToRightAuto());
-      m_chooser.addOption("New: Red Right to Left Trench Single Dip", m_autoFactory.RedRightTrenchToLeftAuto());
-      m_chooser.addOption("New: Blue Left to Right Trench Single Dip", m_autoFactory.BlueLeftTrenchToRightAuto());
-      m_chooser.addOption("New: Blue Right to Left Trench Single Dip", m_autoFactory.BlueRightTrenchToLeftAuto());
-      */
-      
-      m_action1.setDefaultOption("Nothing", Commands.none());
-      m_action1.addOption("Shoot Eight", m_autoFactory.Score(2, 1.5));
-      
-      m_action2.setDefaultOption("Nothing", Commands.none());
-      m_action2.addOption("Close/Mid Pose", m_autoFactory.GoOutTrench(PoseConstants.k_redLeftAutoStartingPose, PoseConstants.k_redTrenchLeftNeutralPoseRotated));
-      m_action2.addOption("Far Pose", m_autoFactory.GoOutTrench(PoseConstants.k_redLeftAutoStartingPose, PoseConstants.k_redTrenchLeftFarPoseRotated));
+    // Note that X is defined as forward according to WPILib convention,
+    // and Y is defined as to the left according to WPILib convention.
+    m_drivetrain.setDefaultCommand(
+      // Drivetrain will execute this command periodically
+      m_drivetrain.applyRequest(() -> 
+        drive.withVelocityX(-m_driverController.getLeftY() * DriveConstants.k_maxSpeed) // Drive forward with negative Y (forward)
+          .withVelocityY(-m_driverController.getLeftX() * DriveConstants.k_maxSpeed) // Drive left with negative X (left)
+          .withRotationalRate(m_drivetrain.getAdjustedRotation(-MathUtil.applyDeadband(m_driverController.getRightX(),0.1)) * DriveConstants.k_maxAngularRate) // Drive counterclockwise with negative X (left) (changed **)
+      )
+    );
 
-      m_action3.setDefaultOption("Nothing", Commands.none());
-      m_action3.addOption("Close Path", m_autoFactory.FollowPath("Red Left Trench Close"));
-      m_action3.addOption("Mid Path", m_autoFactory.FollowPath("Red Left Trench Mid"));
-      m_action3.addOption("Far Path", m_autoFactory.FollowPath("Red Left Trench Far"));
+    // COMP AUTOS
+    /*
+    m_chooser.addOption("Hub Shot Auto", m_autoFactory.HubShotAuto());  
+    */
 
-      m_action4.setDefaultOption("Nothing", Commands.none());
-      m_action4.addOption("Off Trench Shoot", m_autoFactory.GoBackTrench(PoseConstants.k_redTrenchLeftNeutralPose, PoseConstants.k_redTrenchLeftAlliancePose, PoseConstants.k_redLeftShootPose));
-
-      m_action5.setDefaultOption("Nothing", Commands.none());
-      m_action5.addOption("Shoot Hopper", m_autoFactory.Score(0, 4));
-
-
-      // Puts a chooser on the SmartDashboard!
-      SmartDashboard.putData("AutoMode", m_chooser);
-      SmartDashboard.putData("Action 1", m_action1);
-      SmartDashboard.putData("Action 2", m_action2);
-      SmartDashboard.putData("Action 3", m_action3);
-      SmartDashboard.putData("Action 4", m_action4);
-      SmartDashboard.putData("Action 5", m_action5);
-      SmartDashboard.putNumber("Shoot Speed", 0.25);
-      SmartDashboard.putNumber("Shoot Angle", 0);
-
-      configureBindings();
-    }
+    configureBindings();
+  }
 
 
   // Config the Button Buttons YAY
@@ -312,13 +249,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    // return m_chooser.getSelected();
-    return new SequentialCommandGroup(
-      m_action1.getSelected(),
-      m_action2.getSelected(),
-      m_action3.getSelected(),
-      m_action4.getSelected(),
-      m_action5.getSelected()
-    );
+    return m_chooser.getSelected();
   }
 }
