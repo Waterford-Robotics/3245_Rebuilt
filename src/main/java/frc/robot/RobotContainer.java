@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -71,10 +72,17 @@ public class RobotContainer {
       )
     );
 
+    // NAMED COMMANDS
+    NamedCommands.registerCommand("Deploy Flipout", new SetIntakeFlipoutCommand(m_flipoutSubsystem, "DEPLOY"));
+    NamedCommands.registerCommand("Stow Flipout", new SetIntakeFlipoutCommand(m_flipoutSubsystem, "STOW"));
+    NamedCommands.registerCommand("Run Intake", new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem));
+    NamedCommands.registerCommand("Stop Intake", new InstantCommand(() -> m_intakeSubsystem.stop(), m_intakeSubsystem));
+    NamedCommands.registerCommand("Auto Index", new AutoIndexCommand(m_indexSubsystem, m_canRangeSubsystem));
+    NamedCommands.registerCommand("Index", new IndexForSecsCommand(m_indexSubsystem, 5));
+    NamedCommands.registerCommand("Distance Shot", new ShootForSecsCommand(m_shootSubsystem, 5));
+
     // COMP AUTOS
-    /*
-    m_chooser.addOption("Hub Shot Auto", m_autoFactory.HubShotAuto());  
-    */
+    m_chooser.addOption("Left Trench Snipe Double Dip Auto", m_drivetrain.getAuto("Left Trench Snipe Double Dip Auto"));  
 
     configureBindings();
   }

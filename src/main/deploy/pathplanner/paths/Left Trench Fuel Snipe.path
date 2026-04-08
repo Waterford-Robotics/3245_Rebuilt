@@ -3,38 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.7243530415500015,
-        "y": 6.83911833560828
+        "x": 4.446725259646021,
+        "y": 7.41713122916944
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.724353041550001,
-        "y": 6.83911833560828
+        "x": 6.118040574199021,
+        "y": 7.447549839019775
       },
       "isLocked": false,
-      "linkedName": "Left Fuel Snipe Finish Waypoint"
+      "linkedName": "Left Trench"
     },
     {
       "anchor": {
-        "x": 3.6050737693093042,
-        "y": 7.069974007654671
+        "x": 8.545870416043986,
+        "y": 6.83911833560828
       },
       "prevControl": {
-        "x": 2.8608385402024394,
-        "y": 7.395054208774759
+        "x": 7.249493757053132,
+        "y": 7.024913466645535
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Left Fuel Snipe Waypoint"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Deploy Flipout",
+      "waypointRelativePos": 0.5,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 8.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +49,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": -90.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
