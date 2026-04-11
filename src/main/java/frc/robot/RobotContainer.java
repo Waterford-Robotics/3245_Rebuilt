@@ -261,11 +261,11 @@ public class RobotContainer {
 
     new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_A)
     .whileTrue(
-      new SequentialCommandGroup(
+        new SequentialCommandGroup(
         new SetIntakeFlipoutCommand(m_flipoutSubsystem, "INTAKEDEX UPPER"),
         new WaitCommand(0.5),
         new SetIntakeFlipoutCommand(m_flipoutSubsystem, "INTAKEDEX LOWER"),
-        new WaitCommand(0.5))
+        new WaitCommand(0.5)).repeatedly()
     );
 
     // B - Zero Flipout
