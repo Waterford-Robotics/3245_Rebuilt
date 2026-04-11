@@ -3,16 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.545870416043986,
-        "y": 6.895293210630063
+        "x": 4.45233462496281,
+        "y": 7.597552131674094
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.655019731875107,
-        "y": 5.763814629535679
+        "x": 7.132183030598476,
+        "y": 6.604876319271494
       },
       "isLocked": false,
-      "linkedName": "Left Fuel Snipe Waypoint"
+      "linkedName": "Left Trench"
+    },
+    {
+      "anchor": {
+        "x": 8.421898634168837,
+        "y": 6.615719812181261
+      },
+      "prevControl": {
+        "x": 7.918630559614762,
+        "y": 7.28265923863541
+      },
+      "nextControl": {
+        "x": 8.655443181372332,
+        "y": 6.306222599385862
+      },
+      "isLocked": false,
+      "linkedName": null
     },
     {
       "anchor": {
@@ -20,12 +36,12 @@
         "y": 5.686440644753263
       },
       "prevControl": {
-        "x": 8.608177520001794,
-        "y": 6.642337344888644
+        "x": 8.488867566998305,
+        "y": 6.043215198307668
       },
       "nextControl": {
-        "x": 8.51904288432643,
-        "y": 5.274860786075284
+        "x": 8.598632094678917,
+        "y": 5.356211109652771
       },
       "isLocked": false,
       "linkedName": null
@@ -36,12 +52,12 @@
         "y": 4.547770897895322
       },
       "prevControl": {
-        "x": 8.676143445639305,
-        "y": 4.545617270396416
+        "x": 8.80608164460165,
+        "y": 4.454449219346738
       },
       "nextControl": {
-        "x": 7.759278070511029,
-        "y": 4.550412936574794
+        "x": 7.7821306944593065,
+        "y": 4.630856773960135
       },
       "isLocked": false,
       "linkedName": null
@@ -52,12 +68,12 @@
         "y": 5.171711286812672
       },
       "prevControl": {
-        "x": 7.814725097412172,
-        "y": 4.93861711803266
+        "x": 7.828745461211943,
+        "y": 4.944550060550078
       },
       "nextControl": {
-        "x": 7.562750514892856,
-        "y": 5.588528258215282
+        "x": 7.563422062580759,
+        "y": 5.521902216811972
       },
       "isLocked": false,
       "linkedName": null
@@ -68,8 +84,8 @@
         "y": 5.47604359209979
       },
       "prevControl": {
-        "x": 6.7721034719496265,
-        "y": 5.416415612097856
+        "x": 6.529923139529108,
+        "y": 5.178962696929359
       },
       "nextControl": null,
       "isLocked": false,
@@ -78,21 +94,44 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 2.0,
       "rotationDegrees": -90.0
     },
     {
-      "waypointRelativePos": 2.0,
+      "waypointRelativePos": 3.0,
       "rotationDegrees": 180.0
     },
     {
-      "waypointRelativePos": 3.0,
+      "waypointRelativePos": 4.0,
       "rotationDegrees": 90.0
     }
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Deploy Flipout",
+      "waypointRelativePos": 0.315491939303883,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Deploy Flipout"
+        }
+      }
+    },
+    {
+      "name": "Run Intake",
+      "waypointRelativePos": 0.45427392091465957,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Run Intake"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -102,11 +141,11 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 2.0,
     "rotation": -45.0
   },
   "reversed": false,
-  "folder": "Test Paths",
+  "folder": "Comp Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -90.0
