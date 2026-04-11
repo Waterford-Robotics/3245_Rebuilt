@@ -393,8 +393,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     return directionToHub;
   }
 
-  public void changeRotationAssistance(){
-    useRotationAssistance = !useRotationAssistance;
+  public void changeRotationAssistance(boolean newValue){
+    useRotationAssistance = newValue;
   }
 
   public double getAdjustedRotation(double rot){

@@ -241,11 +241,8 @@ public class RobotContainer {
 
     // Right Trig - Auto Align
     new Trigger(() -> m_operatorController.getRawAxis(ControllerConstants.k_righttrig) > 0.05)
-    .onTrue(
-      new InstantCommand(() -> m_drivetrain.changeRotationAssistance(), m_drivetrain)
-    )
-    .onFalse(
-      new InstantCommand(() -> m_drivetrain.changeRotationAssistance(), m_drivetrain)
+    .whileTrue(
+      new ChangeRotationAssistanceCommand()
     );
 
     // Y Operator - Reverse Intake
@@ -263,9 +260,9 @@ public class RobotContainer {
     .whileTrue(
         new SequentialCommandGroup(
         new SetIntakeFlipoutCommand(m_flipoutSubsystem, "INTAKEDEX UPPER"),
-        new WaitCommand(0.5),
+        new WaitCommand(0.3),
         new SetIntakeFlipoutCommand(m_flipoutSubsystem, "INTAKEDEX LOWER"),
-        new WaitCommand(0.5)).repeatedly()
+        new WaitCommand(0.3)).repeatedly()
     );
 
     // B - Zero Flipout

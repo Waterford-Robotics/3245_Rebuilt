@@ -96,9 +96,9 @@ public final class Constants {
     public static final double kDAim = 0.000;
   }
 
-  //LEDs
+  //s
   public static final class LEDConstants {
-    public static final int k_ledID = 3;
+    public static final int k_ledID = 0;
   }
   
   // Localization code stuff omg
@@ -185,6 +185,7 @@ public final class Constants {
 
     // Subsystem
     public static final double k_hubShotSpeed = 0.42;
+    public static final double k_maxShootRPS = 100.0;
   }
 
   // Intake Stuff
@@ -200,7 +201,7 @@ public final class Constants {
 
     // Intake Deploy Angles
     public static final Angle k_intakeRetractedAngle = edu.wpi.first.units.Units.Rotations.of(-3.3);
-    public static final Angle k_intakedexRetractedAngle = edu.wpi.first.units.Units.Rotations.of(-1.8);
+    public static final Angle k_intakedexRetractedAngle = edu.wpi.first.units.Units.Rotations.of(-2.0);
     public static final Angle k_intakedexDeployedAngle = edu.wpi.first.units.Units.Rotations.of(-1.0);
     public static final Angle k_intakeDeployedAngle = edu.wpi.first.units.Units.Rotations.of(0);
 

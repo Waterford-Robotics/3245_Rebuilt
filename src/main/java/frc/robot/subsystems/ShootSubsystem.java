@@ -51,7 +51,7 @@ public class ShootSubsystem extends SubsystemBase {
   }
 
   public double getSpeed(){
-    return m_shooterRight.getVelocity().getValueAsDouble();
+    return m_shooterRight.getVelocity().getValueAsDouble()/ShootConstants.k_maxShootRPS;
   }
 
   public void periodic() {}

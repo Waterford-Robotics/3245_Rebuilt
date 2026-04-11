@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.LEDConstants;
 import frc.robot.subsystems.LEDSubsystem;
@@ -41,10 +42,11 @@ public class LEDColorChangeCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {
+    SmartDashboard.putNumber("Shooter Reading Speed", m_shootSubsystem.getSpeed());
     // LiveConstants._enableShooter = m_status;
-    if((Math.abs(RobotContainer.m_drivetrain.getShooterSpeed(RobotContainer.m_drivetrain.getDistanceToHubCenter()) - m_shootSubsystem.getSpeed()) < 0.5) 
-        && (Math.abs(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()) - m_servoSubsystem1.getPosition())<5) 
-        && (Math.abs(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()) - m_servoSubsystem2.getPosition())<5)){
+    if((Math.abs(RobotContainer.m_drivetrain.getShooterSpeed(RobotContainer.m_drivetrain.getDistanceToHubCenter()) - m_shootSubsystem.getSpeed()) < 0.5)){
+        //&& (Math.abs(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()) - m_servoSubsystem1.getPosition())<5) 
+        //&& (Math.abs(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()) - m_servoSubsystem2.getPosition())<5)){
       m_ledSubsystem.setGreen();
     }
     else{
@@ -54,16 +56,11 @@ public class LEDColorChangeCommand extends Command {
   }
   // Called once the command ends or is interrupted.
   public void end(boolean interrupted) {
-    // m_ledSubsystem.setStrobeGold();
+    m_ledSubsystem.setRainbowParty();
   }
 
   // Returns true when the command should end.
   public boolean isFinished() {
-    if(!((Math.abs(RobotContainer.m_drivetrain.getShooterSpeed(RobotContainer.m_drivetrain.getDistanceToHubCenter()) - m_shootSubsystem.getSpeed()) < 0.5) 
-        && (Math.abs(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()) - m_servoSubsystem1.getPosition())<5) 
-        && (Math.abs(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()) - m_servoSubsystem2.getPosition())<5))){
-      return(true);
-    }
-    return(false);
+    return false;
   }
 }
