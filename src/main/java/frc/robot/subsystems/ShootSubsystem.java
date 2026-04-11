@@ -50,5 +50,9 @@ public class ShootSubsystem extends SubsystemBase {
     m_shooterRight.set(0);
   }
 
+  public double getSpeed(){
+    return m_shooterRight.getVelocity().getValueAsDouble();
+  }
+
   public void periodic() {}
 }

@@ -24,6 +24,7 @@ public final class Constants {
     public static final double k_maxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     public static final double k_maxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
   }
+  
 
   // Controller Ports, Deadband, Buttons and Triggers
   public static final class ControllerConstants {
@@ -95,6 +96,11 @@ public final class Constants {
     public static final double kDAim = 0.000;
   }
 
+  //LEDs
+  public static final class LEDConstants {
+    public static final int k_ledID = 3;
+  }
+  
   // Localization code stuff omg
   public static final class PoseConstants {
 

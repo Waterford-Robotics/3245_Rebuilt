@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -45,6 +46,7 @@ public class RobotContainer {
   // Put subsystems here!
   public static final CommandSwerveDrivetrain m_drivetrain = TunerConstants.createDrivetrain();
   private final CANRangeSubsystem m_canRangeSubsystem = new CANRangeSubsystem();
+  private final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
   private final ShootSubsystem m_shootSubsystem = new ShootSubsystem();
   private final IndexerSubsystem m_indexSubsystem = new IndexerSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
@@ -231,7 +233,10 @@ public class RobotContainer {
     // Left Trig - Shoot Rev Up
     new Trigger(() -> m_operatorController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
     .whileTrue(
-      new AssistedShootCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem)
+        new ParallelDeadlineGroup(
+          new AssistedShootCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem), 
+          new LEDColorChangeCommand(m_LEDSubsystem, m_shootSubsystem, m_servoSubsystem1, m_servoSubsystem2)
+        )
     );
 
     // Right Trig - Auto Align
