@@ -5,16 +5,13 @@
 
 package frc.robot.commands;
 
-import static edu.wpi.first.units.Units.Radians;
-
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.IntakeFlipoutSubsystem;
 
 // Raises Wrist
-public class ZeroFlipoutCommand extends Command {
+public class ForceZeroFlipoutCommand extends Command {
 
   // Uses Wrist and Subsystems
   IntakeFlipoutSubsystem m_flipout;
@@ -22,7 +19,7 @@ public class ZeroFlipoutCommand extends Command {
   Angle m_angle;
 
   // Constructor
-  public ZeroFlipoutCommand(IntakeFlipoutSubsystem flipout, Angle angle) {
+  public ForceZeroFlipoutCommand(IntakeFlipoutSubsystem flipout, Angle angle) {
         
     // Definitions and setting parameters are equal to members!
     m_flipout = flipout;
@@ -37,10 +34,7 @@ public class ZeroFlipoutCommand extends Command {
   
   // Actual command
   public void execute() {
-    SmartDashboard.putNumber("Flipout Error", Math.abs(m_flipout.getCurrentPosition() - m_angle.in(Radians)));
-    if(Math.abs(m_flipout.getCurrentPosition() - m_angle.in(Radians)) < 0.15 && m_flipout.getCurrentVelocity() == 0) {
-      m_finished = true;
-    }
+    m_finished = true;
   }
 
   // Stuff that happens when command is over

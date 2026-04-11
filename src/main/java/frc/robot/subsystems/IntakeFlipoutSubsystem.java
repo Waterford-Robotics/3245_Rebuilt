@@ -65,7 +65,6 @@ public class IntakeFlipoutSubsystem extends SubsystemBase {
 
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Flipout/Pos", Units.Rotations.of(m_intakeFlipout1.getPosition().getValueAsDouble()).magnitude());
-    
     /*
     SmartDashboard.putString("Flipout/Units", m_intakeFlipout.getPosition().getUnits());
     SmartDashboard.putNumber("Flipout/CLO", m_intakeFlipout.getClosedLoopOutput().getValueAsDouble());

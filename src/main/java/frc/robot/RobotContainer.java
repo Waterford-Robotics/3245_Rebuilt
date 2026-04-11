@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -99,6 +100,8 @@ public class RobotContainer {
      * Right Trig - Index for Shot
      * A - EMERGENCY Assisted Shot Command
      * Start - Zero Gyro
+     * X - stow
+     * Y - deploy
      */
 
     // Left Trig - Intake
@@ -139,7 +142,25 @@ public class RobotContainer {
       new InstantCommand(() -> m_drivetrain.resetGyro(), m_drivetrain)
     );
 
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_X)
+    .onTrue(
+      new SequentialCommandGroup(
+        new SetIntakeFlipoutCommand(m_flipoutSubsystem, "STOW"),
+        new ZeroFlipoutCommand(m_flipoutSubsystem, IntakeConstants.k_intakeRetractedAngle)
+      )
+    );
+
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_Y)
+    .onTrue(
+      new SequentialCommandGroup(
+        new SetIntakeFlipoutCommand(m_flipoutSubsystem, "DEPLOY"),
+        new ZeroFlipoutCommand(m_flipoutSubsystem, IntakeConstants.k_intakeDeployedAngle)
+      )
+    );
+
+
     // Testing
+    /*
 
     // X - Shot
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_X)
@@ -174,6 +195,8 @@ public class RobotContainer {
       new AssistedShootCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem)
     );
 
+    */
+
     // End of Testing
 
     /*
@@ -194,6 +217,7 @@ public class RobotContainer {
       new InstantCommand(() -> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
     );
 
+    /*
     // X - Hub Shot
     new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_X)
     .onTrue(
@@ -202,6 +226,7 @@ public class RobotContainer {
     .onFalse(
       new InstantCommand(() -> m_shootSubsystem.stopShooter(), m_shootSubsystem)
     );
+    */
 
     // Left Trig - Shoot Rev Up
     new Trigger(() -> m_operatorController.getRawAxis(ControllerConstants.k_lefttrig) > 0.05)
@@ -227,28 +252,31 @@ public class RobotContainer {
       new InstantCommand(() -> m_intakeSubsystem.stop(), m_intakeSubsystem)
     );
 
-    /*****************************
-    * TODO: FIGURE INTAKE OUT REMOVE LATER - EXPERIMENTAL 
-    **************************/
-    new POVButton(m_operatorController.getHID(), ControllerConstants.k_dpadLeft)
-    .onTrue(
-      new SetIntakeFlipoutCommand(m_flipoutSubsystem, "STOW").andThen(
-        new ZeroFlipoutCommand(m_flipoutSubsystem)
-      )
+    // A - Intakedex
+
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_A)
+    .whileTrue(
+      new SequentialCommandGroup(
+        new SetIntakeFlipoutCommand(m_flipoutSubsystem, "INTAKEDEX UPPER"),
+        new WaitCommand(0.5),
+        new SetIntakeFlipoutCommand(m_flipoutSubsystem, "INTAKEDEX LOWER"),
+        new WaitCommand(0.5))
     );
 
-    new POVButton(m_operatorController.getHID(), ControllerConstants.k_dpadRight)
+    // B - Zero Flipout
+
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_B)
     .onTrue(
-      new ZeroFlipoutCommand(m_flipoutSubsystem).andThen(
-        new SetIntakeFlipoutCommand(m_flipoutSubsystem, "DEPLOY")
-      )
+      new ForceZeroFlipoutCommand(m_flipoutSubsystem, IntakeConstants.k_intakeRetractedAngle)
     );
 
-    // Back - Zero Flipout
-    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_back)
+    // X - Set Flipout to "Deploy"
+    
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_X)
     .onTrue(
-        new ZeroFlipoutCommand(m_flipoutSubsystem)
-      );
+      new ForceZeroFlipoutCommand(m_flipoutSubsystem, IntakeConstants.k_intakeDeployedAngle)
+    );
+    
 
     // Idle while the robot is disabled. This ensures the configured
     // neutral mode is applied to the drive motors while disabled.
