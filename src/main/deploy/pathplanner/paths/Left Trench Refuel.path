@@ -215,14 +215,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.0,
-    "rotation": -35.42241783987137
+    "velocity": 0.0,
+    "rotation": -29.999999999999996
   },
   "reversed": false,
   "folder": "Comp Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -35.42241783987137
+    "rotation": -29.999999999999996
   },
   "useDefaultConstraints": true
 }

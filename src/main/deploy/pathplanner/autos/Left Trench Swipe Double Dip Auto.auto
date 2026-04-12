@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Deploy Flipout"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Left Trench Swipe and Fuel"
@@ -56,8 +62,33 @@
                 "data": {
                   "name": "Index"
                 }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 3.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Stow Flipout"
+                      }
+                    }
+                  ]
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Deploy Flipout"
           }
         },
         {
@@ -80,6 +111,25 @@
                 "type": "named",
                 "data": {
                   "name": "Index"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 3.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Stow Flipout"
+                      }
+                    }
+                  ]
                 }
               }
             ]

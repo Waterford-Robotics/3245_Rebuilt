@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.132183030598476,
-        "y": 6.604876319271494
+        "x": 6.971451433095652,
+        "y": 7.25667564579026
       },
       "isLocked": false,
       "linkedName": "Left Trench"
@@ -20,12 +20,12 @@
         "y": 6.615719812181261
       },
       "prevControl": {
-        "x": 7.918630559614762,
-        "y": 7.28265923863541
+        "x": 8.149362514846752,
+        "y": 7.054636311979829
       },
       "nextControl": {
-        "x": 8.655443181372332,
-        "y": 6.306222599385862
+        "x": 8.601184603725578,
+        "y": 6.326981679354768
       },
       "isLocked": false,
       "linkedName": null
@@ -36,12 +36,12 @@
         "y": 5.686440644753263
       },
       "prevControl": {
-        "x": 8.488867566998305,
-        "y": 6.043215198307668
+        "x": 8.538214909428346,
+        "y": 5.93632340369925
       },
       "nextControl": {
-        "x": 8.598632094678917,
-        "y": 5.356211109652771
+        "x": 8.556973727644353,
+        "y": 5.324018368157106
       },
       "isLocked": false,
       "linkedName": null
@@ -52,12 +52,12 @@
         "y": 4.547770897895322
       },
       "prevControl": {
-        "x": 8.80608164460165,
-        "y": 4.454449219346738
+        "x": 8.790974912726897,
+        "y": 4.442325937385919
       },
       "nextControl": {
-        "x": 7.7821306944593065,
-        "y": 4.630856773960135
+        "x": 7.770622477530676,
+        "y": 4.646648093139809
       },
       "isLocked": false,
       "linkedName": null
@@ -68,12 +68,12 @@
         "y": 5.171711286812672
       },
       "prevControl": {
-        "x": 7.828745461211943,
-        "y": 4.944550060550078
+        "x": 7.840880572184054,
+        "y": 4.950529608990276
       },
       "nextControl": {
-        "x": 7.563422062580759,
-        "y": 5.521902216811972
+        "x": 7.522981393538639,
+        "y": 5.553936145870983
       },
       "isLocked": false,
       "linkedName": null
@@ -84,8 +84,8 @@
         "y": 5.47604359209979
       },
       "prevControl": {
-        "x": 6.529923139529108,
-        "y": 5.178962696929359
+        "x": 6.5266662575022245,
+        "y": 5.027191914927136
       },
       "nextControl": null,
       "isLocked": false,
@@ -110,19 +110,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Deploy Flipout",
-      "waypointRelativePos": 0.315491939303883,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Deploy Flipout"
-        }
-      }
-    },
-    {
       "name": "Run Intake",
-      "waypointRelativePos": 0.45427392091465957,
+      "waypointRelativePos": 0.510193003491052,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -148,7 +137,7 @@
   "folder": "Comp Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

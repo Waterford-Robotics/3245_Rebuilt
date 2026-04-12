@@ -77,19 +77,21 @@ public class RobotContainer {
     );
 
     // NAMED COMMANDS
-    NamedCommands.registerCommand("Deploy Flipout", new SetIntakeFlipoutCommand(m_flipoutSubsystem, "DEPLOY"));
     NamedCommands.registerCommand("Stow Flipout", new SetIntakeFlipoutCommand(m_flipoutSubsystem, "STOW"));
+    NamedCommands.registerCommand("Deploy Flipout", DeployflipoutCommandGroup());
+    NamedCommands.registerCommand("Auto Intakedex", AutoIntakedexCommandGroup());
     NamedCommands.registerCommand("Run Intake", new InstantCommand(() -> m_intakeSubsystem.intake(), m_intakeSubsystem));
     NamedCommands.registerCommand("Stop Intake", new InstantCommand(() -> m_intakeSubsystem.stop(), m_intakeSubsystem));
     NamedCommands.registerCommand("Auto Index", new AutoIndexCommand(m_indexSubsystem, m_canRangeSubsystem));
     NamedCommands.registerCommand("Index", new IndexForSecsCommand(m_indexSubsystem, 5));
-    NamedCommands.registerCommand("Distance Shot", new ShootForSecsCommand(m_shootSubsystem, 5));
+    NamedCommands.registerCommand("Distance Shot", new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 5));
 
     // COMP AUTOS
-    m_chooser.addOption("Left Trench Snipe Double Dip Auto", m_drivetrain.getAuto("Left Trench Snipe Double Dip Auto"));  
+    // m_chooser.addOption("Left Trench Snipe Double Dip Auto", m_drivetrain.getAuto("Left Trench Snipe Double Dip Auto"));  
+    m_chooser.addOption("Left Trench SWIPE Double Dip Auto", m_drivetrain.getAuto("Left Trench Swipe Double Dip Auto"));
 
     configureBindings();
-    SmartDashboard.putData(m_chooser);
+    SmartDashboard.putData("Auto Chooser", m_chooser);
   }
 
 
@@ -291,4 +293,17 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
   }
+
+  public SequentialCommandGroup DeployflipoutCommandGroup() {
+    return new SequentialCommandGroup(
+      new SetIntakeFlipoutCommand(m_flipoutSubsystem, "DEPLOY"),
+      new ZeroFlipoutCommand(m_flipoutSubsystem, IntakeConstants.k_intakeDeployedAngle)
+    );
+  }  
+
+  public SequentialCommandGroup AutoIntakedexCommandGroup() {
+    return new SequentialCommandGroup(
+      new SetIntakeFlipoutCommand(m_flipoutSubsystem, "STOW")
+    );
+  } 
 }

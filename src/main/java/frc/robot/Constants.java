@@ -184,7 +184,8 @@ public final class Constants {
     public static final int k_shooterSupplyCurrentLimit = 60;
 
     // Subsystem
-    public static final double k_hubShotSpeed = 0.42;
+    public static final double k_hubShotSpeed = 0.42; // 0.42
+    public static final double k_autoHubShotSpeed = 0.65; 
     public static final double k_maxShootRPS = 100.0;
   }
 
