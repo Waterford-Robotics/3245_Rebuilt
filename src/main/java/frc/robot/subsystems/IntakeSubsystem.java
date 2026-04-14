@@ -24,6 +24,10 @@ public class IntakeSubsystem extends SubsystemBase {
 		m_intakeRoller.set(-IntakeConstants.k_intakeSpeed);
 	}
 
+	public void autoIntake() {
+		m_intakeRoller.set(-IntakeConstants.k_autoIntakeSpeed);
+	}
+
 	public void reverseIntake() {
 		m_intakeRoller.set(IntakeConstants.k_intakeSpeed);
 	}

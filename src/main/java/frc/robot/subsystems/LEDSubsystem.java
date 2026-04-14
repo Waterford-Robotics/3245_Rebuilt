@@ -11,6 +11,7 @@ public class LEDSubsystem extends SubsystemBase {
   public LEDSubsystem() {
     //enter port constant
     m_blinkin = new Spark(LEDConstants.k_ledID);
+    setRainbowParty();
   } 
   //colors
 

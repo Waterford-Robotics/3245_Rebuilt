@@ -6,6 +6,7 @@
 package frc.robot.commands;
 
 import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.Rotations;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,8 +38,8 @@ public class ZeroFlipoutCommand extends Command {
   
   // Actual command
   public void execute() {
-    SmartDashboard.putNumber("Flipout Error", Math.abs(m_flipout.getCurrentPosition() - m_angle.in(Radians)));
-    if(Math.abs(m_flipout.getCurrentPosition() - m_angle.in(Radians)) < 0.15 && m_flipout.getCurrentVelocity() == 0) {
+    SmartDashboard.putNumber("Flipout Error", Math.abs(m_flipout.getCurrentPosition() - m_angle.in(Rotations)));
+    if(Math.abs(m_flipout.getCurrentPosition() - m_angle.in(Rotations)) < 0.75 && m_flipout.getCurrentVelocity() == 0) {
       m_finished = true;
     }
   }

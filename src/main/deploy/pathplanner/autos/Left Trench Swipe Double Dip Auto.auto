@@ -5,21 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Deploy Flipout"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left Trench Swipe and Fuel"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Deploy Flipout"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Left Trench Swipe and Fuel"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Stop Intake"
+            "name": "Run Intake"
           }
         },
         {
@@ -27,9 +34,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "Left Trench Return for Shot"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Left Trench Return for Shot"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -43,14 +63,26 @@
                 "data": {
                   "name": "Distance Shot"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Intake"
+                }
               }
             ]
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 4.0
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -70,7 +102,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.0
+                        "waitTime": 2.0
                       }
                     },
                     {
@@ -81,14 +113,14 @@
                     }
                   ]
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Intake"
+                }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Deploy Flipout"
           }
         },
         {
@@ -98,19 +130,19 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "wait",
                 "data": {
-                  "name": "Distance Shot"
+                  "waitTime": 4.0
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Index"
+                  "name": "Distance Shot"
                 }
               },
               {
@@ -120,7 +152,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.0
+                        "waitTime": 2.0
                       }
                     },
                     {
@@ -130,6 +162,37 @@
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Auto Index"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Index"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Intake"
                 }
               }
             ]

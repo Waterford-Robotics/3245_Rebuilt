@@ -199,21 +199,22 @@ public final class Constants {
 
     // Subsystems
     public static final double k_intakeSpeed = 0.40;
+    public static final double k_autoIntakeSpeed = 0.70;
 
     // Intake Deploy Angles
-    public static final Angle k_intakeRetractedAngle = edu.wpi.first.units.Units.Rotations.of(-3.3);
-    public static final Angle k_intakedexRetractedAngle = edu.wpi.first.units.Units.Rotations.of(-2.0);
-    public static final Angle k_intakedexDeployedAngle = edu.wpi.first.units.Units.Rotations.of(-1.0);
+    public static final Angle k_intakeRetractedAngle = edu.wpi.first.units.Units.Rotations.of(-14.8);
+    public static final Angle k_intakedexRetractedAngle = edu.wpi.first.units.Units.Rotations.of(-9.0);
+    public static final Angle k_intakedexDeployedAngle = edu.wpi.first.units.Units.Rotations.of(-4.5);
     public static final Angle k_intakeDeployedAngle = edu.wpi.first.units.Units.Rotations.of(0);
 
     // Flipout PIDs TODO: RETUNE ME WHEN ASSEMBLED
-    public static final double k_intakeFlipoutP = 2.5; 
+    public static final double k_intakeFlipoutP = 2.0; 
     public static final double k_intakeFlipoutI = 0;
     public static final double k_intakeFlipoutD = 0.3;
     public static final double k_intakeFlipoutS = 0.20;
     public static final double k_intakeFlipoutV = 1.20;
     public static final double k_intakeFlipoutA = 0.0;
-    public static final double k_intakeFlipoutG = 0.5;
+    public static final double k_intakeFlipoutG = 0.3;
   }
 
   // Indexer Stuff 
