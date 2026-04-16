@@ -147,7 +147,7 @@
     },
     {
       "waypointRelativePos": 6.0,
-      "rotationDegrees": 135.0
+      "rotationDegrees": 45.0
     }
   ],
   "constraintZones": [],
@@ -179,41 +179,32 @@
       "name": "Auto Index",
       "waypointRelativePos": 0.5,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Auto Index"
+        }
+      }
     },
     {
       "name": "Distance Shot",
       "waypointRelativePos": 4.0,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Distance Shot"
+        }
+      }
     },
     {
       "name": "Stop Intake",
       "waypointRelativePos": 6.0,
       "endWaypointRelativePos": null,
       "command": {
-        "type": "parallel",
+        "type": "named",
         "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Auto Index"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Distance Shot"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Stop Intake"
-              }
-            }
-          ]
+          "name": "Stop Intake"
         }
       }
     }
