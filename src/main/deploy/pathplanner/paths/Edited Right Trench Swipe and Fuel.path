@@ -4,28 +4,28 @@
     {
       "anchor": {
         "x": 4.45233462496281,
-        "y": 7.597552131674094
+        "y": 0.47172306832
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.971451433095652,
-        "y": 7.25667564579026
+        "x": 7.311910639563845,
+        "y": 0.6942480059883969
       },
       "isLocked": false,
-      "linkedName": "Left Trench"
+      "linkedName": "Right Trench"
     },
     {
       "anchor": {
         "x": 8.421898634168837,
-        "y": 6.615719812181261
+        "y": 1.45355538782
       },
       "prevControl": {
-        "x": 8.149362514846752,
-        "y": 7.054636311979829
+        "x": 8.133634414824932,
+        "y": 0.7844284571502642
       },
       "nextControl": {
-        "x": 8.601184603725578,
-        "y": 6.326981679354768
+        "x": 8.564080761518742,
+        "y": 1.7835924999051276
       },
       "isLocked": false,
       "linkedName": null
@@ -33,15 +33,15 @@
     {
       "anchor": {
         "x": 8.545870416043986,
-        "y": 5.686440644753263
+        "y": 2.38283455525
       },
       "prevControl": {
-        "x": 8.538214909428346,
-        "y": 5.93632340369925
+        "x": 8.543373167639162,
+        "y": 2.6328220824396675
       },
       "nextControl": {
-        "x": 8.556973727644353,
-        "y": 5.324018368157106
+        "x": 8.54836766444881,
+        "y": 2.1328470280603327
       },
       "isLocked": false,
       "linkedName": null
@@ -49,15 +49,15 @@
     {
       "anchor": {
         "x": 8.100921657986111,
-        "y": 4.610273148148148
+        "y": 3.45900205185
       },
       "prevControl": {
-        "x": 8.640633897569446,
-        "y": 4.530556351273148
+        "x": 8.710981926304846,
+        "y": 3.149884381871594
       },
       "nextControl": {
-        "x": 7.602746791169835,
-        "y": 4.683854775084907
+        "x": 7.313797684713409,
+        "y": 3.857837939446404
       },
       "isLocked": false,
       "linkedName": null
@@ -65,41 +65,45 @@
     {
       "anchor": {
         "x": 5.921667824074075,
-        "y": 5.686440644753263
+        "y": 2.38283455525
       },
       "prevControl": {
-        "x": 6.614683220892719,
-        "y": 5.45074240595565
+        "x": 6.683536990167431,
+        "y": 2.703899371390906
       },
       "nextControl": {
-        "x": 5.572882233796298,
-        "y": 5.805064487345856
+        "x": 5.17807917246802,
+        "y": 2.069473463428221
       },
       "isLocked": false,
-      "linkedName": "Left Fuel Snipe Finish Waypoint"
+      "linkedName": "Right Fuel Snipe Finish Waypoint"
     },
     {
       "anchor": {
         "x": 2.709876437717014,
-        "y": 5.302896371912072
+        "y": 2.76637882809
       },
       "prevControl": {
-        "x": 3.3309703414351857,
-        "y": 5.2704463252314815
+        "x": 2.9588424260423727,
+        "y": 2.789093067174269
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left Shoot Position"
+      "linkedName": "Right Shoot Position"
     }
   ],
   "rotationTargets": [
     {
       "waypointRelativePos": 2.0,
-      "rotationDegrees": -90.0
+      "rotationDegrees": 90.0
     },
     {
       "waypointRelativePos": 3.0,
-      "rotationDegrees": 180.0
+      "rotationDegrees": 96.497
+    },
+    {
+      "waypointRelativePos": 4,
+      "rotationDegrees": 175.03282391075894
     }
   ],
   "constraintZones": [
@@ -185,7 +189,7 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": -29.999999999999996
+    "rotation": 35.487386792181184
   },
   "reversed": false,
   "folder": "Comp Paths",
