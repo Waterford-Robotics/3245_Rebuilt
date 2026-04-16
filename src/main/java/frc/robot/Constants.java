@@ -202,7 +202,7 @@ public final class Constants {
     public static final double k_autoIntakeSpeed = 0.70;
 
     // Intake Deploy Angles
-    public static final Angle k_intakeRetractedAngle = edu.wpi.first.units.Units.Rotations.of(-14.8);
+    public static final Angle k_intakeRetractedAngle = edu.wpi.first.units.Units.Rotations.of(-14.7);
     public static final Angle k_intakedexRetractedAngle = edu.wpi.first.units.Units.Rotations.of(-9.0);
     public static final Angle k_intakedexDeployedAngle = edu.wpi.first.units.Units.Rotations.of(-4.5);
     public static final Angle k_intakeDeployedAngle = edu.wpi.first.units.Units.Rotations.of(0);

@@ -48,32 +48,16 @@
     },
     {
       "anchor": {
-        "x": 8.264399506168761,
-        "y": 4.547770897895322
+        "x": 8.100921657986111,
+        "y": 4.610273148148148
       },
       "prevControl": {
-        "x": 8.790974912726897,
-        "y": 4.442325937385919
+        "x": 8.640633897569446,
+        "y": 4.530556351273148
       },
       "nextControl": {
-        "x": 7.770622477530676,
-        "y": 4.646648093139809
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.7243530415500015,
-        "y": 5.171711286812672
-      },
-      "prevControl": {
-        "x": 7.840880572184054,
-        "y": 4.950529608990276
-      },
-      "nextControl": {
-        "x": 7.522981393538639,
-        "y": 5.553936145870983
+        "x": 7.602746791169835,
+        "y": 4.683854775084907
       },
       "isLocked": false,
       "linkedName": null
@@ -84,12 +68,28 @@
         "y": 5.686440644753263
       },
       "prevControl": {
-        "x": 6.7943535156250014,
-        "y": 5.616499817206969
+        "x": 6.614683220892719,
+        "y": 5.45074240595565
+      },
+      "nextControl": {
+        "x": 5.572882233796298,
+        "y": 5.805064487345856
+      },
+      "isLocked": false,
+      "linkedName": "Left Fuel Snipe Finish Waypoint"
+    },
+    {
+      "anchor": {
+        "x": 2.709876437717014,
+        "y": 5.302896371912072
+      },
+      "prevControl": {
+        "x": 3.3309703414351857,
+        "y": 5.2704463252314815
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left Fuel Snipe Finish Waypoint"
+      "linkedName": "Shoot Position"
     }
   ],
   "rotationTargets": [
@@ -100,15 +100,36 @@
     {
       "waypointRelativePos": 3.0,
       "rotationDegrees": 180.0
-    },
-    {
-      "waypointRelativePos": 4.0,
-      "rotationDegrees": 90.0
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 2.9928620328608257,
+      "maxWaypointRelativePos": 5.0,
+      "constraints": {
+        "maxVelocity": 3.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 360.0,
+        "maxAngularAcceleration": 540.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [
+    {
+      "name": "Deploy Flipout",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Deploy Flipout"
+        }
+      }
+    },
     {
       "name": "Run Intake",
       "waypointRelativePos": 0.510193003491052,
@@ -117,6 +138,39 @@
         "type": "named",
         "data": {
           "name": "Run Intake"
+        }
+      }
+    },
+    {
+      "name": "Auto Index",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Auto Index"
+        }
+      }
+    },
+    {
+      "name": "Distance Shot",
+      "waypointRelativePos": 3.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Distance Shot"
+        }
+      }
+    },
+    {
+      "name": "Stop Intake",
+      "waypointRelativePos": 4.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Stop Intake"
         }
       }
     }
@@ -130,8 +184,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 2.0,
-    "rotation": -45.0
+    "velocity": 0.0,
+    "rotation": -29.999999999999996
   },
   "reversed": false,
   "folder": "Comp Paths",

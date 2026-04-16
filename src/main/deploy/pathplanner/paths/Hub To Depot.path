@@ -1,0 +1,125 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.5306888020833336,
+        "y": 4.050156032986111
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.6225078125000003,
+        "y": 4.891283058449074
+      },
+      "isLocked": false,
+      "linkedName": "Hub"
+    },
+    {
+      "anchor": {
+        "x": 2.0763001302083337,
+        "y": 4.950857421875001
+      },
+      "prevControl": {
+        "x": 2.5439063946759264,
+        "y": 4.788208912037037
+      },
+      "nextControl": {
+        "x": 1.5971665115090605,
+        "y": 5.117515516550952
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.6,
+        "y": 5.057868200231481
+      },
+      "prevControl": {
+        "x": 0.6522235243055561,
+        "y": 4.756190972222223
+      },
+      "nextControl": {
+        "x": 0.5325408433623512,
+        "y": 5.44755640394628
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.6,
+        "y": 7.0
+      },
+      "prevControl": {
+        "x": 0.5933052662037042,
+        "y": 6.532727358217593
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Depot Corner"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 2.0,
+      "rotationDegrees": 90.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Deploy Flipout",
+      "waypointRelativePos": 0.4,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Deploy Flipout"
+        }
+      }
+    },
+    {
+      "name": "Run Intake",
+      "waypointRelativePos": 2.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Run Intake"
+        }
+      }
+    },
+    {
+      "name": "Stop Intake",
+      "waypointRelativePos": 3.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Stop Intake"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 1.0,
+    "maxAcceleration": 1.5,
+    "maxAngularVelocity": 360.0,
+    "maxAngularAcceleration": 540.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 89.65412205650725
+  },
+  "reversed": false,
+  "folder": "Comp Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": false
+}

@@ -452,7 +452,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      */
   public double getShooterSpeed(double distance){
     double[] testedDistances = {1.47, 1.70, 2.17, 2.53, 2.80, 3.15, 3.60, 4.09, 4.26};
-    double[] testedSpeeds = {0.41, 0.41, 0.44, 0.44, 0.46, 0.46, 0.47, 0.50, 0.51};
+    double[] testedSpeeds = {0.41, 0.41, 0.43, 0.44, 0.46, 0.46, 0.47, 0.50, 0.51};
     int index = 0;
     while (index < testedDistances.length && testedDistances[index] < distance){
       index++;

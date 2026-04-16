@@ -85,10 +85,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("Auto Index", new AutoIndexCommand(m_indexSubsystem, m_canRangeSubsystem));
     NamedCommands.registerCommand("Index", new IndexForSecsCommand(m_indexSubsystem, 5));
     NamedCommands.registerCommand("Distance Shot", new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 5));
+    NamedCommands.registerCommand("Auto Aim", new ChangeRotationAssistanceCommand());
 
     // COMP AUTOS
     // m_chooser.addOption("Left Trench Snipe Double Dip Auto", m_drivetrain.getAuto("Left Trench Snipe Double Dip Auto"));  
     m_chooser.addOption("Left Trench SWIPE Double Dip Auto", m_drivetrain.getAuto("Left Trench Swipe Double Dip Auto"));
+    m_chooser.addOption("Depot Auto", m_drivetrain.getAuto("Depot Auto"));
 
     configureBindings();
     SmartDashboard.putData("Auto Chooser", m_chooser);
