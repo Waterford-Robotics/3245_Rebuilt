@@ -90,6 +90,7 @@ public class RobotContainer {
     // COMP AUTOS
     // m_chooser.addOption("Left Trench Snipe Double Dip Auto", m_drivetrain.getAuto("Left Trench Snipe Double Dip Auto"));  
     m_chooser.addOption("Left Trench SWIPE Double Dip Auto", m_drivetrain.getAuto("Left Trench Swipe Double Dip Auto"));
+    m_chooser.addOption("Right Trench SWIPE Double Dip Auto", m_drivetrain.getAuto("Right Trench Swipe Double Dip Auto"));
     m_chooser.addOption("Depot Auto", m_drivetrain.getAuto("Depot Auto"));
 
     configureBindings();

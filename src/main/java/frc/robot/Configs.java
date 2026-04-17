@@ -98,7 +98,7 @@ public class Configs {
       INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.Slot0.kG = IntakeConstants.k_intakeFlipoutG;
 
       INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-      INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.CurrentLimits.SupplyCurrentLimit = 60;
+      INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.CurrentLimits.SupplyCurrentLimit = 50; // TODO: This was 60
       /*
       INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.SoftwareLimitSwitch.ForwardSoftLimitEnable = true; 
       INTAKE_FLIPOUT_TALON_FX_CONFIGURATION.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Units.Rotations.of(0).in(Units.Rotations); // TODO: UPDATE FOR FINAL
