@@ -44,7 +44,7 @@ public class LEDColorChangeCommand extends Command {
   public void execute() {
     SmartDashboard.putNumber("Shooter Reading Speed", m_shootSubsystem.getSpeed());
     // LiveConstants._enableShooter = m_status;
-    if((Math.abs(RobotContainer.m_drivetrain.getShooterSpeed(RobotContainer.m_drivetrain.getDistanceToHubCenter()) - m_shootSubsystem.getSpeed()) < 0.05)){
+    if((Math.abs(RobotContainer.m_drivetrain.getShooterSpeed(RobotContainer.m_drivetrain.getDistanceToHubCenter()) - m_shootSubsystem.getSpeed()) < 0.1)){
         //&& (Math.abs(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()) - m_servoSubsystem1.getPosition())<5) 
         //&& (Math.abs(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()) - m_servoSubsystem2.getPosition())<5)){
       m_ledSubsystem.setGreen();

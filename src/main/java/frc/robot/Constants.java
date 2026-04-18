@@ -209,7 +209,7 @@ public final class Constants {
 
     // Flipout PIDs TODO: RETUNE ME WHEN ASSEMBLED
     public static final double k_intakeFlipoutP = 2.0; 
-    public static final double k_intakeFlipoutI = 0;
+    public static final double k_intakeFlipoutI = 0.2;
     public static final double k_intakeFlipoutD = 0.3;
     public static final double k_intakeFlipoutS = 0.20;
     public static final double k_intakeFlipoutV = 1.20;
