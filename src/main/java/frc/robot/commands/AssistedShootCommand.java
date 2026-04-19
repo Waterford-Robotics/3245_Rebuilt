@@ -27,17 +27,22 @@ public class AssistedShootCommand extends Command {
   }
 
   // Called when the command is initially scheduled.
-  public void initialize() {}
+  public void initialize() {
+    // Lock heading to imaginary target so driver cannot turn while shooting
+    RobotContainer.m_drivetrain.setRotationLocked(true);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {
-    m_servoSubsystem1.setPosition(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()));
-    m_servoSubsystem2.setPosition(RobotContainer.m_drivetrain.getServoAngle(RobotContainer.m_drivetrain.getDistanceToHubCenter()));
-    m_shootSubsystem.shoot(RobotContainer.m_drivetrain.getShooterSpeed(RobotContainer.m_drivetrain.getDistanceToHubCenter()));
+    double dist = RobotContainer.m_drivetrain.getDistanceToImaginaryTarget();
+    m_servoSubsystem1.setPosition(RobotContainer.m_drivetrain.getServoAngle(dist));
+    m_servoSubsystem2.setPosition(RobotContainer.m_drivetrain.getServoAngle(dist));
+    m_shootSubsystem.shoot(RobotContainer.m_drivetrain.getShooterSpeed(dist));
   }
 
   // Called once the command ends or is interrupted.
   public void end(boolean interrupted) {
+    RobotContainer.m_drivetrain.setRotationLocked(false);
     m_shootSubsystem.stopShooter();
     m_servoSubsystem1.setPosition(0);
     m_servoSubsystem2.setPosition(0);

@@ -16,6 +16,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -36,6 +37,7 @@ import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.subsystems.Limelight.LimelightHelpers;
 import frc.robot.subsystems.Limelight.Localization;
 import frc.robot.Constants.LiveConstants;
+import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants;
 
 // It drives the robot!
@@ -69,7 +71,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
   // Aiming Values
   private boolean useRotationAssistance = false;
+  private boolean rotationLocked = false;
   private PIDController m_aimController = new PIDController(VisionConstants.kPAim, VisionConstants.kIAim, VisionConstants.kDAim);
+
+
+  private Translation2d fieldVel = new Translation2d();
+  private Translation2d futurePos = new Translation2d();
 
   // SysId routine for characterizing translation. This is used to find PID gains for the drive motors.
   private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
@@ -236,6 +243,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   }
 
   public void periodic() {
+    // Avoid recomputing and (potentially) getting non-corresponding results at different times for distance and angle
+    fieldVel = getFieldRelativeVelocity();
+    futurePos = getState().Pose.getTranslation().plus(fieldVel.times(Constants.kLatency));
+
     /*
      * Periodically try to apply the operator perspective.
      * If we haven't applied the operator perspective before, then we should apply it regardless of DS state.
@@ -398,6 +409,27 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   }
 
   public double getAdjustedRotation(double rot){
+    // LOCKED: AssistedShootCommand is running, so ignore driver rotation, aim at imaginary target
+    if (rotationLocked) {
+      double targetingAngularVelocity = m_aimController.calculate(
+        getAllianceAdjustedHeading(), getAngleToImaginaryTarget().getDegrees());
+      targetingAngularVelocity *= 2;
+      if (Math.abs((getAngleToImaginaryTarget().getDegrees() - getAllianceAdjustedHeading() + 360*4)%360-180) > 179.5) {
+        targetingAngularVelocity = 0;
+      }
+      if (Math.abs(targetingAngularVelocity) < 0.02) {
+        targetingAngularVelocity = 0;
+      } 
+      else {
+        if (targetingAngularVelocity > 0 && targetingAngularVelocity < 0.10) targetingAngularVelocity = 0.10;
+        if (targetingAngularVelocity < 0 && targetingAngularVelocity > -0.10) targetingAngularVelocity = -0.10;
+      }
+      SmartDashboard.putNumber("PID Number", targetingAngularVelocity);
+      return targetingAngularVelocity;
+    }
+
+
+    // UNLOCKED: driver can turn, or rotation assistance to real hub
     if (Math.abs(rot) > 0.1 || useRotationAssistance == false){
       return rot;
     }
@@ -490,6 +522,65 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
   public double getYVelocity() {
     return this.getState().Speeds.vyMetersPerSecond;
+  }
+
+  // Locks robot rotation from driver during auto-aim
+  public void setRotationLocked(boolean locked) {
+    rotationLocked = locked;
+  }
+
+  public Translation2d getFieldRelativeVelocity() {
+    double robotVx = getState().Speeds.vxMetersPerSecond;
+    double robotVy = getState().Speeds.vyMetersPerSecond;
+    return new Translation2d(robotVx, robotVy).rotateBy(getState().Pose.getRotation());
+  }
+
+  double totalExitSpeedMps = Constants.kMeasuredHorizSpeedMps / Math.cos(Math.toRadians(Constants.kHoodAngleAtServoZeroDeg));
+
+  private double getEffectiveHorizSpeed(double dist) {
+    double servoPos  = getServoAngle(dist);
+    double dutyCycle = getShooterSpeed(dist);
+    double hoodAngleDeg = Constants.kHoodAngleAtServoZeroDeg - (servoPos / Constants.kServoLookupMax) * (Constants.kHoodAngleAtServoZeroDeg - Constants.kHoodAngleAtServoMaxDeg);
+    double totalSpeed = (dutyCycle / Constants.kMeasuredHorizDutyCycle) * totalExitSpeedMps;
+    return totalSpeed * Math.cos(Math.toRadians(hoodAngleDeg));
+  }
+
+  // Calculate imaginary target location using vectors with a recursive approach
+  private Translation2d getPredictedTarget() {
+    Translation2d hubCenter = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red
+        ? new Translation2d(11.915394, 4.034536)
+        : new Translation2d(4.605594, 4.034536);
+
+    if (fieldVel.getNorm() < 0.1) return hubCenter;
+
+    Translation2d toHub = hubCenter.minus(futurePos);
+    double vRobotTowardHub = fieldVel.dot(toHub.div(toHub.getNorm()));
+    Translation2d predictedTarget = hubCenter;
+
+    for (int i = 0; i < 3; i++) {
+        double dist = futurePos.getDistance(predictedTarget);
+        double effectiveHorizSpeed = Math.max(getEffectiveHorizSpeed(dist) + vRobotTowardHub, 0.5); // Math.max to avoid division by zero
+        double flightTime = dist / effectiveHorizSpeed;
+        predictedTarget = hubCenter.minus(fieldVel.times(flightTime));
+    }
+
+    return predictedTarget;
+}
+
+  // Calculate imaginary target distance
+  public double getDistanceToImaginaryTarget() {
+    return futurePos.getDistance(getPredictedTarget());
+  }
+
+  // Calculate imaginary target angle
+  public Rotation2d getAngleToImaginaryTarget() {    
+    Translation2d toTarget = getPredictedTarget().minus(futurePos);
+    Translation2d unitToTarget = toTarget.div(toTarget.getNorm());
+    Translation2d perpToTarget = new Translation2d(-unitToTarget.getY(), unitToTarget.getX());
+    double vTransverse = fieldVel.dot(perpToTarget);
+    double magnusCorrection = Constants.kMagnusK * vTransverse;
+
+    return toTarget.getAngle().plus(Rotation2d.fromDegrees(magnusCorrection));
   }
 
   public Command Pathfind(Pose2d targetPose, PathConstraints constraints){
