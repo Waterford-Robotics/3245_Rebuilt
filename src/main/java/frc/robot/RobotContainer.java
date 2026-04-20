@@ -34,7 +34,7 @@ import frc.robot.subsystems.Swerve.CommandSwerveDrivetrain;
 public class RobotContainer {
 
   // Setting up bindings for necessary control of the swerve drive platform
-  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+  public static final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
     .withDeadband(DriveConstants.k_maxSpeed * 0.1).withRotationalDeadband(DriveConstants.k_maxAngularRate * 0) // Add a 10% deadband
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage // Use open-loop control for drive motors
   ); 
@@ -85,13 +85,14 @@ public class RobotContainer {
     NamedCommands.registerCommand("Auto Index", new AutoIndexCommand(m_indexSubsystem, m_canRangeSubsystem));
     NamedCommands.registerCommand("Index", new IndexForSecsCommand(m_indexSubsystem, 5));
     NamedCommands.registerCommand("Distance Shot", new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 5));
-    NamedCommands.registerCommand("Auto Aim", new ChangeRotationAssistanceCommand());
+    NamedCommands.registerCommand("Auto Aim", new AutoRotationAssistanceCommand(m_drivetrain));
 
     // COMP AUTOS
     // m_chooser.addOption("Left Trench Snipe Double Dip Auto", m_drivetrain.getAuto("Left Trench Snipe Double Dip Auto"));  
     m_chooser.addOption("Left Trench SWIPE Double Dip Auto", m_drivetrain.getAuto("Left Trench Swipe Double Dip Auto"));
     m_chooser.addOption("Right Trench SWIPE Double Dip Auto", m_drivetrain.getAuto("Right Trench Swipe Double Dip Auto"));
     m_chooser.addOption("Depot Auto", m_drivetrain.getAuto("Depot Auto"));
+    m_chooser.addOption("Auto Aim", m_drivetrain.getAuto("Auto Aim"));
 
     configureBindings();
     SmartDashboard.putData("Auto Chooser", m_chooser);

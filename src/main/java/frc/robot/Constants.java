@@ -214,7 +214,7 @@ public final class Constants {
     public static final double k_intakeFlipoutS = 0.20;
     public static final double k_intakeFlipoutV = 1.20;
     public static final double k_intakeFlipoutA = 0.0;
-    public static final double k_intakeFlipoutG = 0.3;
+    public static final double k_intakeFlipoutG = 0.0;
   }
 
   // Indexer Stuff 
