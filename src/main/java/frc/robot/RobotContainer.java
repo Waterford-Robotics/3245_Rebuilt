@@ -170,7 +170,7 @@ public class RobotContainer {
 
 
     // Testing
-    /*
+    
 
     // X - Shot
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_X)
@@ -189,7 +189,7 @@ public class RobotContainer {
     .onTrue(
       new RunCommand(() -> m_servoSubsystem2.setPosition(m_servoSubsystem2.getSetpoint()), m_servoSubsystem2)
     );
-
+    /*
     // B - Auto Align
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_B)
     .onTrue(
@@ -198,6 +198,7 @@ public class RobotContainer {
     .onFalse(
       new InstantCommand(() -> m_drivetrain.changeRotationAssistance(), m_drivetrain)
     );
+    */
 
     // Left Bump
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_leftbump)
@@ -205,7 +206,7 @@ public class RobotContainer {
       new AssistedShootCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem)
     );
 
-    */
+    
 
     // End of Testing
 

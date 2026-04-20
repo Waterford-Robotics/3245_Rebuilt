@@ -20,7 +20,7 @@ import frc.robot.generated.TunerConstants;
 public final class Constants {
 
   public static final double kHoodAngleAtServoZeroDeg = 75.0;  // hood angle from horizontal when servo = 0
-  public static final double kHoodAngleAtServoMaxDeg = 60.0;  // hood angle from horizontal when servo = 25 (the max in the table)
+  public static final double kHoodAngleAtServoMaxDeg = 50.0;  // hood angle from horizontal when servo = 25 (the max in the table)
   public static final double kServoLookupMax = 25.0;  // max value getServoAngle() ever returns (from table)
   public static final double kMeasuredHorizSpeedMps = 2.45;  // guessed (from video of robot): dist/time at closest shot (1.47m, servo = 0 ??)
   public static final double kMeasuredHorizDutyCycle = 0.41;  // duty cycle at closest shot
