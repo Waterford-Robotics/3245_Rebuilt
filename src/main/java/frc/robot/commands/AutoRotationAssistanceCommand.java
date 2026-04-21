@@ -1,3 +1,8 @@
+//DOES NOT WORK
+
+
+
+
 package frc.robot.commands;
 
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -15,23 +20,42 @@ public class AutoRotationAssistanceCommand extends Command {
 
   CommandSwerveDrivetrain m_drivetrain;
   // Constructor
-  public AutoRotationAssistanceCommand(CommandSwerveDrivetrain drivetrain) {
-    m_drivetrain = drivetrain;
-    addRequirements(drivetrain);
+  public AutoRotationAssistanceCommand() {
+    m_drivetrain = RobotContainer.m_drivetrain;
   }
 
   // What we do to set up the command
   public void initialize() {
+    m_drivetrain.changeRotationAssistance(true);
+    PPHolonomicDriveController.overrideRotationFeedback(() -> {return m_drivetrain.getAdjustedRotation(0)*DriveConstants.k_maxAngularRate;});
   }
     
   // The actual control!
   public void execute() {
-    PPHolonomicDriveController.overrideRotationFeedback(() -> {return m_drivetrain.getAdjustedRotation(0)*DriveConstants.k_maxAngularRate;});
+    /* 
+    m_drivetrain.applyRequest(() -> 
+        RobotContainer.drive.withRotationalRate(m_drivetrain.getAdjustedRotation(0)* DriveConstants.k_maxAngularRate)
+    );
+    */
+
+    
+    //PPHolonomicDriveController.overrideRotationFeedback(() -> {return 2.0;});
+    /*
+     m_drivetrain.applyRequest(() -> 
+        RobotContainer.drive.withRotationalRate(2.0)
+      );
+     */
+
   }
 
   // Add stuff we do after to reset here 
   public void end(boolean interrupted) {
     m_drivetrain.changeRotationAssistance(false);
+    /* 
+    m_drivetrain.applyRequest(() -> 
+        RobotContainer.drive.withRotationalRate(0)
+    );
+    */
     PPHolonomicDriveController.clearRotationFeedbackOverride();
   }
 

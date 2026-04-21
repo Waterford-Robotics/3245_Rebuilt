@@ -85,14 +85,15 @@ public class RobotContainer {
     NamedCommands.registerCommand("Auto Index", new AutoIndexCommand(m_indexSubsystem, m_canRangeSubsystem));
     NamedCommands.registerCommand("Index", new IndexForSecsCommand(m_indexSubsystem, 5));
     NamedCommands.registerCommand("Distance Shot", new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 5));
-    NamedCommands.registerCommand("Auto Aim", new AutoRotationAssistanceCommand(m_drivetrain));
+    //NamedCommands.registerCommand("Auto Aim", new AutoRotationAssistanceCommand()); //Doesn't work
 
     // COMP AUTOS
     // m_chooser.addOption("Left Trench Snipe Double Dip Auto", m_drivetrain.getAuto("Left Trench Snipe Double Dip Auto"));  
     m_chooser.addOption("Left Trench SWIPE Double Dip Auto", m_drivetrain.getAuto("Left Trench Swipe Double Dip Auto"));
     m_chooser.addOption("Right Trench SWIPE Double Dip Auto", m_drivetrain.getAuto("Right Trench Swipe Double Dip Auto"));
     m_chooser.addOption("Depot Auto", m_drivetrain.getAuto("Depot Auto"));
-    m_chooser.addOption("Auto Aim", m_drivetrain.getAuto("Auto Aim"));
+    m_chooser.addOption("Depot Auto—Shoot Far", m_drivetrain.getAuto("Depot Auto—Shoot Far"));
+    //m_chooser.addOption("Auto Aim", m_drivetrain.getAuto("Auto Aim"));
 
     configureBindings();
     SmartDashboard.putData("Auto Chooser", m_chooser);
@@ -311,7 +312,11 @@ public class RobotContainer {
 
   public SequentialCommandGroup AutoIntakedexCommandGroup() {
     return new SequentialCommandGroup(
-      new SetIntakeFlipoutCommand(m_flipoutSubsystem, "STOW")
+      new SequentialCommandGroup(
+        new SetIntakeFlipoutCommand(m_flipoutSubsystem, "INTAKEDEX UPPER"),
+        new WaitCommand(0.3),
+        new SetIntakeFlipoutCommand(m_flipoutSubsystem, "INTAKEDEX LOWER"),
+        new WaitCommand(0.3)).repeatedly()
     );
   } 
 }
