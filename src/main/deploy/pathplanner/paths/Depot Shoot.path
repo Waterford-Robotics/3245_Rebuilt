@@ -8,20 +8,36 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.5911136498210564,
-        "y": 6.823533490003545
+        "x": 0.7634709950837044,
+        "y": 6.981556268128271
       },
       "isLocked": false,
       "linkedName": "Depot Corner"
     },
     {
       "anchor": {
-        "x": 0.9146656539351858,
-        "y": 6.55
+        "x": 2.0,
+        "y": 6.9
       },
       "prevControl": {
-        "x": 0.9303602069854063,
-        "y": 6.112496175683696
+        "x": 1.7499109469902316,
+        "y": 6.90477500981874
+      },
+      "nextControl": {
+        "x": 2.255977066270654,
+        "y": 6.895112568942524
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.9579686053240746,
+        "y": 6.678842013888889
+      },
+      "prevControl": {
+        "x": 1.2077284631605454,
+        "y": 6.911879218392995
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +58,7 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": -33.0
+    "rotation": -36.0
   },
   "reversed": false,
   "folder": "Comp Paths",

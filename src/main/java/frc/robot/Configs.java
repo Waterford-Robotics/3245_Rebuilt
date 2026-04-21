@@ -37,7 +37,7 @@ public class Configs {
       SHOOT_TALON_FX_CONFIGURATION.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = ShootConstants.k_shooterRampRate;
       SHOOT_TALON_FX_CONFIGURATION.MotorOutput.PeakForwardDutyCycle = ShootConstants.k_shooterClosedMaxSpeed;
       SHOOT_TALON_FX_CONFIGURATION.MotorOutput.PeakReverseDutyCycle = -ShootConstants.k_shooterClosedMaxSpeed;
-      SHOOT_TALON_FX_CONFIGURATION.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      SHOOT_TALON_FX_CONFIGURATION.MotorOutput.NeutralMode = NeutralModeValue.Coast;
       SHOOT_TALON_FX_CONFIGURATION.CurrentLimits.SupplyCurrentLimit = ShootConstants.k_shooterSupplyCurrentLimit;
 
       SHOOTDEXER_TALON_FX_CONFIGURATION.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = ShootConstants.k_shooterRampRate;

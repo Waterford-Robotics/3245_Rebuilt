@@ -84,15 +84,17 @@ public class RobotContainer {
     NamedCommands.registerCommand("Stop Intake", new InstantCommand(() -> m_intakeSubsystem.stop(), m_intakeSubsystem));
     NamedCommands.registerCommand("Auto Index", new AutoIndexCommand(m_indexSubsystem, m_canRangeSubsystem));
     NamedCommands.registerCommand("Index", new IndexForSecsCommand(m_indexSubsystem, 5));
-    NamedCommands.registerCommand("Distance Shot", new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 5));
-    //NamedCommands.registerCommand("Auto Aim", new AutoRotationAssistanceCommand()); //Doesn't work
+    NamedCommands.registerCommand("Distance Shot", new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 5)); // Hardcoded shooter values—uncertain
+    NamedCommands.registerCommand("Depot Shot", new ManualShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 0.485, 25.0, 5));
+    //NamedCommands.registerComm\and("Auto Aim", new AutoRotationAssistanceCommand()); //Doesn't work
 
     // COMP AUTOS
     // m_chooser.addOption("Left Trench Snipe Double Dip Auto", m_drivetrain.getAuto("Left Trench Snipe Double Dip Auto"));  
     m_chooser.addOption("Left Trench SWIPE Double Dip Auto", m_drivetrain.getAuto("Left Trench Swipe Double Dip Auto"));
     m_chooser.addOption("Right Trench SWIPE Double Dip Auto", m_drivetrain.getAuto("Right Trench Swipe Double Dip Auto"));
     m_chooser.addOption("Depot Auto", m_drivetrain.getAuto("Depot Auto"));
-    m_chooser.addOption("Depot Auto—Shoot Far", m_drivetrain.getAuto("Depot Auto—Shoot Far"));
+    m_chooser.addOption("Depot Shoot Far", m_drivetrain.getAuto("Depot Shoot Far"));
+    m_chooser.addOption("Hub Shoot", m_drivetrain.getAuto("Hub Shoot"));
     //m_chooser.addOption("Auto Aim", m_drivetrain.getAuto("Auto Aim"));
 
     configureBindings();
@@ -200,6 +202,12 @@ public class RobotContainer {
     .onFalse(
       new InstantCommand(() -> m_drivetrain.changeRotationAssistance(), m_drivetrain)
     );
+    */
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_B)
+    .whileTrue(
+      new ManualShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 0.485, 25.0, 5)
+    );
+    /* 
 
     // Left Bump
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_leftbump)
