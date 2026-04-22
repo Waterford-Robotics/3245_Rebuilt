@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -281,6 +283,22 @@ public class RobotContainer {
         new WaitCommand(0.3),
         new SetIntakeFlipoutCommand(m_flipoutSubsystem, "INTAKEDEX LOWER"),
         new WaitCommand(0.3)).repeatedly()
+    );
+
+    // B - Reverse Intake + Indexer
+
+    new JoystickButton(m_operatorController.getHID(), ControllerConstants.k_B)
+    .onTrue(
+      new ParallelCommandGroup(
+        new RunCommand(() -> m_intakeSubsystem.reverseIntake(), m_intakeSubsystem),
+        new RunCommand(() -> m_indexSubsystem.reverseIndex(), m_intakeSubsystem)
+      )
+    )
+    .onFalse(
+      new ParallelCommandGroup(
+        new InstantCommand(() -> m_intakeSubsystem.stop(), m_intakeSubsystem),
+        new InstantCommand(() -> m_indexSubsystem.stopIndexer(), m_indexSubsystem)
+      )
     );
 
     // Dpad Up - Zero Flipout
