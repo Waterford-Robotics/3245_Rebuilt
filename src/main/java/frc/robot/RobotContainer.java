@@ -85,7 +85,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Auto Index", new AutoIndexCommand(m_indexSubsystem, m_canRangeSubsystem));
     NamedCommands.registerCommand("Index", new IndexForSecsCommand(m_indexSubsystem, 5));
     NamedCommands.registerCommand("Distance Shot", new AssistedShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 5)); // Hardcoded shooter values—uncertain
-    NamedCommands.registerCommand("Depot Shot", new ManualShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 0.485, 25.0, 5));
+    NamedCommands.registerCommand("Depot Shot", new ManualShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 0.46, 25.0, 5));
     //NamedCommands.registerComm\and("Auto Aim", new AutoRotationAssistanceCommand()); //Doesn't work
 
     // COMP AUTOS
@@ -202,12 +202,12 @@ public class RobotContainer {
     .onFalse(
       new InstantCommand(() -> m_drivetrain.changeRotationAssistance(), m_drivetrain)
     );
-    */
+
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_B)
     .whileTrue(
       new ManualShootForSecsCommand(m_servoSubsystem1, m_servoSubsystem2, m_shootSubsystem, 0.485, 25.0, 5)
     );
-    /* 
+
 
     // Left Bump
     new JoystickButton(m_driverController.getHID(), ControllerConstants.k_leftbump)
