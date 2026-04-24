@@ -57,10 +57,6 @@ public class RobotContainer {
   public static final ServoSubsystem m_servoSubsystem1 = new ServoSubsystem(ServoConstants.k_servoID1, 140, 100);
   public static final ServoSubsystem m_servoSubsystem2 = new ServoSubsystem(ServoConstants.k_servoID2, 140, 100);
 
-  // React
-  @SuppressWarnings("unused")
-  private final ReactDashSubsystem m_reactDashSubsystem = new ReactDashSubsystem();
-
   // Create New Choosing Option in SmartDashboard for Autos
   private SendableChooser<Command> m_chooser = new SendableChooser<>();
 
