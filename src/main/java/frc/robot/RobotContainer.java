@@ -179,6 +179,11 @@ public class RobotContainer {
       )
     );
 
+    // X wheels
+    new JoystickButton(m_driverController.getHID(), ControllerConstants.k_leftbump)
+    .whileTrue(
+      m_drivetrain.xWheels()
+    );
 
     // Testing
     /*

@@ -62,6 +62,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   // Swerve request to apply during robot-centric path following
   private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
 
+  // Swerve request to lock wheels in X
+  private final SwerveRequest.SwerveDriveBrake m_brake = new SwerveRequest.SwerveDriveBrake();
+
   // Swerve requests to apply during SysId characterization 
   private final SwerveRequest.SysIdSwerveTranslation m_translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
   private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
@@ -528,6 +531,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       }
       Command m_pathfindingCommand = AutoBuilder.followPath(path);
       return m_pathfindingCommand;
+  }
+
+  // X wheels
+  public Command xWheels() {
+    return applyRequest(() -> m_brake);
   }
 
   public Pose2d mirrorPose(Pose2d pose){
